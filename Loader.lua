@@ -6,4 +6,4 @@ local games = {
     ['7449423635'] = 'BloxFruits',
 }
 
-game:HttpGet(('https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/%s.lua'):format(games[tostring(game.PlaceId)]))
+loadsting(game:HttpGet(('https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/%s.lua'):format(games[tostring(game.PlaceId)])))()
