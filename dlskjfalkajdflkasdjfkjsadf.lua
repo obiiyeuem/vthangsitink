@@ -2214,4 +2214,4 @@ function Library.CreateWindow(WindowName)
         end
     return Main_function
 end
-return Main_function
+return Library
