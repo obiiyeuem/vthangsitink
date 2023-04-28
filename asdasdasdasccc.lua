@@ -1,7 +1,3 @@
-
-if not getgenv().Setting["Misc"] or not getgenv().Setting["Auto Skip Player"] then
-    game.Players.LocalPlayer:Kick("Join Server, Get new config")
-end
 local dotehookold
 dotehookold = hookfunction(require(game:GetService("ReplicatedStorage").Notification).new,function(...)
     local Args = {...}
