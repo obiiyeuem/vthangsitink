@@ -7,3 +7,16 @@ dotehookold = hookfunction(require(game:GetService("ReplicatedStorage").Notifica
     end
     return dotehookold(...)
 end)
+spawn(function()
+    local oldSkill
+    oldSkill = hookfunction(require(game.ReplicatedStorage.Util).BodyMover.Create,function(p3,p4, p5)
+        if p5.Duration then
+            p5.Duration = 0
+        end
+        if getgenv().psskill then
+            p5.CFrame = getgenv().psskill
+            p5.Position = getgenv().psskill.Position
+        end
+        return oldSkill(p3,p4, p5)
+    end)
+end)
