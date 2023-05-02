@@ -13,10 +13,6 @@ spawn(function()
         if p5.Duration then
             p5.Duration = 0
         end
-        if getgenv().psskill then
-            p5.CFrame = getgenv().psskill
-            p5.Position = getgenv().psskill.Position
-        end
         return oldSkill(p3,p4, p5)
     end)
 end)
