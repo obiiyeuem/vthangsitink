@@ -1,2 +1,2 @@
-local cdmm = false
+local cdmm = true
 return cdmm
