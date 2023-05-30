@@ -4,7 +4,7 @@ dotehookold = hookfunction(require(game:GetService("ReplicatedStorage").Notifica
     local Args = {...}
     if Args[1] and string.find(Args[1],"killing") and env.Setting["Webhook"]["Enabled"]  then 
         local Tiltebounty = string.split(Args[1],"killing")
-        sendmsgbounty(getgenv().Setting["Webhook"]["Url Webhook"],string.gsub(Tiltebounty[1],"%D",""),Tiltebounty[2])
+        sendmsgbounty(env.Setting["Webhook"]["Url Webhook"],string.gsub(Tiltebounty[1],"%D",""),Tiltebounty[2])
     end
     return dotehookold(...)
 end)
