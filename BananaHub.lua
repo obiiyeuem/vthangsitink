@@ -1,14 +1,24 @@
 
-repeat wait()
-until game:IsLoaded() and game.Players.LocalPlayer
-if game.PlaceId == 14433762945 then 
-  loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/ACS.lua"))()
-elseif game.PlaceId == 13772394625 or game.PlaceId == 14732610803 or game.PlaceId == 14915220621 then 
-  loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BladeBall.lua"))()
+repeat task.wait() until game:IsLoaded()
+
+local function ReturnBF(U)
+return {getgenv().OldBanana, U == 994732206}
+end
+
+local function Run(A1)
+loadstring(game:HttpGet(A1))()
+end
+
+local Games = {
+[4986566693] = "https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/ACS.lua",
+[994732206] = {[true] = "https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/OldBanana.lua", [false] = "https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BF-Beta.lua"},
+[4777817887] = "https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BladeBall.lua"
+}
+
+local UniverseID = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://apis.roblox.com/universes/v1/places/"..game.PlaceId.."/universe")).universeId
+
+if ReturnBF(UniverseID)[2] == false then
+Run(Games[UniverseID])
 else
-  if not  getgenv().OldBanana then 
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BF-Beta.lua"))()
-  else
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/OldBanana.lua"))()
-  end
+Run(Games[UniverseID][ReturnBF(UniverseID)[1]])
 end
