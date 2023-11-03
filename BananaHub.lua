@@ -17,8 +17,10 @@ local Games = {
 
 local UniverseID = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://apis.roblox.com/universes/v1/places/"..game.PlaceId.."/universe")).universeId
 
+local Old = not not ReturnBF(UniverseID)[1] and ReturnBF(UniverseID)[1] or false
+
 if ReturnBF(UniverseID)[2] == false then
 Run(Games[UniverseID])
 else
-Run(Games[UniverseID][ReturnBF(UniverseID)[1]])
+Run(Games[UniverseID][Old])
 end
