@@ -5,7 +5,7 @@ if table.find(TablePlace,game.PlaceId) then
     if getgenv().BananaOld then 
         loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/OldBanana.lua"))()
     else
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/OldBanana.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BF-Beta.lua"))()
     end
 else
     game.Players.LocalPlayer:Kick("not Support")
