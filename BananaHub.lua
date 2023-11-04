@@ -7,6 +7,8 @@ if table.find(TablePlace,game.PlaceId) then
     else
         loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BF-Beta.lua"))()
     end
+elseif game.PlaceId == 13772394625 or game.PlaceId == 14915220621 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BladeBall.lua"))()
 else
     game.Players.LocalPlayer:Kick("not Support")
 end
