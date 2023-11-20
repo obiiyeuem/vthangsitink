@@ -3,8 +3,8 @@ until game:IsLoaded()
 getgenv().Setting = {
     ["Team"] = "Pirates", --Marines,Pirates
     ["Webhook"] = {
-        ["Enabled"] = false,
-        ["Url Webhook"] = "Webhook Here", --Your Url
+        ["Enabled"] = true,
+        ["Url Webhook"] = "https://discord.com/api/webhooks/1176038285718593596/6v-KXwsffAMIfPCVjSYSLo3vNHwQ3RP5GTkSV2Tz1tQyr4ZnfhYAw1_49XmnV-VMOtQN", --Your Url
     },
     ["Misc"] = {
         ["AutoBuyRandomandStoreFruit"] = true,
