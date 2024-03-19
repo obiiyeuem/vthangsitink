@@ -3,28 +3,28 @@ if getgenv().BananaCat then
 end
 getgenv().BananaCat = true
 local IndexUIColor = {
-    ["Border Color"] = Color3.fromRGB(184, 212, 255),
+    ["Border Color"] = Color3.fromRGB(255, 236, 161),
     ["Click Effect Color"] = Color3.fromRGB(230, 230, 230),
     ["Setting Icon Color"] = Color3.fromRGB(230, 230, 230),
     ["Logo Image"] = "rbxassetid://5009915795",
     ["Search Icon Color"] = Color3.fromRGB(255, 255, 255),
-    ["Search Icon Highlight Color"] = Color3.fromRGB(184, 212, 255),
+    ["Search Icon Highlight Color"] = Color3.fromRGB(255, 236, 161),
     ["GUI Text Color"] = Color3.fromRGB(230, 230, 230),
     ["Text Color"] = Color3.fromRGB(230, 230, 230),
     ["Placeholder Text Color"] = Color3.fromRGB(178, 178, 178),
-    ["Title Text Color"] = Color3.fromRGB(184, 212, 255),
+    ["Title Text Color"] = Color3.fromRGB(255, 236, 161),
     ["Background 1 Color"] = Color3.fromRGB(43, 43, 43),
     ["Background 1 Transparency"] = 0,
     ["Background 2 Color"] = Color3.fromRGB(90, 90, 90),
     ["Background 3 Color"] = Color3.fromRGB(53, 53, 53),
     ["Background Image"] = "",
-    ["Page Selected Color"] = Color3.fromRGB(184, 212, 255),
-    ["Section Text Color"] = Color3.fromRGB(184, 212, 255),
-    ["Section Underline Color"] = Color3.fromRGB(184, 212, 255),
-    ["Toggle Border Color"] = Color3.fromRGB(184, 212, 255),
+    ["Page Selected Color"] = Color3.fromRGB(255, 236, 161),
+    ["Section Text Color"] = Color3.fromRGB(255, 236, 161),
+    ["Section Underline Color"] = Color3.fromRGB(255, 236, 161),
+    ["Toggle Border Color"] = Color3.fromRGB(255, 236, 161),
     ["Toggle Checked Color"] = Color3.fromRGB(230, 230, 230),
     ["Toggle Desc Color"] = Color3.fromRGB(185, 185, 185),
-    ["Button Color"] = Color3.fromRGB(184, 212, 255),
+    ["Button Color"] = Color3.fromRGB(255, 236, 161),
     ["Label Color"] = Color3.fromRGB(138, 189, 255),
     ["Dropdown Icon Color"] = Color3.fromRGB(230, 230, 230),
     ["Dropdown Selected Color"] = Color3.fromRGB(184, 212, 255),
@@ -96,7 +96,7 @@ Library.ToggleUI = function()
 	TweenService:Create(imgHide, TweenInfo.new(.25), {Size = UDim2.new(0,sizeXY,0,sizeXY)}):Play()
 	TweenService:Create(btnHideFrame, TweenInfo.new(.25), {BackgroundTransparency = getgenv().UIToggled and .25 or 0}):Play()
 	getgenv().UIToggled = not getgenv().UIToggled
-	if game:GetService('CoreGui'):FindFirstChild("Banana Cat Hub GUI")then for a,b in ipairs(game:GetService('CoreGui'):GetChildren())do if b.Name=="Banana Cat Hub GUI"then b.Enabled= getgenv().UIToggled end end end
+	if game:GetService('CoreGui'):FindFirstChild(" GUI")then for a,b in ipairs(game:GetService('CoreGui'):GetChildren())do if b.Name=="Banana Cat Hub GUI"then b.Enabled= getgenv().UIToggled end end end
 end
 
 Library.DestroyUI = function()
