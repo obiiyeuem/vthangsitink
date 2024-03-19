@@ -1,5 +1,5 @@
 if getgenv().BananaCat then 
-	if game:GetService('CoreGui'):FindFirstChild("Banana Cat Hub GUI") then for i, v in ipairs(game:GetService('CoreGui'):GetChildren()) do if string.find(v.Name,  "Banana Cat Hub") then v:Destroy() end end end
+	if game.CoreGui:FindFirstChild("Banana Cat Hub GUI") then for i, v in ipairs(game.CoreGui:GetChildren()) do if string.find(v.Name,  "Banana Cat Hub") then v:Destroy() end end end
 end
 getgenv().BananaCat = true
 local IndexUIColor = {
@@ -37,6 +37,7 @@ local IndexUIColor = {
     ["Tween Animation 3 Speed"] = 0.1,
 	["Text Stroke Transparency"] = .5
 }
+
 
 getgenv().UIColor = IndexUIColor
 
@@ -80,7 +81,7 @@ btnHide.Size = UDim2.new(1,0,1,0)
 
 local imgHide = Instance.new('ImageLabel', btnHideFrame)
 imgHide.AnchorPoint = Vector2.new(0, 0)
-imgHide.Image = "rbxassetid://5009915795"
+imgHide.Image = "rbxassetid://16787500071"
 imgHide.BackgroundTransparency = 1
 imgHide.Size = UDim2.new(0,40,0,40)
 imgHide.AnchorPoint = Vector2.new(.5,.5)
@@ -96,11 +97,11 @@ Library.ToggleUI = function()
 	TweenService:Create(imgHide, TweenInfo.new(.25), {Size = UDim2.new(0,sizeXY,0,sizeXY)}):Play()
 	TweenService:Create(btnHideFrame, TweenInfo.new(.25), {BackgroundTransparency = getgenv().UIToggled and .25 or 0}):Play()
 	getgenv().UIToggled = not getgenv().UIToggled
-	if game:GetService('CoreGui'):FindFirstChild(" GUI")then for a,b in ipairs(game:GetService('CoreGui'):GetChildren())do if b.Name=="Banana Cat Hub GUI"then b.Enabled= getgenv().UIToggled end end end
+	if game.CoreGui:FindFirstChild("Banana Cat Hub GUI")then for a,b in ipairs(game.CoreGui:GetChildren())do if b.Name=="Banana Cat Hub GUI"then b.Enabled= getgenv().UIToggled end end end
 end
 
 Library.DestroyUI = function()
-    if game:GetService('CoreGui'):FindFirstChild("Banana Cat Hub GUI") then for i, v in ipairs(game:GetService('CoreGui'):GetChildren()) do if string.find(v.Name,  "Banana Cat Hub") then v:Destroy() end end end
+    if game.CoreGui:FindFirstChild("Banana Cat Hub GUI") then for i, v in ipairs(game.CoreGui:GetChildren()) do if string.find(v.Name,  "Banana Cat Hub") then v:Destroy() end end end
 end
 
 btnHide.MouseButton1Click:Connect(function() 
@@ -369,7 +370,6 @@ function Library.CreateMain(Setting)
 	maingui.SliceCenter = Rect.new(15, 15, 175, 175)
 	maingui.SliceScale = 1.300
 	maingui.ImageColor3 = getgenv().UIColor["Border Color"]
-	maingui.ImageTransparency = 1
 
 	maingui.ImageColor3 = getgenv().UIColor['Title Text Color']
 	local colorR = tostring(Library_Function.Getcolor(getgenv().UIColor['Title Text Color'])[1])
@@ -1347,6 +1347,7 @@ function Library.CreateMain(Setting)
 							
 
 							if Selected then 
+
 								for i,v in pairs (ListNew) do
 
 									local linetran = v and 0 or 1
@@ -1556,7 +1557,7 @@ function Library.CreateMain(Setting)
 										
 									end
 									if SliderRelease then
-										SliderButton.MouseButton1Click:Connect(function()
+										SliderButton.MouseButton1Down:Connect(function()
 											local value = Precise and  tonumber(string.format("%.1f",(((tonumber(maxValue) - tonumber(minValue)) / SizeChia) * Bar.AbsoluteSize.X) + tonumber(minValue))) or math.floor((((tonumber(maxValue) - tonumber(minValue)) / SizeChia) * Bar.AbsoluteSize.X) + tonumber(minValue))
 										
 											pcall(function()
@@ -1589,7 +1590,7 @@ function Library.CreateMain(Setting)
 										end)
 									
 									else
-										SliderButton.MouseButton1Click:Connect(function()
+										SliderButton.MouseButton1Down:Connect(function()
 											local value = Precise and  tonumber(string.format("%.1f",(((tonumber(maxValue) - tonumber(minValue)) / SizeChia) * Bar.AbsoluteSize.X) + tonumber(minValue))) or math.floor((((tonumber(maxValue) - tonumber(minValue)) / SizeChia) * Bar.AbsoluteSize.X) + tonumber(minValue))
 										
 											pcall(function()
@@ -1652,6 +1653,7 @@ function Library.CreateMain(Setting)
 
 								end
 							else
+
 								for i,v in pairs (ListNew) do
 									local Dropval = Instance.new("Frame")
 									local DropvalCorner = Instance.new("UICorner")
@@ -2244,7 +2246,7 @@ function Library.CreateMain(Setting)
 							Callback(DefaultValue)
 						end
 
-						SliderButton.MouseButton1Click:Connect(function()
+						SliderButton.MouseButton1Down:Connect(function()
 							local value = Precise and  tonumber(string.format("%.1f",(((tonumber(maxValue) - tonumber(minValue)) / SizeChia) * Bar.AbsoluteSize.X) + tonumber(minValue))) or math.floor((((tonumber(maxValue) - tonumber(minValue)) / SizeChia) * Bar.AbsoluteSize.X) + tonumber(minValue))
 
 							pcall(function()
