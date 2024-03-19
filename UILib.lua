@@ -81,7 +81,7 @@ btnHide.Size = UDim2.new(1,0,1,0)
 
 local imgHide = Instance.new('ImageLabel', btnHideFrame)
 imgHide.AnchorPoint = Vector2.new(0, 0)
-imgHide.Image = "rbxassetid://16787500071"
+imgHide.Image = "rbxassetid://5009915795"
 imgHide.BackgroundTransparency = 1
 imgHide.Size = UDim2.new(0,40,0,40)
 imgHide.AnchorPoint = Vector2.new(.5,.5)
