@@ -17,6 +17,7 @@ local IndexUIColor = {
     ["Background 1 Transparency"] = 0,
     ["Background 2 Color"] = Color3.fromRGB(90, 90, 90),
     ["Background 3 Color"] = Color3.fromRGB(53, 53, 53),
+    ["Background Main Color"] = Color3.fromRGB(43, 43, 43),
     ["Background Image"] = "",
     ["Page Selected Color"] = Color3.fromRGB(255, 236, 161),
     ["Section Text Color"] = Color3.fromRGB(255, 236, 161),
