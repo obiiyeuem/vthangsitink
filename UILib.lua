@@ -50,29 +50,33 @@ local uis = game:GetService("UserInputService")
 Library_Function.Gui = Instance.new('ScreenGui')
 Library_Function.Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Library_Function.Gui.Name = 'Banana Cat Hub GUI'
-
 getgenv().ReadyForGuiLoaded = false
 spawn(function()
 	Library_Function.Gui.Enabled = false
 	repeat wait()
 	until getgenv().ReadyForGuiLoaded
-	Library_Function.Gui.Enabled = true
+	if getgenv().UIToggled then
+		Library_Function.Gui.Enabled = true
+	end
 end)
 
 Library_Function.NotiGui = Instance.new('ScreenGui')
 Library_Function.NotiGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Library_Function.NotiGui.Name = 'Banana Cat Hub Notification'
 
+getgenv().UIToggled = false
+
 Library_Function.HideGui = Instance.new('ScreenGui')
 Library_Function.HideGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Library_Function.HideGui.Name = 'Banana Cat Hub Btn'
 
 local btnHideFrame = Instance.new('Frame', Library_Function.HideGui)
-btnHideFrame.AnchorPoint = Vector2.new(0, 0)
+btnHideFrame.AnchorPoint = Vector2.new(0, 1)
 btnHideFrame.Size = UDim2.new(0,50,0,50)
-btnHideFrame.Position = UDim2.new(0,15,0,15)
+btnHideFrame.Position = UDim2.new(0,15,1,-15)
 btnHideFrame.Name = "dut dit"
-btnHideFrame.BackgroundColor3 = Color3.fromRGB(255,255,255,255)
+btnHideFrame.BackgroundColor3 = Color3.fromRGB(255,255,255)
+btnHideFrame.BackgroundTransparency = getgenv().UIToggled and 0 or .25
 
 local btnHide = Instance.new('TextButton', btnHideFrame) 
 btnHide.BackgroundTransparency = 1
@@ -81,9 +85,9 @@ btnHide.Size = UDim2.new(1,0,1,0)
 
 local imgHide = Instance.new('ImageLabel', btnHideFrame)
 imgHide.AnchorPoint = Vector2.new(0, 0)
-imgHide.Image = "rbxassetid://5009915795"
+imgHide.Image = "rbxassetid://16787500071"
 imgHide.BackgroundTransparency = 1
-imgHide.Size = UDim2.new(0,40,0,40)
+imgHide.Size = UDim2.new(0,getgenv().UIToggled and 40 or 30,0, getgenv().UIToggled and 40 or 30)
 imgHide.AnchorPoint = Vector2.new(.5,.5)
 imgHide.Position = UDim2.new(.5,0,.5,0)
 
@@ -91,12 +95,11 @@ local UICornerBtnHide = Instance.new("UICorner")
 UICornerBtnHide.Parent = btnHideFrame
 UICornerBtnHide.CornerRadius = UDim.new(1,0)
 
-getgenv().UIToggled = true
 Library.ToggleUI = function()
-    local sizeXY = getgenv().UIToggled and 30 or 40
-	TweenService:Create(imgHide, TweenInfo.new(.25), {Size = UDim2.new(0,sizeXY,0,sizeXY)}):Play()
-	TweenService:Create(btnHideFrame, TweenInfo.new(.25), {BackgroundTransparency = getgenv().UIToggled and .25 or 0}):Play()
 	getgenv().UIToggled = not getgenv().UIToggled
+    local sizeXY = getgenv().UIToggled and 40 or 30
+	TweenService:Create(imgHide, TweenInfo.new(.25), {Size = UDim2.new(0,sizeXY,0,sizeXY)}):Play()
+	TweenService:Create(btnHideFrame, TweenInfo.new(.25), {BackgroundTransparency = getgenv().UIToggled and 0 or .25}):Play()
 	if game.CoreGui:FindFirstChild("Banana Cat Hub GUI")then for a,b in ipairs(game.CoreGui:GetChildren())do if b.Name=="Banana Cat Hub GUI"then b.Enabled= getgenv().UIToggled end end end
 end
 
@@ -337,14 +340,8 @@ function Library.CreateMain(Setting)
 	local ControlTitle = Instance.new("TextLabel")
 	local MainPage = Instance.new("Frame")
 	local UIPage = Instance.new("UIPageLayout")
-	local SettionMain = Instance.new("Frame")
-	local SettionButton = Instance.new("TextButton")
-	local SettingIcon = Instance.new("ImageLabel")
 	local Concacontainer = Instance.new("Frame")
 	local Concacmain = Instance.new("Frame")
-	local Concacmain1 = Instance.new("Frame")
-	local Concacpage = Instance.new("UIPageLayout")
-
 	local MainContainer
 
 	Main.Name = "Main"
@@ -370,6 +367,7 @@ function Library.CreateMain(Setting)
 	maingui.SliceCenter = Rect.new(15, 15, 175, 175)
 	maingui.SliceScale = 1.300
 	maingui.ImageColor3 = getgenv().UIColor["Border Color"]
+	maingui.ImageTransparency = 1
 
 	maingui.ImageColor3 = getgenv().UIColor['Title Text Color']
 	local colorR = tostring(Library_Function.Getcolor(getgenv().UIColor['Title Text Color'])[1])
@@ -381,7 +379,7 @@ function Library.CreateMain(Setting)
 	MainContainer = Instance.new("ImageLabel")
 	MainContainer.Name = "MainContainer"
 	MainContainer.Parent = Main
-	MainContainer.BackgroundColor3 = Color3.fromRGB(53, 53, 53)
+	MainContainer.BackgroundColor3 = getgenv().UIColor['Background Main Color']
 	MainContainer.Size = UDim2.new(1, 0, 1, 0)
 
 	getgenv().ReadyForGuiLoaded = true
@@ -2322,5 +2320,7 @@ function Library.CreateMain(Setting)
 	return Main_Function
 
 end
+
+Library.CreateNoti({Title = 'UI Library', Desc = 'The UI automatically hides once executed. Press the button at the bottom left of the screen to show the GUI', ShowTime = 10})
 
 return Library
