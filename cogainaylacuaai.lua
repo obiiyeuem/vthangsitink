@@ -1,3 +1,5575 @@
--- This file was generated using Luraph Obfuscator v13.6.6
+local a, b = {
+    {
+        1,
+        "ModuleScript",
+        {"MainModule"},
+        {
+            {18, "ModuleScript", {"Creator"}},
+            {28, "ModuleScript", {"Icons"}},
+            {
+                47,
+                "ModuleScript",
+                {"Themes"},
+                {
+                    {50, "ModuleScript", {"Dark"}},
+                    {52, "ModuleScript", {"Light"}},
+                    {51, "ModuleScript", {"Darker"}},
+                    {53, "ModuleScript", {"Rose"}},
+                    {49, "ModuleScript", {"Aqua"}},
+                    {48, "ModuleScript", {"Amethyst"}}
+                }
+            },
+            {
+                19,
+                "ModuleScript",
+                {"Elements"},
+                {
+                    {21, "ModuleScript", {"Colorpicker"}},
+                    {27, "ModuleScript", {"Toggle"}},
+                    {23, "ModuleScript", {"Input"}},
+                    {20, "ModuleScript", {"Button"}},
+                    {25, "ModuleScript", {"Paragraph"}},
+                    {22, "ModuleScript", {"Dropdown"}},
+                    {26, "ModuleScript", {"Slider"}},
+                    {24, "ModuleScript", {"Keybind"}}
+                }
+            },
+            {
+                29,
+                "Folder",
+                {"Packages"},
+                {
+                    {
+                        30,
+                        "ModuleScript",
+                        {"Flipper"},
+                        {
+                            {33, "ModuleScript", {"GroupMotor"}},
+                            {46, "ModuleScript", {"isMotor.spec"}},
+                            {39, "ModuleScript", {"Signal"}},
+                            {40, "ModuleScript", {"Signal.spec"}},
+                            {45, "ModuleScript", {"isMotor"}},
+                            {36, "ModuleScript", {"Instant.spec"}},
+                            {44, "ModuleScript", {"Spring.spec"}},
+                            {42, "ModuleScript", {"SingleMotor.spec"}},
+                            {38, "ModuleScript", {"Linear.spec"}},
+                            {31, "ModuleScript", {"BaseMotor"}},
+                            {43, "ModuleScript", {"Spring"}},
+                            {35, "ModuleScript", {"Instant"}},
+                            {37, "ModuleScript", {"Linear"}},
+                            {41, "ModuleScript", {"SingleMotor"}},
+                            {34, "ModuleScript", {"GroupMotor.spec"}},
+                            {32, "ModuleScript", {"BaseMotor.spec"}}
+                        }
+                    }
+                }
+            },
+            {
+                2,
+                "ModuleScript",
+                {"Acrylic"},
+                {
+                    {3, "ModuleScript", {"AcrylicBlur"}},
+                    {5, "ModuleScript", {"CreateAcrylic"}},
+                    {6, "ModuleScript", {"Utils"}},
+                    {4, "ModuleScript", {"AcrylicPaint"}}
+                }
+            },
+            {
+                7,
+                "Folder",
+                {"Components"},
+                {
+                    {9, "ModuleScript", {"Button"}},
+                    {12, "ModuleScript", {"Notification"}},
+                    {13, "ModuleScript", {"Section"}},
+                    {17, "ModuleScript", {"Window"}},
+                    {14, "ModuleScript", {"Tab"}},
+                    {10, "ModuleScript", {"Dialog"}},
+                    {8, "ModuleScript", {"Assets"}},
+                    {16, "ModuleScript", {"TitleBar"}},
+                    {15, "ModuleScript", {"Textbox"}},
+                    {11, "ModuleScript", {"Element"}}
+                }
+            }
+        }
+    }
+}
+local aa = {
+    function()
+        local c, d, e, f, g = b(1)
+        local h, i, j, k, l, m =
+            game:GetService "Lighting",
+            game:GetService "RunService",
+            game:GetService "Players".LocalPlayer,
+            game:GetService "UserInputService",
+            game:GetService "TweenService",
+            game:GetService "Workspace".CurrentCamera
+        local n, o = j:GetMouse(), d
+        local p, q, r, s = e(o.Creator), e(o.Elements), e(o.Acrylic), o.Components
+        local t, u, v = e(s.Notification), p.New, protectgui or (syn and syn.protect_gui) or function()
+                end
+        local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
+        v(w)
+        t:Init(w)
+        local x = {
+            Version = "1.1.0",
+            OpenFrames = {},
+            Options = {},
+            Themes = e(o.Themes).Names,
+            Window = nil,
+            WindowFrame = nil,
+            Unloaded = false,
+            Theme = "Dark",
+            DialogOpen = false,
+            UseAcrylic = false,
+            Acrylic = false,
+            Transparency = true,
+            MinimizeKeybind = nil,
+            MinimizeKey = Enum.KeyCode.LeftControl,
+            GUI = w
+        }
+        function x.SafeCallback(y, z, ...)
+            if not z then
+                return
+            end
+            local A, B = pcall(z, ...)
+            if not A then
+                local C, D = B:find ":%d+: "
+                if not D then
+                    return x:Notify {Title = "Interface", Content = "Callback error", SubContent = B, Duration = 5}
+                end
+                return x:Notify {
+                    Title = "Interface",
+                    Content = "Callback error",
+                    SubContent = B:sub(D + 1),
+                    Duration = 5
+                }
+            end
+        end
+        function x.Round(y, z, A)
+            if A == 0 then
+                return math.floor(z)
+            end
+            z = tostring(z)
+            return z:find "%." and tonumber(z:sub(1, z:find "%." + A)) or z
+        end
+        local y = e(o.Icons).assets
+        function x.GetIcon(z, A)
+            if A ~= nil and y["lucide-" .. A] then
+                return y["lucide-" .. A]
+            end
+            return nil
+        end
+        local z = {}
+        z.__index = z
+        z.__namecall = function(A, B, ...)
+            return z[B](...)
+        end
+        for A, B in ipairs(q) do
+            z["Add" .. B.__type] = function(C, D, E)
+                B.Container = C.Container
+                B.Type = C.Type
+                B.ScrollFrame = C.ScrollFrame
+                B.Library = x
+                return B:New(D, E)
+            end
+        end
+        x.Elements = z
+        function x.CreateWindow(C, D)
+            assert(D.Title, "Window - Missing Title")
+            if x.Window then
+                print "You cannot create more than one window."
+                return
+            end
+            x.MinimizeKey = D.MinimizeKey
+            x.UseAcrylic = D.Acrylic
+            if D.Acrylic then
+                r.init()
+            end
+            local E =
+                e(s.Window) {Parent = w, Size = D.Size, Title = D.Title, SubTitle = D.SubTitle, TabWidth = D.TabWidth}
+            x.Window = E
+            x:SetTheme(D.Theme)
+            return E
+        end
+        function x.SetTheme(C, D)
+            if x.Window and table.find(x.Themes, D) then
+                x.Theme = D
+                p.UpdateTheme()
+            end
+        end
+        function x.Destroy(C)
+            if x.Window then
+                x.Unloaded = true
+                if x.UseAcrylic then
+                    x.Window.AcrylicPaint.Model:Destroy()
+                end
+                p.Disconnect()
+                x.GUI:Destroy()
+            end
+        end
+        function x.ToggleAcrylic(C, D)
+            if x.Window then
+                if x.UseAcrylic then
+                    x.Acrylic = D
+                    x.Window.AcrylicPaint.Model.Transparency = D and 0.98 or 1
+                    if D then
+                        r.Enable()
+                    else
+                        r.Disable()
+                    end
+                end
+            end
+        end
+        function x.ToggleTransparency(C, D)
+            if x.Window then
+                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+            end
+        end
+        function x.Notify(C, D)
+            return t:New(D)
+        end
+        if getgenv then
+            getgenv().Fluent = x
+        end
+        return x
+    end,
+    function()
+        local c, d, e, f, g = b(2)
+        local h = {AcrylicBlur = e(d.AcrylicBlur), CreateAcrylic = e(d.CreateAcrylic), AcrylicPaint = e(d.AcrylicPaint)}
+        function h.init()
+            local i = Instance.new "DepthOfFieldEffect"
+            i.FarIntensity = 0
+            i.InFocusRadius = 0.1
+            i.NearIntensity = 1
+            local j = {}
+            function h.Enable()
+                for k, l in pairs(j) do
+                    l.Enabled = false
+                end
+                i.Parent = game:GetService "Lighting"
+            end
+            function h.Disable()
+                for k, l in pairs(j) do
+                    l.Enabled = l.enabled
+                end
+                i.Parent = nil
+            end
+            local k = function()
+                local k = function(k)
+                    if k:IsA "DepthOfFieldEffect" then
+                        j[k] = {enabled = k.Enabled}
+                    end
+                end
+                for l, m in pairs(game:GetService "Lighting":GetChildren()) do
+                    k(m)
+                end
+                if game:GetService "Workspace".CurrentCamera then
+                    for n, o in pairs(game:GetService "Workspace".CurrentCamera:GetChildren()) do
+                        k(o)
+                    end
+                end
+            end
+            k()
+            h.Enable()
+        end
+        return h
+    end,
+    function()
+        local c, d, e, f, g = b(3)
+        local h, i, j, k = e(d.Parent.Parent.Creator), e(d.Parent.CreateAcrylic), unpack(e(d.Parent.Utils))
+        local l = function(l)
+            local m = {}
+            l = l or 0.001
+            local n, o = {topLeft = Vector2.new(), topRight = Vector2.new(), bottomRight = Vector2.new()}, i()
+            o.Parent = workspace
+            local p, q = function(p, q)
+                    n.topLeft = q
+                    n.topRight = q + Vector2.new(p.X, 0)
+                    n.bottomRight = q + p
+                end, function()
+                    local p = game:GetService "Workspace".CurrentCamera
+                    if p then
+                        p = p.CFrame
+                    end
+                    local q = p
+                    if not q then
+                        q = CFrame.new()
+                    end
+                    local r, s, t, u = q, n.topLeft, n.topRight, n.bottomRight
+                    local v, w, x = j(s, l), j(t, l), j(u, l)
+                    local y, z = (w - v).Magnitude, (w - x).Magnitude
+                    o.CFrame = CFrame.fromMatrix((v + x) / 2, r.XVector, r.YVector, r.ZVector)
+                    o.Mesh.Scale = Vector3.new(y, z, 0)
+                end
+            local r, s = function(r)
+                    local s = k()
+                    local t, u = r.AbsoluteSize - Vector2.new(s, s), r.AbsolutePosition + Vector2.new(s / 2, s / 2)
+                    p(t, u)
+                    task.spawn(q)
+                end, function()
+                    local r = game:GetService "Workspace".CurrentCamera
+                    if not r then
+                        return
+                    end
+                    table.insert(m, r:GetPropertyChangedSignal "CFrame":Connect(q))
+                    table.insert(m, r:GetPropertyChangedSignal "ViewportSize":Connect(q))
+                    table.insert(m, r:GetPropertyChangedSignal "FieldOfView":Connect(q))
+                    task.spawn(q)
+                end
+            o.Destroying:Connect(
+                function()
+                    for t, u in m do
+                        pcall(
+                            function()
+                                u:Disconnect()
+                            end
+                        )
+                    end
+                end
+            )
+            s()
+            return r, o
+        end
+        return function(m)
+            local n, o, p = {}, l(m)
+            local q = h.New("Frame", {BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1)})
+            h.AddSignal(
+                q:GetPropertyChangedSignal "AbsolutePosition",
+                function()
+                    o(q)
+                end
+            )
+            h.AddSignal(
+                q:GetPropertyChangedSignal "AbsoluteSize",
+                function()
+                    o(q)
+                end
+            )
+            n.AddParent = function(r)
+                h.AddSignal(
+                    r:GetPropertyChangedSignal "Visible",
+                    function()
+                        n.SetVisibility(r.Visible)
+                    end
+                )
+            end
+            n.SetVisibility = function(r)
+                p.Transparency = r and 0.98 or 1
+            end
+            n.Frame = q
+            n.Model = p
+            return n
+        end
+    end,
+    function()
+        local c, d, e, f, g = b(4)
+        local h, i = e(d.Parent.Parent.Creator), e(d.Parent.AcrylicBlur)
+        local j = h.New
+        return function(k)
+            local l = {}
+            l.Frame =
+                j(
+                "Frame",
+                {
+                    Size = UDim2.fromScale(1, 1),
+                    BackgroundTransparency = 0.9,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    BorderSizePixel = 0
+                },
+                {
+                    j(
+                        "ImageLabel",
+                        {
+                            Image = "rbxassetid://8992230677",
+                            ScaleType = "Slice",
+                            SliceCenter = Rect.new(Vector2.new(99, 99), Vector2.new(99, 99)),
+                            AnchorPoint = Vector2.new(0.5, 0.5),
+                            Size = UDim2.new(1, 120, 1, 116),
+                            Position = UDim2.new(0.5, 0, 0.5, 0),
+                            BackgroundTransparency = 1,
+                            ImageColor3 = Color3.fromRGB(0, 0, 0),
+                            ImageTransparency = 0.7
+                        }
+                    ),
+                    j("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                    j(
+                        "Frame",
+                        {
+                            BackgroundTransparency = 0.45,
+                            Size = UDim2.fromScale(1, 1),
+                            Name = "Background",
+                            ThemeTag = {BackgroundColor3 = "AcrylicMain"}
+                        },
+                        {j("UICorner", {CornerRadius = UDim.new(0, 8)})}
+                    ),
+                    j(
+                        "Frame",
+                        {
+                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                            BackgroundTransparency = 0.4,
+                            Size = UDim2.fromScale(1, 1)
+                        },
+                        {
+                            j("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                            j("UIGradient", {Rotation = 90, ThemeTag = {Color = "AcrylicGradient"}})
+                        }
+                    ),
+                    j(
+                        "ImageLabel",
+                        {
+                            Image = "rbxassetid://9968344105",
+                            ImageTransparency = 0.98,
+                            ScaleType = Enum.ScaleType.Tile,
+                            TileSize = UDim2.new(0, 128, 0, 128),
+                            Size = UDim2.fromScale(1, 1),
+                            BackgroundTransparency = 1
+                        },
+                        {j("UICorner", {CornerRadius = UDim.new(0, 8)})}
+                    ),
+                    j(
+                        "ImageLabel",
+                        {
+                            Image = "rbxassetid://9968344227",
+                            ImageTransparency = 0.9,
+                            ScaleType = Enum.ScaleType.Tile,
+                            TileSize = UDim2.new(0, 128, 0, 128),
+                            Size = UDim2.fromScale(1, 1),
+                            BackgroundTransparency = 1,
+                            ThemeTag = {ImageTransparency = "AcrylicNoise"}
+                        },
+                        {j("UICorner", {CornerRadius = UDim.new(0, 8)})}
+                    ),
+                    j(
+                        "Frame",
+                        {BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), ZIndex = 2},
+                        {
+                            j("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                            j("UIStroke", {Transparency = 0.5, Thickness = 1, ThemeTag = {Color = "AcrylicBorder"}})
+                        }
+                    )
+                }
+            )
+            local m
+            if e(d.Parent.Parent).UseAcrylic then
+                m = i()
+                m.Frame.Parent = l.Frame
+                l.Model = m.Model
+                l.AddParent = m.AddParent
+                l.SetVisibility = m.SetVisibility
+            end
+            return l
+        end
+    end,
+    function()
+        local c, d, e, f, g = b(5)
+        local h = d.Parent.Parent
+        local i = e(h.Creator)
+        local j = function()
+            local j =
+                i.New(
+                "Part",
+                {
+                    Name = "Body",
+                    Color = Color3.new(0, 0, 0),
+                    Material = Enum.Material.Glass,
+                    Size = Vector3.new(1, 1, 0),
+                    Anchored = true,
+                    CanCollide = false,
+                    Locked = true,
+                    CastShadow = false,
+                    Transparency = 0.98
+                },
+                {i.New("SpecialMesh", {MeshType = Enum.MeshType.Brick, Offset = Vector3.new(0, 0, -1E-6)})}
+            )
+            return j
+        end
+        return j
+    end,
+    function()
+        local c, d, e, f, g = b(6)
+        local h, i = function(h, i, j, k, l)
+                return (h - i) * (l - k) / (j - i) + k
+            end, function(h, i)
+                local j = game:GetService "Workspace".CurrentCamera:ScreenPointToRay(h.X, h.Y)
+                return j.Origin + j.Direction * i
+            end
+        local j = function()
+            local j = game:GetService "Workspace".CurrentCamera.ViewportSize.Y
+            return h(j, 0, 2560, 8, 56)
+        end
+        return {i, j}
+    end,
+    [8] = function()
+        local c, d, e, f, g = b(8)
+        return {
+            Close = "rbxassetid://9886659671",
+            Min = "rbxassetid://9886659276",
+            Max = "rbxassetid://9886659406",
+            Restore = "rbxassetid://9886659001"
+        }
+    end,
+    [9] = function()
+        local c, d, e, f, g = b(9)
+        local h = d.Parent.Parent
+        local i, j = e(h.Packages.Flipper), e(h.Creator)
+        local k, l = j.New, i.Spring.new
+        return function(m, n, o)
+            o = o or false
+            local p = {}
+            p.Title =
+                k(
+                "TextLabel",
+                {
+                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                    TextColor3 = Color3.fromRGB(200, 200, 200),
+                    TextSize = 14,
+                    TextWrapped = true,
+                    TextXAlignment = Enum.TextXAlignment.Center,
+                    TextYAlignment = Enum.TextYAlignment.Center,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.fromScale(1, 1),
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            )
+            p.HoverFrame =
+                k(
+                "Frame",
+                {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ThemeTag = {BackgroundColor3 = "Hover"}},
+                {k("UICorner", {CornerRadius = UDim.new(0, 4)})}
+            )
+            p.Frame =
+                k(
+                "TextButton",
+                {Size = UDim2.new(0, 0, 0, 32), Parent = n, ThemeTag = {BackgroundColor3 = "DialogButton"}},
+                {
+                    k("UICorner", {CornerRadius = UDim.new(0, 4)}),
+                    k(
+                        "UIStroke",
+                        {
+                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            Transparency = 0.65,
+                            ThemeTag = {Color = "DialogButtonBorder"}
+                        }
+                    ),
+                    p.HoverFrame,
+                    p.Title
+                }
+            )
+            local q, r = j.SpringMotor(1, p.HoverFrame, "BackgroundTransparency", o)
+            j.AddSignal(
+                p.Frame.MouseEnter,
+                function()
+                    r(0.97)
+                end
+            )
+            j.AddSignal(
+                p.Frame.MouseLeave,
+                function()
+                    r(1)
+                end
+            )
+            j.AddSignal(
+                p.Frame.MouseButton1Down,
+                function()
+                    r(1)
+                end
+            )
+            j.AddSignal(
+                p.Frame.MouseButton1Up,
+                function()
+                    r(0.97)
+                end
+            )
+            return p
+        end
+    end,
+    [10] = function()
+        local c, d, e, f, g = b(10)
+        local h, i, j, k =
+            game:GetService "UserInputService",
+            game:GetService "Players".LocalPlayer:GetMouse(),
+            game:GetService "Workspace".CurrentCamera,
+            d.Parent.Parent
+        local l, m = e(k.Packages.Flipper), e(k.Creator)
+        local n, o, p, q = l.Spring.new, l.Instant.new, m.New, {Window = nil}
+        function q.Init(r, s)
+            q.Window = s
+            return q
+        end
+        function q.Create(r)
+            local s = {Buttons = 0}
+            s.TintFrame =
+                p(
+                "TextButton",
+                {
+                    Text = "",
+                    Size = UDim2.fromScale(1, 1),
+                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                    BackgroundTransparency = 1,
+                    Parent = q.Window.Root
+                },
+                {p("UICorner", {CornerRadius = UDim.new(0, 8)})}
+            )
+            local t, u = m.SpringMotor(1, s.TintFrame, "BackgroundTransparency", true)
+            s.ButtonHolder =
+                p(
+                "Frame",
+                {
+                    Size = UDim2.new(1, -40, 1, -40),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    Position = UDim2.fromScale(0.5, 0.5),
+                    BackgroundTransparency = 1
+                },
+                {
+                    p(
+                        "UIListLayout",
+                        {
+                            Padding = UDim.new(0, 10),
+                            FillDirection = Enum.FillDirection.Horizontal,
+                            HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                            SortOrder = Enum.SortOrder.LayoutOrder
+                        }
+                    )
+                }
+            )
+            s.ButtonHolderFrame =
+                p(
+                "Frame",
+                {
+                    Size = UDim2.new(1, 0, 0, 70),
+                    Position = UDim2.new(0, 0, 1, -70),
+                    ThemeTag = {BackgroundColor3 = "DialogHolder"}
+                },
+                {
+                    p("Frame", {Size = UDim2.new(1, 0, 0, 1), ThemeTag = {BackgroundColor3 = "DialogHolderLine"}}),
+                    s.ButtonHolder
+                }
+            )
+            s.Title =
+                p(
+                "TextLabel",
+                {
+                    FontFace = Font.new(
+                        "rbxasset://fonts/families/GothamSSm.json",
+                        Enum.FontWeight.SemiBold,
+                        Enum.FontStyle.Normal
+                    ),
+                    Text = "Dialog",
+                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                    TextSize = 22,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Size = UDim2.new(1, 0, 0, 22),
+                    Position = UDim2.fromOffset(20, 25),
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    BackgroundTransparency = 1,
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            )
+            s.Scale = p("UIScale", {Scale = 1})
+            local v, w = m.SpringMotor(1.1, s.Scale, "Scale")
+            s.Root =
+                p(
+                "CanvasGroup",
+                {
+                    Size = UDim2.fromOffset(300, 165),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    Position = UDim2.fromScale(0.5, 0.5),
+                    GroupTransparency = 1,
+                    Parent = s.TintFrame,
+                    ThemeTag = {BackgroundColor3 = "Dialog"}
+                },
+                {
+                    p("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                    p("UIStroke", {Transparency = 0.5, ThemeTag = {Color = "DialogBorder"}}),
+                    s.Scale,
+                    s.Title,
+                    s.ButtonHolderFrame
+                }
+            )
+            local x, y = m.SpringMotor(1, s.Root, "GroupTransparency")
+            function s.Open(z)
+                e(k).DialogOpen = true
+                s.Scale.Scale = 1.1
+                u(0.75)
+                y(0)
+                w(1)
+            end
+            function s.Close(z)
+                e(k).DialogOpen = false
+                u(1)
+                y(1)
+                w(1.1)
+                s.Root.UIStroke:Destroy()
+                task.wait(0.15)
+                s.TintFrame:Destroy()
+            end
+            function s.Button(z, A, B)
+                s.Buttons = s.Buttons + 1
+                A = A or "Button"
+                B = B or function()
+                    end
+                local C = e(k.Components.Button)("", s.ButtonHolder, true)
+                C.Title.Text = A
+                for D, E in next, s.ButtonHolder:GetChildren() do
+                    if E:IsA "TextButton" then
+                        E.Size = UDim2.new(1 / s.Buttons, -(((s.Buttons - 1) * 10) / s.Buttons), 0, 32)
+                    end
+                end
+                m.AddSignal(
+                    C.Frame.MouseButton1Click,
+                    function()
+                        e(k):SafeCallback(B)
+                        pcall(
+                            function()
+                                s:Close()
+                            end
+                        )
+                    end
+                )
+                return C
+            end
+            return s
+        end
+        return q
+    end,
+    [11] = function()
+        local c, d, e, f, g = b(11)
+        local h = d.Parent.Parent
+        local i, j = e(h.Packages.Flipper), e(h.Creator)
+        local k, l = j.New, i.Spring.new
+        return function(m, n, o, p)
+            local q = {}
+            q.TitleLabel =
+                k(
+                "TextLabel",
+                {
+                    FontFace = Font.new(
+                        "rbxasset://fonts/families/GothamSSm.json",
+                        Enum.FontWeight.Medium,
+                        Enum.FontStyle.Normal
+                    ),
+                    Text = m,
+                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                    TextSize = 13,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Size = UDim2.new(1, 0, 0, 14),
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    BackgroundTransparency = 1,
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            )
+            q.DescLabel =
+                k(
+                "TextLabel",
+                {
+                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                    Text = n,
+                    TextColor3 = Color3.fromRGB(200, 200, 200),
+                    TextSize = 12,
+                    TextWrapped = true,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 0, 14),
+                    ThemeTag = {TextColor3 = "SubText"}
+                }
+            )
+            q.LabelHolder =
+                k(
+                "Frame",
+                {
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    BackgroundTransparency = 1,
+                    Position = UDim2.fromOffset(10, 0),
+                    Size = UDim2.new(1, -28, 0, 0)
+                },
+                {
+                    k(
+                        "UIListLayout",
+                        {SortOrder = Enum.SortOrder.LayoutOrder, VerticalAlignment = Enum.VerticalAlignment.Center}
+                    ),
+                    k("UIPadding", {PaddingBottom = UDim.new(0, 13), PaddingTop = UDim.new(0, 13)}),
+                    q.TitleLabel,
+                    q.DescLabel
+                }
+            )
+            q.Border =
+                k(
+                "UIStroke",
+                {
+                    Transparency = 0.5,
+                    ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                    Color = Color3.fromRGB(0, 0, 0),
+                    ThemeTag = {Color = "ElementBorder"}
+                }
+            )
+            q.Frame =
+                k(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundTransparency = 0.89,
+                    BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+                    Parent = o,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Text = "",
+                    LayoutOrder = 7,
+                    ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
+                },
+                {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
+            )
+            function q.SetTitle(r, s)
+                q.TitleLabel.Text = s
+            end
+            function q.SetDesc(r, s)
+                if s == nil then
+                    s = ""
+                end
+                if s == "" then
+                    q.DescLabel.Visible = false
+                else
+                    q.DescLabel.Visible = true
+                end
+                q.DescLabel.Text = s
+            end
+            function q.Destroy(r)
+                q.Frame:Destroy()
+            end
+            q:SetTitle(m)
+            q:SetDesc(n)
+            if p then
+                local r, s, t =
+                    h.Themes,
+                    j.SpringMotor(
+                        j.GetThemeProperty "ElementTransparency",
+                        q.Frame,
+                        "BackgroundTransparency",
+                        false,
+                        true
+                    )
+                j.AddSignal(
+                    q.Frame.MouseEnter,
+                    function()
+                        t(j.GetThemeProperty "ElementTransparency" - j.GetThemeProperty "HoverChange")
+                    end
+                )
+                j.AddSignal(
+                    q.Frame.MouseLeave,
+                    function()
+                        t(j.GetThemeProperty "ElementTransparency")
+                    end
+                )
+                j.AddSignal(
+                    q.Frame.MouseButton1Down,
+                    function()
+                        t(j.GetThemeProperty "ElementTransparency" + j.GetThemeProperty "HoverChange")
+                    end
+                )
+                j.AddSignal(
+                    q.Frame.MouseButton1Up,
+                    function()
+                        t(j.GetThemeProperty "ElementTransparency" - j.GetThemeProperty "HoverChange")
+                    end
+                )
+            end
+            return q
+        end
+    end,
+    [12] = function()
+        local c, d, e, f, g = b(12)
+        local h = d.Parent.Parent
+        local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
+        local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
+        function o.Init(p, q)
+            o.Holder =
+                n(
+                "Frame",
+                {
+                    Position = UDim2.new(1, -30, 1, -30),
+                    Size = UDim2.new(0, 310, 1, -30),
+                    AnchorPoint = Vector2.new(1, 1),
+                    BackgroundTransparency = 1,
+                    Parent = q
+                },
+                {
+                    n(
+                        "UIListLayout",
+                        {
+                            HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                            SortOrder = Enum.SortOrder.LayoutOrder,
+                            VerticalAlignment = Enum.VerticalAlignment.Bottom,
+                            Padding = UDim.new(0, 20)
+                        }
+                    )
+                }
+            )
+        end
+        function o.New(p, q)
+            q.Title = q.Title or "Title"
+            q.Content = q.Content or "Content"
+            q.SubContent = q.SubContent or ""
+            q.Duration = q.Duration or nil
+            q.Buttons = q.Buttons or {}
+            local r = {Closed = false}
+            r.AcrylicPaint = k.AcrylicPaint()
+            r.Title =
+                n(
+                "TextLabel",
+                {
+                    Position = UDim2.new(0, 14, 0, 17),
+                    Text = q.Title,
+                    RichText = true,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    TextTransparency = 0,
+                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                    TextSize = 13,
+                    TextXAlignment = "Left",
+                    TextYAlignment = "Center",
+                    Size = UDim2.new(1, -12, 0, 12),
+                    TextWrapped = true,
+                    BackgroundTransparency = 1,
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            )
+            r.ContentLabel =
+                n(
+                "TextLabel",
+                {
+                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                    Text = q.Content,
+                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Size = UDim2.new(1, 0, 0, 14),
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    BackgroundTransparency = 1,
+                    TextWrapped = true,
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            )
+            r.SubContentLabel =
+                n(
+                "TextLabel",
+                {
+                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                    Text = q.SubContent,
+                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Size = UDim2.new(1, 0, 0, 14),
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    BackgroundTransparency = 1,
+                    TextWrapped = true,
+                    ThemeTag = {TextColor3 = "SubText"}
+                }
+            )
+            r.LabelHolder =
+                n(
+                "Frame",
+                {
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    BackgroundTransparency = 1,
+                    Position = UDim2.fromOffset(14, 40),
+                    Size = UDim2.new(1, -28, 0, 0)
+                },
+                {
+                    n(
+                        "UIListLayout",
+                        {
+                            SortOrder = Enum.SortOrder.LayoutOrder,
+                            VerticalAlignment = Enum.VerticalAlignment.Center,
+                            Padding = UDim.new(0, 3)
+                        }
+                    ),
+                    r.ContentLabel,
+                    r.SubContentLabel
+                }
+            )
+            r.CloseButton =
+                n(
+                "TextButton",
+                {
+                    Text = "",
+                    Position = UDim2.new(1, -14, 0, 13),
+                    Size = UDim2.fromOffset(20, 20),
+                    AnchorPoint = Vector2.new(1, 0),
+                    BackgroundTransparency = 1
+                },
+                {
+                    n(
+                        "ImageLabel",
+                        {
+                            Image = e(d.Parent.Assets).Close,
+                            Size = UDim2.fromOffset(16, 16),
+                            Position = UDim2.fromScale(0.5, 0.5),
+                            AnchorPoint = Vector2.new(0.5, 0.5),
+                            BackgroundTransparency = 1,
+                            ThemeTag = {ImageColor3 = "Text"}
+                        }
+                    )
+                }
+            )
+            r.Root =
+                n(
+                "Frame",
+                {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 1, 0), Position = UDim2.fromScale(1, 0)},
+                {r.AcrylicPaint.Frame, r.Title, r.CloseButton, r.LabelHolder}
+            )
+            if q.Content == "" then
+                r.ContentLabel.Visible = false
+            end
+            if q.SubContent == "" then
+                r.SubContentLabel.Visible = false
+            end
+            r.Holder =
+                n("Frame", {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 200), Parent = o.Holder}, {r.Root})
+            local s = i.GroupMotor.new {Scale = 1, Offset = 60}
+            s:onStep(
+                function(t)
+                    r.Root.Position = UDim2.new(t.Scale, t.Offset, 0, 0)
+                end
+            )
+            j.AddSignal(
+                r.CloseButton.MouseButton1Click,
+                function()
+                    r:Close()
+                end
+            )
+            function r.Open(t)
+                local u = r.LabelHolder.AbsoluteSize.Y
+                r.Holder.Size = UDim2.new(1, 0, 0, 58 + u)
+                s:setGoal {Scale = l(0, {frequency = 5}), Offset = l(0, {frequency = 5})}
+            end
+            function r.Close(t)
+                if not r.Closed then
+                    r.Closed = true
+                    task.spawn(
+                        function()
+                            s:setGoal {Scale = l(1, {frequency = 5}), Offset = l(60, {frequency = 5})}
+                            task.wait(0.4)
+                            if e(h).UseAcrylic then
+                                r.AcrylicPaint.Model:Destroy()
+                            end
+                            r.Holder:Destroy()
+                        end
+                    )
+                end
+            end
+            r:Open()
+            if q.Duration then
+                task.delay(
+                    q.Duration,
+                    function()
+                        r:Close()
+                    end
+                )
+            end
+            return r
+        end
+        return o
+    end,
+    [13] = function()
+        local c, d, e, f, g = b(13)
+        local h = d.Parent.Parent
+        local i = e(h.Creator)
+        local j = i.New
+        return function(k, l)
+            local m = {}
+            m.Layout = j("UIListLayout", {Padding = UDim.new(0, 5)})
+            m.Container =
+                j(
+                "Frame",
+                {Size = UDim2.new(1, 0, 0, 26), Position = UDim2.fromOffset(0, 24), BackgroundTransparency = 1},
+                {m.Layout}
+            )
+            m.Root =
+                j(
+                "Frame",
+                {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 26), LayoutOrder = 7, Parent = l},
+                {
+                    j(
+                        "TextLabel",
+                        {
+                            RichText = true,
+                            Text = k,
+                            TextTransparency = 0,
+                            FontFace = Font.new(
+                                "rbxassetid://12187365364",
+                                Enum.FontWeight.SemiBold,
+                                Enum.FontStyle.Normal
+                            ),
+                            TextSize = 18,
+                            TextXAlignment = "Left",
+                            TextYAlignment = "Center",
+                            Size = UDim2.new(1, -16, 0, 18),
+                            Position = UDim2.fromOffset(0, 2),
+                            ThemeTag = {TextColor3 = "Text"}
+                        }
+                    ),
+                    m.Container
+                }
+            )
+            i.AddSignal(
+                m.Layout:GetPropertyChangedSignal "AbsoluteContentSize",
+                function()
+                    m.Container.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y)
+                    m.Root.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y + 25)
+                end
+            )
+            return m
+        end
+    end,
+    [14] = function()
+        local c, d, e, f, g = b(14)
+        local h = d.Parent.Parent
+        local i, j = e(h.Packages.Flipper), e(h.Creator)
+        local k, l, m, n, o =
+            j.New,
+            i.Spring.new,
+            i.Instant.new,
+            h.Components,
+            {Window = nil, Tabs = {}, Containers = {}, SelectedTab = 0, TabCount = 0}
+        function o.Init(p, q)
+            o.Window = q
+            return o
+        end
+        function o.GetCurrentTabPos(p)
+            local q, r = o.Window.TabHolder.AbsolutePosition.Y, o.Tabs[o.SelectedTab].Frame.AbsolutePosition.Y
+            return r - q
+        end
+        function o.New(p, q, r, s)
+            local t, u = e(h), o.Window
+            local v = t.Elements
+            o.TabCount = o.TabCount + 1
+            local w, x = o.TabCount, {Selected = false, Name = q, Type = "Tab"}
+            if t:GetIcon(r) then
+                r = t:GetIcon(r)
+            end
+            if r == "" or nil then
+                r = nil
+            end
+            x.Frame =
+                k(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, 0, 0, 34),
+                    BackgroundTransparency = 1,
+                    Parent = s,
+                    ThemeTag = {BackgroundColor3 = "Tab"}
+                },
+                {
+                    k("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                    k(
+                        "TextLabel",
+                        {
+                            AnchorPoint = Vector2.new(0, 0.5),
+                            Position = r and UDim2.new(0, 30, 0.5, 0) or UDim2.new(0, 12, 0.5, 0),
+                            Text = q,
+                            RichText = true,
+                            TextColor3 = Color3.fromRGB(255, 255, 255),
+                            TextTransparency = 0,
+                            FontFace = Font.new(
+                                "rbxasset://fonts/families/GothamSSm.json",
+                                Enum.FontWeight.Regular,
+                                Enum.FontStyle.Normal
+                            ),
+                            TextSize = 12,
+                            TextXAlignment = "Left",
+                            TextYAlignment = "Center",
+                            Size = UDim2.new(1, -12, 1, 0),
+                            BackgroundTransparency = 1,
+                            ThemeTag = {TextColor3 = "Text"}
+                        }
+                    ),
+                    k(
+                        "ImageLabel",
+                        {
+                            AnchorPoint = Vector2.new(0, 0.5),
+                            Size = UDim2.fromOffset(16, 16),
+                            Position = UDim2.new(0, 8, 0.5, 0),
+                            BackgroundTransparency = 1,
+                            Image = r and r or nil,
+                            ThemeTag = {ImageColor3 = "Text"}
+                        }
+                    )
+                }
+            )
+            local y = k("UIListLayout", {Padding = UDim.new(0, 5), SortOrder = Enum.SortOrder.LayoutOrder})
+            x.ContainerFrame =
+                k(
+                "ScrollingFrame",
+                {
+                    Size = UDim2.fromScale(1, 1),
+                    BackgroundTransparency = 1,
+                    Parent = u.ContainerHolder,
+                    Visible = false,
+                    BottomImage = "rbxassetid://6889812791",
+                    MidImage = "rbxassetid://6889812721",
+                    TopImage = "rbxassetid://6276641225",
+                    ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+                    ScrollBarImageTransparency = 0.95,
+                    ScrollBarThickness = 3,
+                    BorderSizePixel = 0,
+                    CanvasSize = UDim2.fromScale(0, 0),
+                    ScrollingDirection = Enum.ScrollingDirection.Y
+                },
+                {
+                    y,
+                    k(
+                        "UIPadding",
+                        {
+                            PaddingRight = UDim.new(0, 10),
+                            PaddingLeft = UDim.new(0, 1),
+                            PaddingTop = UDim.new(0, 1),
+                            PaddingBottom = UDim.new(0, 1)
+                        }
+                    )
+                }
+            )
+            j.AddSignal(
+                y:GetPropertyChangedSignal "AbsoluteContentSize",
+                function()
+                    x.ContainerFrame.CanvasSize = UDim2.new(0, 0, 0, y.AbsoluteContentSize.Y + 2)
+                end
+            )
+            x.Motor, x.SetTransparency = j.SpringMotor(1, x.Frame, "BackgroundTransparency")
+            j.AddSignal(
+                x.Frame.MouseEnter,
+                function()
+                    x.SetTransparency(x.Selected and 0.85 or 0.89)
+                end
+            )
+            j.AddSignal(
+                x.Frame.MouseLeave,
+                function()
+                    x.SetTransparency(x.Selected and 0.89 or 1)
+                end
+            )
+            j.AddSignal(
+                x.Frame.MouseButton1Down,
+                function()
+                    x.SetTransparency(0.92)
+                end
+            )
+            j.AddSignal(
+                x.Frame.MouseButton1Up,
+                function()
+                    x.SetTransparency(x.Selected and 0.85 or 0.89)
+                end
+            )
+            j.AddSignal(
+                x.Frame.MouseButton1Click,
+                function()
+                    o:SelectTab(w)
+                end
+            )
+            o.Containers[w] = x.ContainerFrame
+            o.Tabs[w] = x
+            x.Container = x.ContainerFrame
+            x.ScrollFrame = x.Container
+            function x.AddSection(z, A)
+                local B, C = {Type = "Section"}, e(n.Section)(A, x.Container)
+                B.Container = C.Container
+                B.ScrollFrame = x.Container
+                setmetatable(B, v)
+                return B
+            end
+            setmetatable(x, v)
+            return x
+        end
+        function o.SelectTab(p, q)
+            local r = o.Window
+            o.SelectedTab = q
+            for s, t in next, o.Tabs do
+                t.SetTransparency(1)
+                t.Selected = false
+            end
+            o.Tabs[q].SetTransparency(0.89)
+            o.Tabs[q].Selected = true
+            r.TabDisplay.Text = o.Tabs[q].Name
+            r.SelectorPosMotor:setGoal(l(o:GetCurrentTabPos(), {frequency = 6}))
+            task.spawn(
+                function()
+                    r.ContainerPosMotor:setGoal(l(110, {frequency = 10}))
+                    r.ContainerBackMotor:setGoal(l(1, {frequency = 10}))
+                    task.wait(0.15)
+                    for u, v in next, o.Containers do
+                        v.Visible = false
+                    end
+                    o.Containers[q].Visible = true
+                    r.ContainerPosMotor:setGoal(l(94, {frequency = 5}))
+                    r.ContainerBackMotor:setGoal(l(0, {frequency = 8}))
+                end
+            )
+        end
+        return o
+    end,
+    [15] = function()
+        local c, d, e, f, g = b(15)
+        local h, i = game:GetService "TextService", d.Parent.Parent
+        local j, k = e(i.Packages.Flipper), e(i.Creator)
+        local l = k.New
+        return function(m, n)
+            n = n or false
+            local o = {}
+            o.Input =
+                l(
+                "TextBox",
+                {
+                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                    TextColor3 = Color3.fromRGB(200, 200, 200),
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextYAlignment = Enum.TextYAlignment.Center,
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.fromScale(1, 1),
+                    Position = UDim2.fromOffset(10, 0),
+                    ThemeTag = {TextColor3 = "Text", PlaceholderColor3 = "SubText"}
+                }
+            )
+            o.Container =
+                l(
+                "Frame",
+                {
+                    BackgroundTransparency = 1,
+                    ClipsDescendants = true,
+                    Position = UDim2.new(0, 6, 0, 0),
+                    Size = UDim2.new(1, -12, 1, 0)
+                },
+                {o.Input}
+            )
+            o.Indicator =
+                l(
+                "Frame",
+                {
+                    Size = UDim2.new(1, -4, 0, 1),
+                    Position = UDim2.new(0, 2, 1, 0),
+                    AnchorPoint = Vector2.new(0, 1),
+                    BackgroundTransparency = n and 0.5 or 0,
+                    ThemeTag = {BackgroundColor3 = n and "InputIndicator" or "DialogInputLine"}
+                }
+            )
+            o.Frame =
+                l(
+                "Frame",
+                {
+                    Size = UDim2.new(0, 0, 0, 30),
+                    BackgroundTransparency = n and 0.9 or 0,
+                    Parent = m,
+                    ThemeTag = {BackgroundColor3 = n and "Input" or "DialogInput"}
+                },
+                {
+                    l("UICorner", {CornerRadius = UDim.new(0, 4)}),
+                    l(
+                        "UIStroke",
+                        {
+                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            Transparency = n and 0.5 or 0.65,
+                            ThemeTag = {Color = n and "InElementBorder" or "DialogButtonBorder"}
+                        }
+                    ),
+                    o.Indicator,
+                    o.Container
+                }
+            )
+            local p = function()
+                local p, q = 2, o.Container.AbsoluteSize.X
+                if not o.Input:IsFocused() or o.Input.TextBounds.X <= q - 2 * p then
+                    o.Input.Position = UDim2.new(0, p, 0, 0)
+                else
+                    local r = o.Input.CursorPosition
+                    if r ~= -1 then
+                        local s = string.sub(o.Input.Text, 1, r - 1)
+                        local t = h:GetTextSize(s, o.Input.TextSize, o.Input.Font, Vector2.new(math.huge, math.huge)).X
+                        local u = o.Input.Position.X.Offset + t
+                        if u < p then
+                            o.Input.Position = UDim2.fromOffset(p - t, 0)
+                        elseif u > q - p - 1 then
+                            o.Input.Position = UDim2.fromOffset(q - t - p - 1, 0)
+                        end
+                    end
+                end
+            end
+            task.spawn(p)
+            k.AddSignal(o.Input:GetPropertyChangedSignal "Text", p)
+            k.AddSignal(o.Input:GetPropertyChangedSignal "CursorPosition", p)
+            k.AddSignal(
+                o.Input.Focused,
+                function()
+                    p()
+                    o.Indicator.Size = UDim2.new(1, -2, 0, 2)
+                    o.Indicator.Position = UDim2.new(0, 1, 1, 0)
+                    o.Indicator.BackgroundTransparency = 0
+                    k.OverrideTag(o.Frame, {BackgroundColor3 = n and "InputFocused" or "DialogHolder"})
+                    k.OverrideTag(o.Indicator, {BackgroundColor3 = "Accent"})
+                end
+            )
+            k.AddSignal(
+                o.Input.FocusLost,
+                function()
+                    p()
+                    o.Indicator.Size = UDim2.new(1, -4, 0, 1)
+                    o.Indicator.Position = UDim2.new(0, 2, 1, 0)
+                    o.Indicator.BackgroundTransparency = 0.5
+                    k.OverrideTag(o.Frame, {BackgroundColor3 = n and "Input" or "DialogInput"})
+                    k.OverrideTag(o.Indicator, {BackgroundColor3 = n and "InputIndicator" or "DialogInputLine"})
+                end
+            )
+            return o
+        end
+    end,
+    [16] = function()
+        local c, d, e, f, g = b(16)
+        local h, i = d.Parent.Parent, e(d.Parent.Assets)
+        local j, k = e(h.Creator), e(h.Packages.Flipper)
+        local l, m = j.New, j.AddSignal
+        return function(n)
+            local o, p, q =
+                {},
+                e(h),
+                function(o, p, q, r)
+                    local s = {Callback = r or function()
+                            end}
+                    s.Frame =
+                        l(
+                        "TextButton",
+                        {
+                            Size = UDim2.new(0, 34, 1, -8),
+                            AnchorPoint = Vector2.new(1, 0),
+                            BackgroundTransparency = 1,
+                            Parent = q,
+                            Position = p,
+                            Text = "",
+                            ThemeTag = {BackgroundColor3 = "Text"}
+                        },
+                        {
+                            l("UICorner", {CornerRadius = UDim.new(0, 7)}),
+                            l(
+                                "ImageLabel",
+                                {
+                                    Image = o,
+                                    Size = UDim2.fromOffset(16, 16),
+                                    Position = UDim2.fromScale(0.5, 0.5),
+                                    AnchorPoint = Vector2.new(0.5, 0.5),
+                                    BackgroundTransparency = 1,
+                                    Name = "Icon",
+                                    ThemeTag = {ImageColor3 = "Text"}
+                                }
+                            )
+                        }
+                    )
+                    local t, u = j.SpringMotor(1, s.Frame, "BackgroundTransparency")
+                    m(
+                        s.Frame.MouseEnter,
+                        function()
+                            u(0.94)
+                        end
+                    )
+                    m(
+                        s.Frame.MouseLeave,
+                        function()
+                            u(1, true)
+                        end
+                    )
+                    m(
+                        s.Frame.MouseButton1Down,
+                        function()
+                            u(0.96)
+                        end
+                    )
+                    m(
+                        s.Frame.MouseButton1Up,
+                        function()
+                            u(0.94)
+                        end
+                    )
+                    m(s.Frame.MouseButton1Click, s.Callback)
+                    s.SetCallback = function(v)
+                        s.Callback = v
+                    end
+                    return s
+                end
+            o.Frame =
+                l(
+                "Frame",
+                {Size = UDim2.new(1, 0, 0, 42), BackgroundTransparency = 1, Parent = n.Parent},
+                {
+                    l(
+                        "Frame",
+                        {Size = UDim2.new(1, -16, 1, 0), Position = UDim2.new(0, 16, 0, 0), BackgroundTransparency = 1},
+                        {
+                            l(
+                                "UIListLayout",
+                                {
+                                    Padding = UDim.new(0, 5),
+                                    FillDirection = Enum.FillDirection.Horizontal,
+                                    SortOrder = Enum.SortOrder.LayoutOrder
+                                }
+                            ),
+                            l(
+                                "TextLabel",
+                                {
+                                    RichText = true,
+                                    Text = n.Title,
+                                    FontFace = Font.new(
+                                        "rbxasset://fonts/families/GothamSSm.json",
+                                        Enum.FontWeight.Regular,
+                                        Enum.FontStyle.Normal
+                                    ),
+                                    TextSize = 12,
+                                    TextXAlignment = "Left",
+                                    TextYAlignment = "Center",
+                                    Size = UDim2.fromScale(0, 1),
+                                    AutomaticSize = Enum.AutomaticSize.X,
+                                    BackgroundTransparency = 1,
+                                    ThemeTag = {TextColor3 = "Text"}
+                                }
+                            ),
+                            l(
+                                "TextLabel",
+                                {
+                                    RichText = true,
+                                    Text = n.SubTitle,
+                                    TextTransparency = 0.4,
+                                    FontFace = Font.new(
+                                        "rbxasset://fonts/families/GothamSSm.json",
+                                        Enum.FontWeight.Regular,
+                                        Enum.FontStyle.Normal
+                                    ),
+                                    TextSize = 12,
+                                    TextXAlignment = "Left",
+                                    TextYAlignment = "Center",
+                                    Size = UDim2.fromScale(0, 1),
+                                    AutomaticSize = Enum.AutomaticSize.X,
+                                    BackgroundTransparency = 1,
+                                    ThemeTag = {TextColor3 = "Text"}
+                                }
+                            )
+                        }
+                    ),
+                    l(
+                        "Frame",
+                        {
+                            BackgroundTransparency = 0.5,
+                            Size = UDim2.new(1, 0, 0, 1),
+                            Position = UDim2.new(0, 0, 1, 0),
+                            ThemeTag = {BackgroundColor3 = "TitleBarLine"}
+                        }
+                    )
+                }
+            )
+            o.CloseButton =
+                q(
+                i.Close,
+                UDim2.new(1, -4, 0, 4),
+                o.Frame,
+                function()
+                    p.Window:Dialog {
+                        Title = "Close",
+                        Content = "Are you sure you want to unload the interface?",
+                        Buttons = {{Title = "Yes", Callback = function()
+                                    p:Destroy()
+                                end}, {Title = "No"}}
+                    }
+                end
+            )
+            o.MaxButton =
+                q(
+                i.Max,
+                UDim2.new(1, -40, 0, 4),
+                o.Frame,
+                function()
+                    n.Window.Maximize(not n.Window.Maximized)
+                end
+            )
+            o.MinButton =
+                q(
+                i.Min,
+                UDim2.new(1, -80, 0, 4),
+                o.Frame,
+                function()
+                    p.Window:Minimize()
+                end
+            )
+            return o
+        end
+    end,
+    [17] = function()
+        local c, d, e, f, g = b(17)
+        local h, i, j, k =
+            game:GetService "UserInputService",
+            game:GetService "Players".LocalPlayer:GetMouse(),
+            game:GetService "Workspace".CurrentCamera,
+            d.Parent.Parent
+        local l, m, n, o, p = e(k.Packages.Flipper), e(k.Creator), e(k.Acrylic), e(d.Parent.Assets), d.Parent
+        local q, r, s = l.Spring.new, l.Instant.new, m.New
+        return function(t)
+            local u, v, w, x, y, z =
+                e(k),
+                {
+                    Minimized = false,
+                    Maximized = false,
+                    Size = t.Size,
+                    CurrentPos = 0,
+                    Position = UDim2.fromOffset(
+                        j.ViewportSize.X / 2 - t.Size.X.Offset / 2,
+                        j.ViewportSize.Y / 2 - t.Size.Y.Offset / 2
+                    )
+                },
+                false
+            local A, B = false
+            local C = false
+            v.AcrylicPaint = n.AcrylicPaint()
+            local D, E =
+                s(
+                    "Frame",
+                    {
+                        Size = UDim2.fromOffset(4, 0),
+                        BackgroundColor3 = Color3.fromRGB(76, 194, 255),
+                        Position = UDim2.fromOffset(0, 17),
+                        AnchorPoint = Vector2.new(0, 0.5),
+                        ThemeTag = {BackgroundColor3 = "Accent"}
+                    },
+                    {s("UICorner", {CornerRadius = UDim.new(0, 2)})}
+                ),
+                s(
+                    "Frame",
+                    {Size = UDim2.fromOffset(20, 20), BackgroundTransparency = 1, Position = UDim2.new(1, -20, 1, -20)}
+                )
+            v.TabHolder =
+                s(
+                "ScrollingFrame",
+                {
+                    Size = UDim2.fromScale(1, 1),
+                    BackgroundTransparency = 1,
+                    ScrollBarImageTransparency = 1,
+                    ScrollBarThickness = 0,
+                    BorderSizePixel = 0,
+                    CanvasSize = UDim2.fromScale(0, 0),
+                    ScrollingDirection = Enum.ScrollingDirection.Y
+                },
+                {s("UIListLayout", {Padding = UDim.new(0, 4)})}
+            )
+            local F =
+                s(
+                "Frame",
+                {
+                    Size = UDim2.new(0, t.TabWidth, 1, -66),
+                    Position = UDim2.new(0, 12, 0, 54),
+                    BackgroundTransparency = 1,
+                    ClipsDescendants = true
+                },
+                {v.TabHolder, D}
+            )
+            v.TabDisplay =
+                s(
+                "TextLabel",
+                {
+                    RichText = true,
+                    Text = "Tab",
+                    TextTransparency = 0,
+                    FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+                    TextSize = 28,
+                    TextXAlignment = "Left",
+                    TextYAlignment = "Center",
+                    Size = UDim2.new(1, -16, 0, 28),
+                    Position = UDim2.fromOffset(t.TabWidth + 26, 56),
+                    BackgroundTransparency = 1,
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            )
+            v.ContainerHolder =
+                s(
+                "CanvasGroup",
+                {
+                    Size = UDim2.new(1, -t.TabWidth - 32, 1, -102),
+                    Position = UDim2.fromOffset(t.TabWidth + 26, 90),
+                    BackgroundTransparency = 1
+                }
+            )
+            v.Root =
+                s(
+                "Frame",
+                {BackgroundTransparency = 1, Size = v.Size, Position = v.Position, Parent = t.Parent},
+                {v.AcrylicPaint.Frame, v.TabDisplay, v.ContainerHolder, F, E}
+            )
+            v.TitleBar = e(d.Parent.TitleBar) {Title = t.Title, SubTitle = t.SubTitle, Parent = v.Root, Window = v}
+            if e(k).UseAcrylic then
+                v.AcrylicPaint.AddParent(v.Root)
+            end
+            local G, H =
+                l.GroupMotor.new {X = v.Size.X.Offset, Y = v.Size.Y.Offset},
+                l.GroupMotor.new {X = v.Position.X.Offset, Y = v.Position.Y.Offset}
+            v.SelectorPosMotor = l.SingleMotor.new(17)
+            v.SelectorSizeMotor = l.SingleMotor.new(0)
+            v.ContainerBackMotor = l.SingleMotor.new(0)
+            v.ContainerPosMotor = l.SingleMotor.new(94)
+            G:onStep(
+                function(I)
+                    v.Root.Size = UDim2.new(0, I.X, 0, I.Y)
+                end
+            )
+            H:onStep(
+                function(I)
+                    v.Root.Position = UDim2.new(0, I.X, 0, I.Y)
+                end
+            )
+            local I, J = 0, 0
+            v.SelectorPosMotor:onStep(
+                function(K)
+                    D.Position = UDim2.new(0, 0, 0, K + 17)
+                    local L = tick()
+                    local M = L - J
+                    if I ~= nil then
+                        v.SelectorSizeMotor:setGoal(q((math.abs(K - I) / (M * 60)) + 16))
+                        I = K
+                    end
+                    J = L
+                end
+            )
+            v.SelectorSizeMotor:onStep(
+                function(K)
+                    D.Size = UDim2.new(0, 4, 0, K)
+                end
+            )
+            v.ContainerBackMotor:onStep(
+                function(K)
+                    v.ContainerHolder.GroupTransparency = K
+                end
+            )
+            v.ContainerPosMotor:onStep(
+                function(K)
+                    v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, K)
+                end
+            )
+            local K, L
+            v.Maximize = function(M, N, O)
+                v.Maximized = M
+                v.TitleBar.MaxButton.Frame.Icon.Image = M and o.Restore or o.Max
+                if M then
+                    K = v.Size.X.Offset
+                    L = v.Size.Y.Offset
+                end
+                local P, Q = M and j.ViewportSize.X or K, M and j.ViewportSize.Y or L
+                G:setGoal {
+                    X = l[O and "Instant" or "Spring"].new(P, {frequency = 6}),
+                    Y = l[O and "Instant" or "Spring"].new(Q, {frequency = 6})
+                }
+                v.Size = UDim2.fromOffset(P, Q)
+                if not N then
+                    H:setGoal {
+                        X = q(M and 0 or v.Position.X.Offset, {frequency = 6}),
+                        Y = q(M and 0 or v.Position.Y.Offset, {frequency = 6})
+                    }
+                end
+            end
+            m.AddSignal(
+                v.TitleBar.Frame.InputBegan,
+                function(M)
+                    if M.UserInputType == Enum.UserInputType.MouseButton1 or M.UserInputType == Enum.UserInputType.Touch then
+                        w = true
+                        y = M.Position
+                        z = v.Root.Position
+                        if v.Maximized then
+                            z =
+                                UDim2.fromOffset(
+                                i.X - (i.X * ((K - 100) / v.Root.AbsoluteSize.X)),
+                                i.Y - (i.Y * (L / v.Root.AbsoluteSize.Y))
+                            )
+                        end
+                        M.Changed:Connect(
+                            function()
+                                if M.UserInputState == Enum.UserInputState.End then
+                                    w = false
+                                end
+                            end
+                        )
+                    end
+                end
+            )
+            m.AddSignal(
+                v.TitleBar.Frame.InputChanged,
+                function(M)
+                    if
+                        M.UserInputType == Enum.UserInputType.MouseMovement or
+                            M.UserInputType == Enum.UserInputType.Touch
+                     then
+                        x = M
+                    end
+                end
+            )
+            m.AddSignal(
+                E.InputBegan,
+                function(M)
+                    if M.UserInputType == Enum.UserInputType.MouseButton1 or M.UserInputType == Enum.UserInputType.Touch then
+                        A = true
+                        B = M.Position
+                    end
+                end
+            )
+            m.AddSignal(
+                h.InputChanged,
+                function(M)
+                    if M == x and w then
+                        local N = M.Position - y
+                        v.Position = UDim2.fromOffset(z.X.Offset + N.X, z.Y.Offset + N.Y)
+                        H:setGoal {X = r(v.Position.X.Offset), Y = r(v.Position.Y.Offset)}
+                        if v.Maximized then
+                            v.Maximize(false, true, true)
+                        end
+                    end
+                    if
+                        (M.UserInputType == Enum.UserInputType.MouseMovement or
+                            M.UserInputType == Enum.UserInputType.Touch) and
+                            A
+                     then
+                        local N, O = M.Position - B, v.Size
+                        local P = Vector3.new(O.X.Offset, O.Y.Offset, 0) + Vector3.new(1, 1, 0) * N
+                        local Q = Vector2.new(math.clamp(P.X, 470, 2048), math.clamp(P.Y, 380, 2048))
+                        G:setGoal {X = l.Instant.new(Q.X), Y = l.Instant.new(Q.Y)}
+                    end
+                end
+            )
+            m.AddSignal(
+                h.InputEnded,
+                function(M)
+                    if A == true or M.UserInputType == Enum.UserInputType.Touch then
+                        A = false
+                        v.Size = UDim2.fromOffset(G:getValue().X, G:getValue().Y)
+                    end
+                end
+            )
+            m.AddSignal(
+                v.TabHolder.UIListLayout:GetPropertyChangedSignal "AbsoluteContentSize",
+                function()
+                    v.TabHolder.CanvasSize = UDim2.new(0, 0, 0, v.TabHolder.UIListLayout.AbsoluteContentSize.Y)
+                end
+            )
+            m.AddSignal(
+                h.InputBegan,
+                function(M)
+                    if
+                        type(u.MinimizeKeybind) == "table" and u.MinimizeKeybind.Type == "Keybind" and
+                            not h:GetFocusedTextBox()
+                     then
+                        if M.KeyCode.Name == u.MinimizeKeybind.Value then
+                            v:Minimize()
+                        end
+                    elseif M.KeyCode == u.MinimizeKey and not h:GetFocusedTextBox() then
+                        v:Minimize()
+                    end
+                end
+            )
+            function v.Minimize(M)
+                v.Minimized = not v.Minimized
+                v.Root.Visible = not v.Minimized
+                if not C then
+                    C = true
+                    local N = u.MinimizeKeybind and u.MinimizeKeybind.Value or u.MinimizeKey.Name
+                    u:Notify {Title = "Interface", Content = "Press " .. N .. " to toggle the inteface.", Duration = 6}
+                end
+            end
+            function v.Destroy(M)
+                if e(k).UseAcrylic then
+                    v.AcrylicPaint.Model:Destroy()
+                end
+                v.Root:Destroy()
+            end
+            local M = e(p.Dialog):Init(v)
+            function v.Dialog(N, O)
+                local P = M:Create()
+                P.Title.Text = O.Title
+                local Q =
+                    s(
+                    "TextLabel",
+                    {
+                        FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                        Text = O.Content,
+                        TextColor3 = Color3.fromRGB(240, 240, 240),
+                        TextSize = 14,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        TextYAlignment = Enum.TextYAlignment.Top,
+                        Size = UDim2.new(1, -40, 1, 0),
+                        Position = UDim2.fromOffset(20, 60),
+                        BackgroundTransparency = 1,
+                        Parent = P.Root,
+                        ClipsDescendants = false,
+                        ThemeTag = {TextColor3 = "Text"}
+                    }
+                )
+                s(
+                    "UISizeConstraint",
+                    {MinSize = Vector2.new(300, 165), MaxSize = Vector2.new(620, math.huge), Parent = P.Root}
+                )
+                P.Root.Size = UDim2.fromOffset(Q.TextBounds.X + 40, 165)
+                if Q.TextBounds.X + 40 > v.Size.X.Offset - 120 then
+                    P.Root.Size = UDim2.fromOffset(v.Size.X.Offset - 120, 165)
+                    Q.TextWrapped = true
+                    P.Root.Size = UDim2.fromOffset(v.Size.X.Offset - 120, Q.TextBounds.Y + 150)
+                end
+                for R, S in next, O.Buttons do
+                    P:Button(S.Title, S.Callback)
+                end
+                P:Open()
+            end
+            local N = e(p.Tab):Init(v)
+            function v.AddTab(O, P)
+                return N:New(P.Title, P.Icon, v.TabHolder)
+            end
+            function v.SelectTab(O, P)
+                N:SelectTab(1)
+            end
+            m.AddSignal(
+                v.TabHolder:GetPropertyChangedSignal "CanvasPosition",
+                function()
+                    I = N:GetCurrentTabPos() + 16
+                    J = 0
+                    v.SelectorPosMotor:setGoal(r(N:GetCurrentTabPos()))
+                end
+            )
+            return v
+        end
+    end,
+    [18] = function()
+        local c, d, e, f, g = b(18)
+        local h = d.Parent
+        local i, j, k =
+            e(h.Themes),
+            e(h.Packages.Flipper),
+            {
+                Registry = {},
+                Signals = {},
+                TransparencyMotors = {},
+                DefaultProperties = {
+                    ScreenGui = {ResetOnSpawn = false, ZIndexBehavior = Enum.ZIndexBehavior.Sibling},
+                    Frame = {
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        BorderSizePixel = 0
+                    },
+                    ScrollingFrame = {
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        ScrollBarImageColor3 = Color3.new(0, 0, 0)
+                    },
+                    TextLabel = {
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        Font = Enum.Font.SourceSans,
+                        Text = "",
+                        TextColor3 = Color3.new(0, 0, 0),
+                        BackgroundTransparency = 1,
+                        TextSize = 14
+                    },
+                    TextButton = {
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        AutoButtonColor = false,
+                        Font = Enum.Font.SourceSans,
+                        Text = "",
+                        TextColor3 = Color3.new(0, 0, 0),
+                        TextSize = 14
+                    },
+                    TextBox = {
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        ClearTextOnFocus = false,
+                        Font = Enum.Font.SourceSans,
+                        Text = "",
+                        TextColor3 = Color3.new(0, 0, 0),
+                        TextSize = 14
+                    },
+                    ImageLabel = {
+                        BackgroundTransparency = 1,
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        BorderSizePixel = 0
+                    },
+                    ImageButton = {
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        AutoButtonColor = false
+                    },
+                    CanvasGroup = {
+                        BackgroundColor3 = Color3.new(1, 1, 1),
+                        BorderColor3 = Color3.new(0, 0, 0),
+                        BorderSizePixel = 0
+                    }
+                }
+            }
+        local l = function(l, m)
+            if m.ThemeTag then
+                k.AddThemeObject(l, m.ThemeTag)
+            end
+        end
+        function k.AddSignal(m, n)
+            table.insert(k.Signals, m:Connect(n))
+        end
+        function k.Disconnect()
+            for m = #k.Signals, 1, -1 do
+                local n = table.remove(k.Signals, m)
+                n:Disconnect()
+            end
+        end
+        function k.GetThemeProperty(m)
+            if i[e(h).Theme][m] then
+                return i[e(h).Theme][m]
+            end
+            return i.Dark[m]
+        end
+        function k.UpdateTheme()
+            for m, n in next, k.Registry do
+                for o, p in next, n.Properties do
+                    m[o] = k.GetThemeProperty(p)
+                end
+            end
+            for o, p in next, k.TransparencyMotors do
+                p:setGoal(j.Instant.new(k.GetThemeProperty "ElementTransparency"))
+            end
+        end
+        function k.AddThemeObject(m, n)
+            local o = #k.Registry + 1
+            local p = {Object = m, Properties = n, Idx = o}
+            k.Registry[m] = p
+            k.UpdateTheme()
+            return m
+        end
+        function k.OverrideTag(m, n)
+            k.Registry[m].Properties = n
+            k.UpdateTheme()
+        end
+        function k.New(m, n, o)
+            local p = Instance.new(m)
+            for q, r in next, k.DefaultProperties[m] or {} do
+                p[q] = r
+            end
+            for s, t in next, n or {} do
+                if s ~= "ThemeTag" then
+                    p[s] = t
+                end
+            end
+            for u, v in next, o or {} do
+                v.Parent = p
+            end
+            l(p, n)
+            return p
+        end
+        function k.SpringMotor(m, n, o, p, s)
+            p = p or false
+            s = s or false
+            local t = j.SingleMotor.new(m)
+            t:onStep(
+                function(u)
+                    n[o] = u
+                end
+            )
+            if s then
+                table.insert(k.TransparencyMotors, t)
+            end
+            local u = function(u, v)
+                v = v or false
+                if not p then
+                    if not v then
+                        if o == "BackgroundTransparency" and e(h).DialogOpen then
+                            return
+                        end
+                    end
+                end
+                t:setGoal(j.Spring.new(u, {frequency = 8}))
+            end
+            return t, u
+        end
+        return k
+    end,
+    [19] = function()
+        local c, d, e, f, g = b(19)
+        local h = {}
+        for i, j in next, d:GetChildren() do
+            table.insert(h, e(j))
+        end
+        return h
+    end,
+    [20] = function()
+        local c, d, e, f, g = b(20)
+        local h = d.Parent.Parent
+        local i = e(h.Creator)
+        local j, k, l = i.New, h.Components, {}
+        l.__index = l
+        l.__type = "Button"
+        function l.New(m, n)
+            assert(n.Title, "Button - Missing Title")
+            n.Callback = n.Callback or function()
+                end
+            local o = e(k.Element)(n.Title, n.Description, m.Container, true)
+            local p =
+                j(
+                "ImageLabel",
+                {
+                    Image = "rbxassetid://10709791437",
+                    Size = UDim2.fromOffset(16, 16),
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    Position = UDim2.new(1, -10, 0.5, 0),
+                    BackgroundTransparency = 1,
+                    Parent = o.Frame,
+                    ThemeTag = {ImageColor3 = "Text"}
+                }
+            )
+            i.AddSignal(
+                o.Frame.MouseButton1Click,
+                function()
+                    m.Library:SafeCallback(n.Callback)
+                end
+            )
+            return o
+        end
+        return l
+    end,
+    [21] = function()
+        local c, d, e, f, g = b(21)
+        local h, i, j, k =
+            game:GetService "UserInputService",
+            game:GetService "TouchInputService",
+            game:GetService "RunService",
+            game:GetService "Players"
+        local l, m = j.RenderStepped, k.LocalPlayer
+        local n, o = m:GetMouse(), d.Parent.Parent
+        local p = e(o.Creator)
+        local s, t, u = p.New, o.Components, {}
+        u.__index = u
+        u.__type = "Colorpicker"
+        function u.New(v, w, x)
+            local y = v.Library
+            assert(x.Title, "Colorpicker - Missing Title")
+            assert(x.Default, "AddColorPicker: Missing default value.")
+            local z = {
+                Value = x.Default,
+                Transparency = x.Transparency or 0,
+                Type = "Colorpicker",
+                Title = type(x.Title) == "string" and x.Title or "Colorpicker",
+                Callback = x.Callback or function(z)
+                    end
+            }
+            function z.SetHSVFromRGB(A, B)
+                local C, D, E = Color3.toHSV(B)
+                z.Hue = C
+                z.Sat = D
+                z.Vib = E
+            end
+            z:SetHSVFromRGB(z.Value)
+            local A = e(t.Element)(x.Title, x.Description, v.Container, true)
+            z.SetTitle = A.SetTitle
+            z.SetDesc = A.SetDesc
+            local B =
+                s(
+                "Frame",
+                {Size = UDim2.fromScale(1, 1), BackgroundColor3 = z.Value, Parent = A.Frame},
+                {s("UICorner", {CornerRadius = UDim.new(0, 4)})}
+            )
+            local aa, ab =
+                s(
+                    "ImageLabel",
+                    {
+                        Size = UDim2.fromOffset(26, 26),
+                        Position = UDim2.new(1, -10, 0.5, 0),
+                        AnchorPoint = Vector2.new(1, 0.5),
+                        Parent = A.Frame,
+                        Image = "http://www.roblox.com/asset/?id=14204231522",
+                        ImageTransparency = 0.45,
+                        ScaleType = Enum.ScaleType.Tile,
+                        TileSize = UDim2.fromOffset(40, 40)
+                    },
+                    {s("UICorner", {CornerRadius = UDim.new(0, 4)}), B}
+                ),
+                function()
+                    local C = e(t.Dialog):Create()
+                    C.Title.Text = z.Title
+                    C.Root.Size = UDim2.fromOffset(430, 330)
+                    local D, E, F, G, H, I =
+                        z.Hue,
+                        z.Sat,
+                        z.Vib,
+                        z.Transparency,
+                        function()
+                            local D = e(t.Textbox)()
+                            D.Frame.Parent = C.Root
+                            D.Frame.Size = UDim2.new(0, 90, 0, 32)
+                            return D
+                        end,
+                        function(D, E)
+                            return s(
+                                "TextLabel",
+                                {
+                                    FontFace = Font.new(
+                                        "rbxasset://fonts/families/GothamSSm.json",
+                                        Enum.FontWeight.Medium,
+                                        Enum.FontStyle.Normal
+                                    ),
+                                    Text = D,
+                                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                                    TextSize = 13,
+                                    TextXAlignment = Enum.TextXAlignment.Left,
+                                    Size = UDim2.new(1, 0, 0, 32),
+                                    Position = E,
+                                    BackgroundTransparency = 1,
+                                    Parent = C.Root,
+                                    ThemeTag = {TextColor3 = "Text"}
+                                }
+                            )
+                        end
+                    local J, K =
+                        function()
+                            local J = Color3.fromHSV(D, E, F)
+                            return {R = math.floor(J.r * 255), G = math.floor(J.g * 255), B = math.floor(J.b * 255)}
+                        end,
+                        s(
+                            "ImageLabel",
+                            {
+                                Size = UDim2.new(0, 18, 0, 18),
+                                ScaleType = Enum.ScaleType.Fit,
+                                AnchorPoint = Vector2.new(0.5, 0.5),
+                                BackgroundTransparency = 1,
+                                Image = "http://www.roblox.com/asset/?id=4805639000"
+                            }
+                        )
+                    local L, M =
+                        s(
+                            "ImageLabel",
+                            {
+                                Size = UDim2.fromOffset(180, 160),
+                                Position = UDim2.fromOffset(20, 55),
+                                Image = "rbxassetid://4155801252",
+                                BackgroundColor3 = z.Value,
+                                BackgroundTransparency = 0,
+                                Parent = C.Root
+                            },
+                            {s("UICorner", {CornerRadius = UDim.new(0, 4)}), K}
+                        ),
+                        s(
+                            "Frame",
+                            {
+                                BackgroundColor3 = z.Value,
+                                Size = UDim2.fromScale(1, 1),
+                                BackgroundTransparency = z.Transparency
+                            },
+                            {s("UICorner", {CornerRadius = UDim.new(0, 4)})}
+                        )
+                    local N, O =
+                        s(
+                            "ImageLabel",
+                            {
+                                Image = "http://www.roblox.com/asset/?id=14204231522",
+                                ImageTransparency = 0.45,
+                                ScaleType = Enum.ScaleType.Tile,
+                                TileSize = UDim2.fromOffset(40, 40),
+                                BackgroundTransparency = 1,
+                                Position = UDim2.fromOffset(112, 220),
+                                Size = UDim2.fromOffset(88, 24),
+                                Parent = C.Root
+                            },
+                            {
+                                s("UICorner", {CornerRadius = UDim.new(0, 4)}),
+                                s("UIStroke", {Thickness = 2, Transparency = 0.75}),
+                                M
+                            }
+                        ),
+                        s(
+                            "Frame",
+                            {BackgroundColor3 = z.Value, Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0},
+                            {s("UICorner", {CornerRadius = UDim.new(0, 4)})}
+                        )
+                    local P, Q =
+                        s(
+                            "ImageLabel",
+                            {
+                                Image = "http://www.roblox.com/asset/?id=14204231522",
+                                ImageTransparency = 0.45,
+                                ScaleType = Enum.ScaleType.Tile,
+                                TileSize = UDim2.fromOffset(40, 40),
+                                BackgroundTransparency = 1,
+                                Position = UDim2.fromOffset(20, 220),
+                                Size = UDim2.fromOffset(88, 24),
+                                Parent = C.Root
+                            },
+                            {
+                                s("UICorner", {CornerRadius = UDim.new(0, 4)}),
+                                s("UIStroke", {Thickness = 2, Transparency = 0.75}),
+                                O
+                            }
+                        ),
+                        {}
+                    for R = 0, 1, 0.1 do
+                        table.insert(Q, ColorSequenceKeypoint.new(R, Color3.fromHSV(R, 1, 1)))
+                    end
+                    local R, S =
+                        s("UIGradient", {Color = ColorSequence.new(Q), Rotation = 90}),
+                        s(
+                            "Frame",
+                            {
+                                Size = UDim2.new(1, 0, 1, -10),
+                                Position = UDim2.fromOffset(0, 5),
+                                BackgroundTransparency = 1
+                            }
+                        )
+                    local T, U, V =
+                        s(
+                            "ImageLabel",
+                            {
+                                Size = UDim2.fromOffset(14, 14),
+                                Image = "http://www.roblox.com/asset/?id=12266946128",
+                                Parent = S,
+                                ThemeTag = {ImageColor3 = "DialogInput"}
+                            }
+                        ),
+                        s(
+                            "Frame",
+                            {Size = UDim2.fromOffset(12, 190), Position = UDim2.fromOffset(210, 55), Parent = C.Root},
+                            {s("UICorner", {CornerRadius = UDim.new(1, 0)}), R, S}
+                        ),
+                        H()
+                    V.Frame.Position = UDim2.fromOffset(x.Transparency and 260 or 240, 55)
+                    I("Hex", UDim2.fromOffset(x.Transparency and 360 or 340, 55))
+                    local W = H()
+                    W.Frame.Position = UDim2.fromOffset(x.Transparency and 260 or 240, 95)
+                    I("Red", UDim2.fromOffset(x.Transparency and 360 or 340, 95))
+                    local X = H()
+                    X.Frame.Position = UDim2.fromOffset(x.Transparency and 260 or 240, 135)
+                    I("Green", UDim2.fromOffset(x.Transparency and 360 or 340, 135))
+                    local Y = H()
+                    Y.Frame.Position = UDim2.fromOffset(x.Transparency and 260 or 240, 175)
+                    I("Blue", UDim2.fromOffset(x.Transparency and 360 or 340, 175))
+                    local Z
+                    if x.Transparency then
+                        Z = H()
+                        Z.Frame.Position = UDim2.fromOffset(260, 215)
+                        I("Alpha", UDim2.fromOffset(360, 215))
+                    end
+                    local _, aa, ab
+                    if x.Transparency then
+                        local ac =
+                            s(
+                            "Frame",
+                            {
+                                Size = UDim2.new(1, 0, 1, -10),
+                                Position = UDim2.fromOffset(0, 5),
+                                BackgroundTransparency = 1
+                            }
+                        )
+                        aa =
+                            s(
+                            "ImageLabel",
+                            {
+                                Size = UDim2.fromOffset(14, 14),
+                                Image = "http://www.roblox.com/asset/?id=12266946128",
+                                Parent = ac,
+                                ThemeTag = {ImageColor3 = "DialogInput"}
+                            }
+                        )
+                        ab =
+                            s(
+                            "Frame",
+                            {Size = UDim2.fromScale(1, 1)},
+                            {
+                                s(
+                                    "UIGradient",
+                                    {
+                                        Transparency = NumberSequence.new {
+                                            NumberSequenceKeypoint.new(0, 0),
+                                            NumberSequenceKeypoint.new(1, 1)
+                                        },
+                                        Rotation = 270
+                                    }
+                                ),
+                                s("UICorner", {CornerRadius = UDim.new(1, 0)})
+                            }
+                        )
+                        _ =
+                            s(
+                            "Frame",
+                            {
+                                Size = UDim2.fromOffset(12, 190),
+                                Position = UDim2.fromOffset(230, 55),
+                                Parent = C.Root,
+                                BackgroundTransparency = 1
+                            },
+                            {
+                                s("UICorner", {CornerRadius = UDim.new(1, 0)}),
+                                s(
+                                    "ImageLabel",
+                                    {
+                                        Image = "http://www.roblox.com/asset/?id=14204231522",
+                                        ImageTransparency = 0.45,
+                                        ScaleType = Enum.ScaleType.Tile,
+                                        TileSize = UDim2.fromOffset(40, 40),
+                                        BackgroundTransparency = 1,
+                                        Size = UDim2.fromScale(1, 1),
+                                        Parent = C.Root
+                                    },
+                                    {s("UICorner", {CornerRadius = UDim.new(1, 0)})}
+                                ),
+                                ab,
+                                ac
+                            }
+                        )
+                    end
+                    local ac = function()
+                        L.BackgroundColor3 = Color3.fromHSV(D, 1, 1)
+                        T.Position = UDim2.new(0, -1, D, -6)
+                        K.Position = UDim2.new(E, 0, 1 - F, 0)
+                        O.BackgroundColor3 = Color3.fromHSV(D, E, F)
+                        V.Input.Text = "#" .. Color3.fromHSV(D, E, F):ToHex()
+                        W.Input.Text = J().R
+                        X.Input.Text = J().G
+                        Y.Input.Text = J().B
+                        if x.Transparency then
+                            ab.BackgroundColor3 = Color3.fromHSV(D, E, F)
+                            O.BackgroundTransparency = G
+                            aa.Position = UDim2.new(0, -1, 1 - G, -6)
+                            Z.Input.Text = e(o):Round((1 - G) * 100, 0) .. "%"
+                        end
+                    end
+                    p.AddSignal(
+                        V.Input.FocusLost,
+                        function(ad)
+                            if ad then
+                                local ae, af = pcall(Color3.fromHex, V.Input.Text)
+                                if ae and typeof(af) == "Color3" then
+                                    D, E, F = Color3.toHSV(af)
+                                end
+                            end
+                            ac()
+                        end
+                    )
+                    p.AddSignal(
+                        W.Input.FocusLost,
+                        function(ad)
+                            if ad then
+                                local ae = J()
+                                local af, ag = pcall(Color3.fromRGB, W.Input.Text, ae.G, ae.B)
+                                if af and typeof(ag) == "Color3" then
+                                    if tonumber(W.Input.Text) <= 255 then
+                                        D, E, F = Color3.toHSV(ag)
+                                    end
+                                end
+                            end
+                            ac()
+                        end
+                    )
+                    p.AddSignal(
+                        X.Input.FocusLost,
+                        function(ad)
+                            if ad then
+                                local ae = J()
+                                local af, ag = pcall(Color3.fromRGB, ae.R, X.Input.Text, ae.B)
+                                if af and typeof(ag) == "Color3" then
+                                    if tonumber(X.Input.Text) <= 255 then
+                                        D, E, F = Color3.toHSV(ag)
+                                    end
+                                end
+                            end
+                            ac()
+                        end
+                    )
+                    p.AddSignal(
+                        Y.Input.FocusLost,
+                        function(ad)
+                            if ad then
+                                local ae = J()
+                                local af, ag = pcall(Color3.fromRGB, ae.R, ae.G, Y.Input.Text)
+                                if af and typeof(ag) == "Color3" then
+                                    if tonumber(Y.Input.Text) <= 255 then
+                                        D, E, F = Color3.toHSV(ag)
+                                    end
+                                end
+                            end
+                            ac()
+                        end
+                    )
+                    if x.Transparency then
+                        p.AddSignal(
+                            Z.Input.FocusLost,
+                            function(ad)
+                                if ad then
+                                    pcall(
+                                        function()
+                                            local ae = tonumber(Z.Input.Text)
+                                            if ae >= 0 and ae <= 100 then
+                                                G = 1 - ae * 0.01
+                                            end
+                                        end
+                                    )
+                                end
+                                ac()
+                            end
+                        )
+                    end
+                    p.AddSignal(
+                        L.InputBegan,
+                        function(ad)
+                            if
+                                ad.UserInputType == Enum.UserInputType.MouseButton1 or
+                                    ad.UserInputType == Enum.UserInputType.Touch
+                             then
+                                while h:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+                                    local ae = L.AbsolutePosition.X
+                                    local af = ae + L.AbsoluteSize.X
+                                    local ag, ah = math.clamp(n.X, ae, af), L.AbsolutePosition.Y
+                                    local ai = ah + L.AbsoluteSize.Y
+                                    local aj = math.clamp(n.Y, ah, ai)
+                                    E = (ag - ae) / (af - ae)
+                                    F = 1 - ((aj - ah) / (ai - ah))
+                                    ac()
+                                    l:Wait()
+                                end
+                            end
+                        end
+                    )
+                    p.AddSignal(
+                        U.InputBegan,
+                        function(ad)
+                            if
+                                ad.UserInputType == Enum.UserInputType.MouseButton1 or
+                                    ad.UserInputType == Enum.UserInputType.Touch
+                             then
+                                while h:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+                                    local ae = U.AbsolutePosition.Y
+                                    local af = ae + U.AbsoluteSize.Y
+                                    local ag = math.clamp(n.Y, ae, af)
+                                    D = ((ag - ae) / (af - ae))
+                                    ac()
+                                    l:Wait()
+                                end
+                            end
+                        end
+                    )
+                    if x.Transparency then
+                        p.AddSignal(
+                            _.InputBegan,
+                            function(ad)
+                                if ad.UserInputType == Enum.UserInputType.MouseButton1 then
+                                    while h:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+                                        local ae = _.AbsolutePosition.Y
+                                        local af = ae + _.AbsoluteSize.Y
+                                        local ag = math.clamp(n.Y, ae, af)
+                                        G = 1 - ((ag - ae) / (af - ae))
+                                        ac()
+                                        l:Wait()
+                                    end
+                                end
+                            end
+                        )
+                    end
+                    ac()
+                    C:Button(
+                        "Done",
+                        function()
+                            z:SetValue({D, E, F}, G)
+                        end
+                    )
+                    C:Button "Cancel"
+                    C:Open()
+                end
+            function z.Display(ac)
+                z.Value = Color3.fromHSV(z.Hue, z.Sat, z.Vib)
+                B.BackgroundColor3 = z.Value
+                B.BackgroundTransparency = z.Transparency
+                u.Library:SafeCallback(z.Callback, z.Value)
+                u.Library:SafeCallback(z.Changed, z.Value)
+            end
+            function z.SetValue(ac, ad, ae)
+                local af = Color3.fromHSV(ad[1], ad[2], ad[3])
+                z.Transparency = ae or 0
+                z:SetHSVFromRGB(af)
+                z:Display()
+            end
+            function z.SetValueRGB(ac, ad, ae)
+                z.Transparency = ae or 0
+                z:SetHSVFromRGB(ad)
+                z:Display()
+            end
+            function z.OnChanged(ac, ad)
+                z.Changed = ad
+                ad(z.Value)
+            end
+            function z.Destroy(ac)
+                A:Destroy()
+                y.Options[w] = nil
+            end
+            p.AddSignal(
+                A.Frame.MouseButton1Click,
+                function()
+                    ab()
+                end
+            )
+            z:Display()
+            y.Options[w] = z
+            return z
+        end
+        return u
+    end,
+    [22] = function()
+        local aa, ab, ac, ad, ae = b(22)
+        local af, ag, ah, ai, aj =
+            game:GetService "TweenService",
+            game:GetService "UserInputService",
+            game:GetService "Players".LocalPlayer:GetMouse(),
+            game:GetService "Workspace".CurrentCamera,
+            ab.Parent.Parent
+        local c, d = ac(aj.Creator), ac(aj.Packages.Flipper)
+        local e, f, g = c.New, aj.Components, {}
+        g.__index = g
+        g.__type = "Dropdown"
+        function g.New(h, i, j)
+            local k, l, m =
+                h.Library,
+                {
+                    Values = j.Values,
+                    Value = j.Default,
+                    Multi = j.Multi,
+                    Buttons = {},
+                    Opened = false,
+                    Type = "Dropdown",
+                    Callback = j.Callback or function()
+                        end
+                },
+                ac(f.Element)(j.Title, j.Description, h.Container, false)
+            m.DescLabel.Size = UDim2.new(1, -170, 0, 14)
+            l.SetTitle = m.SetTitle
+            l.SetDesc = m.SetDesc
+            local n, o =
+                e(
+                    "TextLabel",
+                    {
+                        FontFace = Font.new(
+                            "rbxasset://fonts/families/GothamSSm.json",
+                            Enum.FontWeight.Regular,
+                            Enum.FontStyle.Normal
+                        ),
+                        Text = "Value",
+                        TextColor3 = Color3.fromRGB(240, 240, 240),
+                        TextSize = 13,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Size = UDim2.new(1, -30, 0, 14),
+                        Position = UDim2.new(0, 8, 0.5, 0),
+                        AnchorPoint = Vector2.new(0, 0.5),
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        BackgroundTransparency = 1,
+                        TextTruncate = Enum.TextTruncate.AtEnd,
+                        ThemeTag = {TextColor3 = "Text"}
+                    }
+                ),
+                e(
+                    "ImageLabel",
+                    {
+                        Image = "rbxassetid://10709790948",
+                        Size = UDim2.fromOffset(16, 16),
+                        AnchorPoint = Vector2.new(1, 0.5),
+                        Position = UDim2.new(1, -8, 0.5, 0),
+                        BackgroundTransparency = 1,
+                        ThemeTag = {ImageColor3 = "SubText"}
+                    }
+                )
+            local p, s =
+                e(
+                    "TextButton",
+                    {
+                        Size = UDim2.fromOffset(160, 30),
+                        Position = UDim2.new(1, -10, 0.5, 0),
+                        AnchorPoint = Vector2.new(1, 0.5),
+                        BackgroundTransparency = 0.9,
+                        Parent = m.Frame,
+                        ThemeTag = {BackgroundColor3 = "DropdownFrame"}
+                    },
+                    {
+                        e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                        e(
+                            "UIStroke",
+                            {
+                                Transparency = 0.5,
+                                ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                                ThemeTag = {Color = "InElementBorder"}
+                            }
+                        ),
+                        o,
+                        n
+                    }
+                ),
+                e("UIListLayout", {Padding = UDim.new(0, 3)})
+            local t =
+                e(
+                "ScrollingFrame",
+                {
+                    Size = UDim2.new(1, -5, 1, -10),
+                    Position = UDim2.fromOffset(5, 5),
+                    BackgroundTransparency = 1,
+                    BottomImage = "rbxassetid://6889812791",
+                    MidImage = "rbxassetid://6889812721",
+                    TopImage = "rbxassetid://6276641225",
+                    ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+                    ScrollBarImageTransparency = 0.95,
+                    ScrollBarThickness = 4,
+                    BorderSizePixel = 0,
+                    CanvasSize = UDim2.fromScale(0, 0)
+                },
+                {s}
+            )
+            local u =
+                e(
+                "Frame",
+                {Size = UDim2.fromScale(1, 0.6), ThemeTag = {BackgroundColor3 = "DropdownHolder"}},
+                {
+                    t,
+                    e("UICorner", {CornerRadius = UDim.new(0, 7)}),
+                    e(
+                        "UIStroke",
+                        {ApplyStrokeMode = Enum.ApplyStrokeMode.Border, ThemeTag = {Color = "DropdownBorder"}}
+                    ),
+                    e(
+                        "ImageLabel",
+                        {
+                            BackgroundTransparency = 1,
+                            Image = "http://www.roblox.com/asset/?id=5554236805",
+                            ScaleType = Enum.ScaleType.Slice,
+                            SliceCenter = Rect.new(23, 23, 277, 277),
+                            Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(30, 30),
+                            Position = UDim2.fromOffset(-15, -15),
+                            ImageColor3 = Color3.fromRGB(0, 0, 0),
+                            ImageTransparency = 0.1
+                        }
+                    )
+                }
+            )
+            local v =
+                e(
+                "Frame",
+                {BackgroundTransparency = 1, Size = UDim2.fromOffset(170, 300), Parent = h.Library.GUI, Visible = false},
+                {u, e("UISizeConstraint", {MinSize = Vector2.new(170, 0)})}
+            )
+            table.insert(k.OpenFrames, v)
+            local w, x = function()
+                    local w = 0
+                    if ai.ViewportSize.Y - p.AbsolutePosition.Y < v.AbsoluteSize.Y - 5 then
+                        w = v.AbsoluteSize.Y - 5 - (ai.ViewportSize.Y - p.AbsolutePosition.Y) + 40
+                    end
+                    v.Position = UDim2.fromOffset(p.AbsolutePosition.X - 1, p.AbsolutePosition.Y - 5 - w)
+                end, 0
+            local y, z = function()
+                    if #l.Values > 10 then
+                        v.Size = UDim2.fromOffset(x, 392)
+                    else
+                        v.Size = UDim2.fromOffset(x, s.AbsoluteContentSize.Y + 10)
+                    end
+                end, function()
+                    t.CanvasSize = UDim2.fromOffset(0, s.AbsoluteContentSize.Y)
+                end
+            w()
+            y()
+            c.AddSignal(p:GetPropertyChangedSignal "AbsolutePosition", w)
+            c.AddSignal(
+                p.MouseButton1Click,
+                function()
+                    l:Open()
+                end
+            )
+            c.AddSignal(
+                ag.InputBegan,
+                function(A)
+                    if A.UserInputType == Enum.UserInputType.MouseButton1 or A.UserInputType == Enum.UserInputType.Touch then
+                        local B, C = u.AbsolutePosition, u.AbsoluteSize
+                        if ah.X < B.X or ah.X > B.X + C.X or ah.Y < (B.Y - 20 - 1) or ah.Y > B.Y + C.Y then
+                            l:Close()
+                        end
+                    end
+                end
+            )
+            local A = h.ScrollFrame
+            function l.Open(B)
+                l.Opened = true
+                A.ScrollingEnabled = false
+                v.Visible = true
+                af:Create(
+                    u,
+                    TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromScale(1, 1)}
+                ):Play()
+            end
+            function l.Close(B)
+                l.Opened = false
+                A.ScrollingEnabled = true
+                u.Size = UDim2.fromScale(1, 0.6)
+                v.Visible = false
+            end
+            function l.Display(B)
+                local C, D = l.Values, ""
+                if j.Multi then
+                    for E, F in next, C do
+                        if l.Value[F] then
+                            D = D .. F .. ", "
+                        end
+                    end
+                    D = D:sub(1, #D - 2)
+                else
+                    D = l.Value or ""
+                end
+                n.Text = (D == "" and "--" or D)
+            end
+            function l.GetActiveValues(B)
+                if j.Multi then
+                    local C = {}
+                    for D, E in next, l.Value do
+                        table.insert(C, D)
+                    end
+                    return C
+                else
+                    return l.Value and 1 or 0
+                end
+            end
+            function l.BuildDropdownList(B)
+                local C, D = l.Values, {}
+                for E, F in next, t:GetChildren() do
+                    if not F:IsA "UIListLayout" then
+                        F:Destroy()
+                    end
+                end
+                local G = 0
+                for H, I in next, C do
+                    local J = {}
+                    G = G + 1
+                    local K, L =
+                        e(
+                            "Frame",
+                            {
+                                Size = UDim2.fromOffset(4, 14),
+                                BackgroundColor3 = Color3.fromRGB(76, 194, 255),
+                                Position = UDim2.fromOffset(-1, 16),
+                                AnchorPoint = Vector2.new(0, 0.5),
+                                ThemeTag = {BackgroundColor3 = "Accent"}
+                            },
+                            {e("UICorner", {CornerRadius = UDim.new(0, 2)})}
+                        ),
+                        e(
+                            "TextLabel",
+                            {
+                                FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                                Text = I,
+                                TextColor3 = Color3.fromRGB(200, 200, 200),
+                                TextSize = 13,
+                                TextXAlignment = Enum.TextXAlignment.Left,
+                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                                AutomaticSize = Enum.AutomaticSize.Y,
+                                BackgroundTransparency = 1,
+                                Size = UDim2.fromScale(1, 1),
+                                Position = UDim2.fromOffset(10, 0),
+                                Name = "ButtonLabel",
+                                ThemeTag = {TextColor3 = "Text"}
+                            }
+                        )
+                    local M, N =
+                        (e(
+                        "TextButton",
+                        {
+                            Size = UDim2.new(1, -5, 0, 32),
+                            BackgroundTransparency = 1,
+                            ZIndex = 23,
+                            Text = "",
+                            Parent = t,
+                            ThemeTag = {BackgroundColor3 = "DropdownOption"}
+                        },
+                        {K, L, e("UICorner", {CornerRadius = UDim.new(0, 6)})}
+                    ))
+                    if j.Multi then
+                        N = l.Value[I]
+                    else
+                        N = l.Value == I
+                    end
+                    local O, P = c.SpringMotor(1, M, "BackgroundTransparency")
+                    local Q, R = c.SpringMotor(1, K, "BackgroundTransparency")
+                    local S = d.SingleMotor.new(6)
+                    S:onStep(
+                        function(T)
+                            K.Size = UDim2.new(0, 4, 0, T)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseEnter,
+                        function()
+                            P(N and 0.85 or 0.89)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseLeave,
+                        function()
+                            P(N and 0.89 or 1)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseButton1Down,
+                        function()
+                            P(0.92)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseButton1Up,
+                        function()
+                            P(N and 0.85 or 0.89)
+                        end
+                    )
+                    function J.UpdateButton(T)
+                        if j.Multi then
+                            N = l.Value[I]
+                            if N then
+                                P(0.89)
+                            end
+                        else
+                            N = l.Value == I
+                            P(N and 0.89 or 1)
+                        end
+                        S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6}))
+                        R(N and 0 or 1)
+                    end
+                    L.InputBegan:Connect(
+                        function(T)
+                            if
+                                T.UserInputType == Enum.UserInputType.MouseButton1 or
+                                    T.UserInputType == Enum.UserInputType.Touch
+                             then
+                                local U = not N
+                                if l:GetActiveValues() == 1 and not U and not j.AllowNull then
+                                else
+                                    if j.Multi then
+                                        N = U
+                                        l.Value[I] = N and true or nil
+                                    else
+                                        N = U
+                                        l.Value = N and I or nil
+                                        for V, W in next, D do
+                                            W:UpdateButton()
+                                        end
+                                    end
+                                    J:UpdateButton()
+                                    l:Display()
+                                    k:SafeCallback(l.Callback, l.Value)
+                                    k:SafeCallback(l.Changed, l.Value)
+                                end
+                            end
+                        end
+                    )
+                    J:UpdateButton()
+                    l:Display()
+                    D[M] = J
+                end
+                x = 0
+                for J, K in next, D do
+                    if J.ButtonLabel then
+                        if J.ButtonLabel.TextBounds.X > x then
+                            x = J.ButtonLabel.TextBounds.X
+                        end
+                    end
+                end
+                x = x + 30
+                z()
+                y()
+            end
+            function l.SetValues(B, C)
+                if C then
+                    l.Values = C
+                end
+                l:BuildDropdownList()
+            end
+            function l.OnChanged(B, C)
+                l.Changed = C
+                C(l.Value)
+            end
+            function l.SetValue(B, C)
+                if l.Multi then
+                    local D = {}
+                    for E, F in next, C do
+                        if table.find(l.Values, E) then
+                            D[E] = true
+                        end
+                    end
+                    l.Value = D
+                else
+                    if not C then
+                        l.Value = nil
+                    elseif table.find(l.Values, C) then
+                        l.Value = C
+                    end
+                end
+                l:BuildDropdownList()
+                k:SafeCallback(l.Callback, l.Value)
+                k:SafeCallback(l.Changed, l.Value)
+            end
+            function l.Destroy(B)
+                m:Destroy()
+                k.Options[i] = nil
+            end
+            l:BuildDropdownList()
+            l:Display()
+            local B = {}
+            if type(j.Default) == "string" then
+                local C = table.find(l.Values, j.Default)
+                if C then
+                    table.insert(B, C)
+                end
+            elseif type(j.Default) == "table" then
+                for C, D in next, j.Default do
+                    local E = table.find(l.Values, D)
+                    if E then
+                        table.insert(B, E)
+                    end
+                end
+            elseif type(j.Default) == "number" and l.Values[j.Default] ~= nil then
+                table.insert(B, j.Default)
+            end
+            if next(B) then
+                for C = 1, #B do
+                    local D = B[C]
+                    if j.Multi then
+                        l.Value[l.Values[D]] = true
+                    else
+                        l.Value = l.Values[D]
+                    end
+                    if not j.Multi then
+                        break
+                    end
+                end
+                l:BuildDropdownList()
+                l:Display()
+            end
+            k.Options[i] = l
+            return l
+        end
+        return g
+    end,
+    [23] = function()
+        local aa, ab, ac, ad, ae = b(23)
+        local af = ab.Parent.Parent
+        local ag = ac(af.Creator)
+        local ah, ai, aj, c = ag.New, ag.AddSignal, af.Components, {}
+        c.__index = c
+        c.__type = "Input"
+        function c.New(d, e, f)
+            local g = d.Library
+            assert(f.Title, "Input - Missing Title")
+            f.Callback = f.Callback or function()
+                end
+            local h, i =
+                {
+                    Value = f.Default or "",
+                    Numeric = f.Numeric or false,
+                    Finished = f.Finished or false,
+                    Callback = f.Callback or function(h)
+                        end,
+                    Type = "Input"
+                },
+                ac(aj.Element)(f.Title, f.Description, d.Container, false)
+            h.SetTitle = i.SetTitle
+            h.SetDesc = i.SetDesc
+            local j = ac(aj.Textbox)(i.Frame, true)
+            j.Frame.Position = UDim2.new(1, -10, 0.5, 0)
+            j.Frame.AnchorPoint = Vector2.new(1, 0.5)
+            j.Frame.Size = UDim2.fromOffset(160, 30)
+            j.Input.Text = f.Default or ""
+            j.Input.PlaceholderText = f.Placeholder or ""
+            local k = j.Input
+            function h.SetValue(l, m)
+                if f.MaxLength and #m > f.MaxLength then
+                    m = m:sub(1, f.MaxLength)
+                end
+                if h.Numeric then
+                    if (not tonumber(m)) and m:len() > 0 then
+                        m = h.Value
+                    end
+                end
+                h.Value = m
+                k.Text = m
+                g:SafeCallback(h.Callback, h.Value)
+                g:SafeCallback(h.Changed, h.Value)
+            end
+            if h.Finished then
+                ai(
+                    k.FocusLost,
+                    function(l)
+                        if not l then
+                            return
+                        end
+                        h:SetValue(k.Text)
+                    end
+                )
+            else
+                ai(
+                    k:GetPropertyChangedSignal "Text",
+                    function()
+                        h:SetValue(k.Text)
+                    end
+                )
+            end
+            function h.OnChanged(l, m)
+                h.Changed = m
+                m(h.Value)
+            end
+            function h.Destroy(l)
+                i:Destroy()
+                g.Options[e] = nil
+            end
+            g.Options[e] = h
+            return h
+        end
+        return c
+    end,
+    [24] = function()
+        local aa, ab, ac, ad, ae = b(24)
+        local af, ag = game:GetService "UserInputService", ab.Parent.Parent
+        local ah = ac(ag.Creator)
+        local ai, aj, c = ah.New, ag.Components, {}
+        c.__index = c
+        c.__type = "Keybind"
+        function c.New(d, e, f)
+            local g = d.Library
+            assert(f.Title, "KeyBind - Missing Title")
+            assert(f.Default, "KeyBind - Missing default value.")
+            local h, i, j =
+                {
+                    Value = f.Default,
+                    Toggled = false,
+                    Mode = f.Mode or "Toggle",
+                    Type = "Keybind",
+                    Callback = f.Callback or function(h)
+                        end,
+                    ChangedCallback = f.ChangedCallback or function(h)
+                        end
+                },
+                false,
+                ac(aj.Element)(f.Title, f.Description, d.Container, true)
+            h.SetTitle = j.SetTitle
+            h.SetDesc = j.SetDesc
+            local k =
+                ai(
+                "TextLabel",
+                {
+                    FontFace = Font.new(
+                        "rbxasset://fonts/families/GothamSSm.json",
+                        Enum.FontWeight.Regular,
+                        Enum.FontStyle.Normal
+                    ),
+                    Text = f.Default,
+                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                    TextSize = 13,
+                    TextXAlignment = Enum.TextXAlignment.Center,
+                    Size = UDim2.new(0, 0, 0, 14),
+                    Position = UDim2.new(0, 0, 0.5, 0),
+                    AnchorPoint = Vector2.new(0, 0.5),
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    AutomaticSize = Enum.AutomaticSize.X,
+                    BackgroundTransparency = 1,
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            )
+            local l =
+                ai(
+                "TextButton",
+                {
+                    Size = UDim2.fromOffset(0, 30),
+                    Position = UDim2.new(1, -10, 0.5, 0),
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    BackgroundTransparency = 0.9,
+                    Parent = j.Frame,
+                    AutomaticSize = Enum.AutomaticSize.X,
+                    ThemeTag = {BackgroundColor3 = "Keybind"}
+                },
+                {
+                    ai("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                    ai("UIPadding", {PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8)}),
+                    ai(
+                        "UIStroke",
+                        {
+                            Transparency = 0.5,
+                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            ThemeTag = {Color = "InElementBorder"}
+                        }
+                    ),
+                    k
+                }
+            )
+            function h.GetState(m)
+                if af:GetFocusedTextBox() and h.Mode ~= "Always" then
+                    return false
+                end
+                if h.Mode == "Always" then
+                    return true
+                elseif h.Mode == "Hold" then
+                    if h.Value == "None" then
+                        return false
+                    end
+                    local n = h.Value
+                    if n == "MouseLeft" or n == "MouseRight" then
+                        return n == "MouseLeft" and af:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) or
+                            n == "MouseRight" and af:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+                    else
+                        return af:IsKeyDown(Enum.KeyCode[h.Value])
+                    end
+                else
+                    return h.Toggled
+                end
+            end
+            function h.SetValue(m, n, o)
+                n = n or h.Key
+                o = o or h.Mode
+                k.Text = n
+                h.Value = n
+                h.Mode = o
+            end
+            function h.OnClick(m, n)
+                h.Clicked = n
+            end
+            function h.OnChanged(m, n)
+                h.Changed = n
+                n(h.Value)
+            end
+            function h.DoClick(m)
+                g:SafeCallback(h.Callback, h.Toggled)
+                g:SafeCallback(h.Clicked, h.Toggled)
+            end
+            function h.Destroy(m)
+                j:Destroy()
+                g.Options[e] = nil
+            end
+            ah.AddSignal(
+                l.InputBegan,
+                function(m)
+                    if m.UserInputType == Enum.UserInputType.MouseButton1 or m.UserInputType == Enum.UserInputType.Touch then
+                        i = true
+                        k.Text = "..."
+                        wait(0.2)
+                        local n
+                        n =
+                            af.InputBegan:Connect(
+                            function(o)
+                                local p
+                                if o.UserInputType == Enum.UserInputType.Keyboard then
+                                    p = o.KeyCode.Name
+                                elseif o.UserInputType == Enum.UserInputType.MouseButton1 then
+                                    p = "MouseLeft"
+                                elseif o.UserInputType == Enum.UserInputType.MouseButton2 then
+                                    p = "MouseRight"
+                                end
+                                local s
+                                s =
+                                    af.InputEnded:Connect(
+                                    function(t)
+                                        if
+                                            t.KeyCode.Name == p or
+                                                p == "MouseLeft" and t.UserInputType == Enum.UserInputType.MouseButton1 or
+                                                p == "MouseRight" and t.UserInputType == Enum.UserInputType.MouseButton2
+                                         then
+                                            i = false
+                                            k.Text = p
+                                            h.Value = p
+                                            g:SafeCallback(h.ChangedCallback, t.KeyCode or t.UserInputType)
+                                            g:SafeCallback(h.Changed, t.KeyCode or t.UserInputType)
+                                            n:Disconnect()
+                                            s:Disconnect()
+                                        end
+                                    end
+                                )
+                            end
+                        )
+                    end
+                end
+            )
+            ah.AddSignal(
+                af.InputBegan,
+                function(m)
+                    if not i and not af:GetFocusedTextBox() then
+                        if h.Mode == "Toggle" then
+                            local n = h.Value
+                            if n == "MouseLeft" or n == "MouseRight" then
+                                if
+                                    n == "MouseLeft" and m.UserInputType == Enum.UserInputType.MouseButton1 or
+                                        n == "MouseRight" and m.UserInputType == Enum.UserInputType.MouseButton2
+                                 then
+                                    h.Toggled = not h.Toggled
+                                    h:DoClick()
+                                end
+                            elseif m.UserInputType == Enum.UserInputType.Keyboard then
+                                if m.KeyCode.Name == n then
+                                    h.Toggled = not h.Toggled
+                                    h:DoClick()
+                                end
+                            end
+                        end
+                    end
+                end
+            )
+            g.Options[e] = h
+            return h
+        end
+        return c
+    end,
+    [25] = function()
+        local aa, ab, ac, ad, ae = b(25)
+        local af = ab.Parent.Parent
+        local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+        aj.__index = aj
+        aj.__type = "Paragraph"
+        function aj.New(c, d)
+            assert(d.Title, "Paragraph - Missing Title")
+            d.Content = d.Content or ""
+            local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
+            e.Frame.BackgroundTransparency = 0.92
+            e.Border.Transparency = 0.6
+            return e
+        end
+        return aj
+    end,
+    [26] = function()
+        local aa, ab, ac, ad, ae = b(26)
+        local af, ag = game:GetService "UserInputService", ab.Parent.Parent
+        local ah = ac(ag.Creator)
+        local ai, aj, c = ah.New, ag.Components, {}
+        c.__index = c
+        c.__type = "Slider"
+        function c.New(d, e, f)
+            local g = d.Library
+            assert(f.Title, "Slider - Missing Title.")
+            assert(f.Default, "Slider - Missing default value.")
+            assert(f.Min, "Slider - Missing minimum value.")
+            assert(f.Max, "Slider - Missing maximum value.")
+            assert(f.Rounding, "Slider - Missing rounding value.")
+            local h, i, j =
+                {Value = nil, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
+                        end, Type = "Slider"},
+                false,
+                ac(aj.Element)(f.Title, f.Description, d.Container, false)
+            j.DescLabel.Size = UDim2.new(1, -170, 0, 14)
+            h.SetTitle = j.SetTitle
+            h.SetDesc = j.SetDesc
+            local k =
+                ai(
+                "ImageLabel",
+                {
+                    AnchorPoint = Vector2.new(0, 0.5),
+                    Position = UDim2.new(0, -7, 0.5, 0),
+                    Size = UDim2.fromOffset(14, 14),
+                    Image = "http://www.roblox.com/asset/?id=12266946128",
+                    ThemeTag = {ImageColor3 = "Accent"}
+                }
+            )
+            local l, m, n =
+                ai(
+                    "Frame",
+                    {BackgroundTransparency = 1, Position = UDim2.fromOffset(7, 0), Size = UDim2.new(1, -14, 1, 0)},
+                    {k}
+                ),
+                ai(
+                    "Frame",
+                    {Size = UDim2.new(0, 0, 1, 0), ThemeTag = {BackgroundColor3 = "Accent"}},
+                    {ai("UICorner", {CornerRadius = UDim.new(1, 0)})}
+                ),
+                ai(
+                    "TextLabel",
+                    {
+                        FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                        Text = "Value",
+                        TextSize = 12,
+                        TextWrapped = true,
+                        TextXAlignment = Enum.TextXAlignment.Right,
+                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                        BackgroundTransparency = 1,
+                        Size = UDim2.new(0, 100, 0, 14),
+                        Position = UDim2.new(0, -4, 0.5, 0),
+                        AnchorPoint = Vector2.new(1, 0.5),
+                        ThemeTag = {TextColor3 = "SubText"}
+                    }
+                )
+            local o =
+                ai(
+                "Frame",
+                {
+                    Size = UDim2.new(1, 0, 0, 4),
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    Position = UDim2.new(1, -10, 0.5, 0),
+                    BackgroundTransparency = 0.4,
+                    Parent = j.Frame,
+                    ThemeTag = {BackgroundColor3 = "SliderRail"}
+                },
+                {
+                    ai("UICorner", {CornerRadius = UDim.new(1, 0)}),
+                    ai("UISizeConstraint", {MaxSize = Vector2.new(150, math.huge)}),
+                    n,
+                    m,
+                    l
+                }
+            )
+            ah.AddSignal(
+                k.InputBegan,
+                function(p)
+                    if p.UserInputType == Enum.UserInputType.MouseButton1 or p.UserInputType == Enum.UserInputType.Touch then
+                        i = true
+                    end
+                end
+            )
+            ah.AddSignal(
+                k.InputEnded,
+                function(p)
+                    if p.UserInputType == Enum.UserInputType.MouseButton1 or p.UserInputType == Enum.UserInputType.Touch then
+                        i = false
+                    end
+                end
+            )
+            ah.AddSignal(
+                af.InputChanged,
+                function(p)
+                    if
+                        i and
+                            (p.UserInputType == Enum.UserInputType.MouseMovement or
+                                p.UserInputType == Enum.UserInputType.Touch)
+                     then
+                        local s = math.clamp((p.Position.X - l.AbsolutePosition.X) / l.AbsoluteSize.X, 0, 1)
+                        h:SetValue(h.Min + ((h.Max - h.Min) * s))
+                    end
+                end
+            )
+            function h.OnChanged(p, s)
+                h.Changed = s
+                s(h.Value)
+            end
+            function h.SetValue(p, s)
+                p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
+                k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
+                m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
+                n.Text = tostring(p.Value)
+                g:SafeCallback(h.Callback, p.Value)
+                g:SafeCallback(h.Changed, p.Value)
+            end
+            function h.Destroy(p)
+                j:Destroy()
+                g.Options[e] = nil
+            end
+            h:SetValue(f.Default)
+            g.Options[e] = h
+            return h
+        end
+        return c
+    end,
+    [27] = function()
+        local aa, ab, ac, ad, ae = b(27)
+        local af, ag = game:GetService "TweenService", ab.Parent.Parent
+        local ah = ac(ag.Creator)
+        local ai, aj, c = ah.New, ag.Components, {}
+        c.__index = c
+        c.__type = "Toggle"
+        function c.New(d, e, f)
+            local g = d.Library
+            assert(f.Title, "Toggle - Missing Title")
+            local h, i = {Value = f.Default or false, Callback = f.Callback or function(h)
+                        end, Type = "Toggle"}, ac(aj.Element)(f.Title, f.Description, d.Container, true)
+            i.DescLabel.Size = UDim2.new(1, -54, 0, 14)
+            h.SetTitle = i.SetTitle
+            h.SetDesc = i.SetDesc
+            local j, k =
+                ai(
+                    "ImageLabel",
+                    {
+                        AnchorPoint = Vector2.new(0, 0.5),
+                        Size = UDim2.fromOffset(14, 14),
+                        Position = UDim2.new(0, 2, 0.5, 0),
+                        Image = "http://www.roblox.com/asset/?id=12266946128",
+                        ImageTransparency = 0.5,
+                        ThemeTag = {ImageColor3 = "ToggleSlider"}
+                    }
+                ),
+                ai("UIStroke", {Transparency = 0.5, ThemeTag = {Color = "ToggleSlider"}})
+            local l =
+                ai(
+                "Frame",
+                {
+                    Size = UDim2.fromOffset(36, 18),
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    Position = UDim2.new(1, -10, 0.5, 0),
+                    Parent = i.Frame,
+                    BackgroundTransparency = 1,
+                    ThemeTag = {BackgroundColor3 = "Accent"}
+                },
+                {ai("UICorner", {CornerRadius = UDim.new(0, 9)}), k, j}
+            )
+            function h.OnChanged(m, n)
+                h.Changed = n
+                n(h.Value)
+            end
+            function h.SetValue(m, n)
+                n = not (not n)
+                h.Value = n
+                ah.OverrideTag(k, {Color = h.Value and "Accent" or "ToggleSlider"})
+                ah.OverrideTag(j, {ImageColor3 = h.Value and "ToggleToggled" or "ToggleSlider"})
+                af:Create(
+                    j,
+                    TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+                    {Position = UDim2.new(0, h.Value and 19 or 2, 0.5, 0)}
+                ):Play()
+                af:Create(
+                    l,
+                    TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+                    {BackgroundTransparency = h.Value and 0 or 1}
+                ):Play()
+                j.ImageTransparency = h.Value and 0 or 0.5
+                g:SafeCallback(h.Callback, h.Value)
+                g:SafeCallback(h.Changed, h.Value)
+            end
+            function h.Destroy(m)
+                i:Destroy()
+                g.Options[e] = nil
+            end
+            ah.AddSignal(
+                i.Frame.MouseButton1Click,
+                function()
+                    h:SetValue(not h.Value)
+                end
+            )
+            h:SetValue(h.Value)
+            g.Options[e] = h
+            return h
+        end
+        return c
+    end,
+    [28] = function()
+        local aa, ab, ac, ad, ae = b(28)
+        return {
+            assets = {
+                ["lucide-accessibility"] = "rbxassetid://10709751939",
+                ["lucide-activity"] = "rbxassetid://10709752035",
+                ["lucide-air-vent"] = "rbxassetid://10709752131",
+                ["lucide-airplay"] = "rbxassetid://10709752254",
+                ["lucide-alarm-check"] = "rbxassetid://10709752405",
+                ["lucide-alarm-clock"] = "rbxassetid://10709752630",
+                ["lucide-alarm-clock-off"] = "rbxassetid://10709752508",
+                ["lucide-alarm-minus"] = "rbxassetid://10709752732",
+                ["lucide-alarm-plus"] = "rbxassetid://10709752825",
+                ["lucide-album"] = "rbxassetid://10709752906",
+                ["lucide-alert-circle"] = "rbxassetid://10709752996",
+                ["lucide-alert-octagon"] = "rbxassetid://10709753064",
+                ["lucide-alert-triangle"] = "rbxassetid://10709753149",
+                ["lucide-align-center"] = "rbxassetid://10709753570",
+                ["lucide-align-center-horizontal"] = "rbxassetid://10709753272",
+                ["lucide-align-center-vertical"] = "rbxassetid://10709753421",
+                ["lucide-align-end-horizontal"] = "rbxassetid://10709753692",
+                ["lucide-align-end-vertical"] = "rbxassetid://10709753808",
+                ["lucide-align-horizontal-distribute-center"] = "rbxassetid://10747779791",
+                ["lucide-align-horizontal-distribute-end"] = "rbxassetid://10747784534",
+                ["lucide-align-horizontal-distribute-start"] = "rbxassetid://10709754118",
+                ["lucide-align-horizontal-justify-center"] = "rbxassetid://10709754204",
+                ["lucide-align-horizontal-justify-end"] = "rbxassetid://10709754317",
+                ["lucide-align-horizontal-justify-start"] = "rbxassetid://10709754436",
+                ["lucide-align-horizontal-space-around"] = "rbxassetid://10709754590",
+                ["lucide-align-horizontal-space-between"] = "rbxassetid://10709754749",
+                ["lucide-align-justify"] = "rbxassetid://10709759610",
+                ["lucide-align-left"] = "rbxassetid://10709759764",
+                ["lucide-align-right"] = "rbxassetid://10709759895",
+                ["lucide-align-start-horizontal"] = "rbxassetid://10709760051",
+                ["lucide-align-start-vertical"] = "rbxassetid://10709760244",
+                ["lucide-align-vertical-distribute-center"] = "rbxassetid://10709760351",
+                ["lucide-align-vertical-distribute-end"] = "rbxassetid://10709760434",
+                ["lucide-align-vertical-distribute-start"] = "rbxassetid://10709760612",
+                ["lucide-align-vertical-justify-center"] = "rbxassetid://10709760814",
+                ["lucide-align-vertical-justify-end"] = "rbxassetid://10709761003",
+                ["lucide-align-vertical-justify-start"] = "rbxassetid://10709761176",
+                ["lucide-align-vertical-space-around"] = "rbxassetid://10709761324",
+                ["lucide-align-vertical-space-between"] = "rbxassetid://10709761434",
+                ["lucide-anchor"] = "rbxassetid://10709761530",
+                ["lucide-angry"] = "rbxassetid://10709761629",
+                ["lucide-annoyed"] = "rbxassetid://10709761722",
+                ["lucide-aperture"] = "rbxassetid://10709761813",
+                ["lucide-apple"] = "rbxassetid://10709761889",
+                ["lucide-archive"] = "rbxassetid://10709762233",
+                ["lucide-archive-restore"] = "rbxassetid://10709762058",
+                ["lucide-armchair"] = "rbxassetid://10709762327",
+                ["lucide-arrow-big-down"] = "rbxassetid://10747796644",
+                ["lucide-arrow-big-left"] = "rbxassetid://10709762574",
+                ["lucide-arrow-big-right"] = "rbxassetid://10709762727",
+                ["lucide-arrow-big-up"] = "rbxassetid://10709762879",
+                ["lucide-arrow-down"] = "rbxassetid://10709767827",
+                ["lucide-arrow-down-circle"] = "rbxassetid://10709763034",
+                ["lucide-arrow-down-left"] = "rbxassetid://10709767656",
+                ["lucide-arrow-down-right"] = "rbxassetid://10709767750",
+                ["lucide-arrow-left"] = "rbxassetid://10709768114",
+                ["lucide-arrow-left-circle"] = "rbxassetid://10709767936",
+                ["lucide-arrow-left-right"] = "rbxassetid://10709768019",
+                ["lucide-arrow-right"] = "rbxassetid://10709768347",
+                ["lucide-arrow-right-circle"] = "rbxassetid://10709768226",
+                ["lucide-arrow-up"] = "rbxassetid://10709768939",
+                ["lucide-arrow-up-circle"] = "rbxassetid://10709768432",
+                ["lucide-arrow-up-down"] = "rbxassetid://10709768538",
+                ["lucide-arrow-up-left"] = "rbxassetid://10709768661",
+                ["lucide-arrow-up-right"] = "rbxassetid://10709768787",
+                ["lucide-asterisk"] = "rbxassetid://10709769095",
+                ["lucide-at-sign"] = "rbxassetid://10709769286",
+                ["lucide-award"] = "rbxassetid://10709769406",
+                ["lucide-axe"] = "rbxassetid://10709769508",
+                ["lucide-axis-3d"] = "rbxassetid://10709769598",
+                ["lucide-baby"] = "rbxassetid://10709769732",
+                ["lucide-backpack"] = "rbxassetid://10709769841",
+                ["lucide-baggage-claim"] = "rbxassetid://10709769935",
+                ["lucide-banana"] = "rbxassetid://10709770005",
+                ["lucide-banknote"] = "rbxassetid://10709770178",
+                ["lucide-bar-chart"] = "rbxassetid://10709773755",
+                ["lucide-bar-chart-2"] = "rbxassetid://10709770317",
+                ["lucide-bar-chart-3"] = "rbxassetid://10709770431",
+                ["lucide-bar-chart-4"] = "rbxassetid://10709770560",
+                ["lucide-bar-chart-horizontal"] = "rbxassetid://10709773669",
+                ["lucide-barcode"] = "rbxassetid://10747360675",
+                ["lucide-baseline"] = "rbxassetid://10709773863",
+                ["lucide-bath"] = "rbxassetid://10709773963",
+                ["lucide-battery"] = "rbxassetid://10709774640",
+                ["lucide-battery-charging"] = "rbxassetid://10709774068",
+                ["lucide-battery-full"] = "rbxassetid://10709774206",
+                ["lucide-battery-low"] = "rbxassetid://10709774370",
+                ["lucide-battery-medium"] = "rbxassetid://10709774513",
+                ["lucide-beaker"] = "rbxassetid://10709774756",
+                ["lucide-bed"] = "rbxassetid://10709775036",
+                ["lucide-bed-double"] = "rbxassetid://10709774864",
+                ["lucide-bed-single"] = "rbxassetid://10709774968",
+                ["lucide-beer"] = "rbxassetid://10709775167",
+                ["lucide-bell"] = "rbxassetid://10709775704",
+                ["lucide-bell-minus"] = "rbxassetid://10709775241",
+                ["lucide-bell-off"] = "rbxassetid://10709775320",
+                ["lucide-bell-plus"] = "rbxassetid://10709775448",
+                ["lucide-bell-ring"] = "rbxassetid://10709775560",
+                ["lucide-bike"] = "rbxassetid://10709775894",
+                ["lucide-binary"] = "rbxassetid://10709776050",
+                ["lucide-bitcoin"] = "rbxassetid://10709776126",
+                ["lucide-bluetooth"] = "rbxassetid://10709776655",
+                ["lucide-bluetooth-connected"] = "rbxassetid://10709776240",
+                ["lucide-bluetooth-off"] = "rbxassetid://10709776344",
+                ["lucide-bluetooth-searching"] = "rbxassetid://10709776501",
+                ["lucide-bold"] = "rbxassetid://10747813908",
+                ["lucide-bomb"] = "rbxassetid://10709781460",
+                ["lucide-bone"] = "rbxassetid://10709781605",
+                ["lucide-book"] = "rbxassetid://10709781824",
+                ["lucide-book-open"] = "rbxassetid://10709781717",
+                ["lucide-bookmark"] = "rbxassetid://10709782154",
+                ["lucide-bookmark-minus"] = "rbxassetid://10709781919",
+                ["lucide-bookmark-plus"] = "rbxassetid://10709782044",
+                ["lucide-bot"] = "rbxassetid://10709782230",
+                ["lucide-box"] = "rbxassetid://10709782497",
+                ["lucide-box-select"] = "rbxassetid://10709782342",
+                ["lucide-boxes"] = "rbxassetid://10709782582",
+                ["lucide-briefcase"] = "rbxassetid://10709782662",
+                ["lucide-brush"] = "rbxassetid://10709782758",
+                ["lucide-bug"] = "rbxassetid://10709782845",
+                ["lucide-building"] = "rbxassetid://10709783051",
+                ["lucide-building-2"] = "rbxassetid://10709782939",
+                ["lucide-bus"] = "rbxassetid://10709783137",
+                ["lucide-cake"] = "rbxassetid://10709783217",
+                ["lucide-calculator"] = "rbxassetid://10709783311",
+                ["lucide-calendar"] = "rbxassetid://10709789505",
+                ["lucide-calendar-check"] = "rbxassetid://10709783474",
+                ["lucide-calendar-check-2"] = "rbxassetid://10709783392",
+                ["lucide-calendar-clock"] = "rbxassetid://10709783577",
+                ["lucide-calendar-days"] = "rbxassetid://10709783673",
+                ["lucide-calendar-heart"] = "rbxassetid://10709783835",
+                ["lucide-calendar-minus"] = "rbxassetid://10709783959",
+                ["lucide-calendar-off"] = "rbxassetid://10709788784",
+                ["lucide-calendar-plus"] = "rbxassetid://10709788937",
+                ["lucide-calendar-range"] = "rbxassetid://10709789053",
+                ["lucide-calendar-search"] = "rbxassetid://10709789200",
+                ["lucide-calendar-x"] = "rbxassetid://10709789407",
+                ["lucide-calendar-x-2"] = "rbxassetid://10709789329",
+                ["lucide-camera"] = "rbxassetid://10709789686",
+                ["lucide-camera-off"] = "rbxassetid://10747822677",
+                ["lucide-car"] = "rbxassetid://10709789810",
+                ["lucide-carrot"] = "rbxassetid://10709789960",
+                ["lucide-cast"] = "rbxassetid://10709790097",
+                ["lucide-charge"] = "rbxassetid://10709790202",
+                ["lucide-check"] = "rbxassetid://10709790644",
+                ["lucide-check-circle"] = "rbxassetid://10709790387",
+                ["lucide-check-circle-2"] = "rbxassetid://10709790298",
+                ["lucide-check-square"] = "rbxassetid://10709790537",
+                ["lucide-chef-hat"] = "rbxassetid://10709790757",
+                ["lucide-cherry"] = "rbxassetid://10709790875",
+                ["lucide-chevron-down"] = "rbxassetid://10709790948",
+                ["lucide-chevron-first"] = "rbxassetid://10709791015",
+                ["lucide-chevron-last"] = "rbxassetid://10709791130",
+                ["lucide-chevron-left"] = "rbxassetid://10709791281",
+                ["lucide-chevron-right"] = "rbxassetid://10709791437",
+                ["lucide-chevron-up"] = "rbxassetid://10709791523",
+                ["lucide-chevrons-down"] = "rbxassetid://10709796864",
+                ["lucide-chevrons-down-up"] = "rbxassetid://10709791632",
+                ["lucide-chevrons-left"] = "rbxassetid://10709797151",
+                ["lucide-chevrons-left-right"] = "rbxassetid://10709797006",
+                ["lucide-chevrons-right"] = "rbxassetid://10709797382",
+                ["lucide-chevrons-right-left"] = "rbxassetid://10709797274",
+                ["lucide-chevrons-up"] = "rbxassetid://10709797622",
+                ["lucide-chevrons-up-down"] = "rbxassetid://10709797508",
+                ["lucide-chrome"] = "rbxassetid://10709797725",
+                ["lucide-circle"] = "rbxassetid://10709798174",
+                ["lucide-circle-dot"] = "rbxassetid://10709797837",
+                ["lucide-circle-ellipsis"] = "rbxassetid://10709797985",
+                ["lucide-circle-slashed"] = "rbxassetid://10709798100",
+                ["lucide-citrus"] = "rbxassetid://10709798276",
+                ["lucide-clapperboard"] = "rbxassetid://10709798350",
+                ["lucide-clipboard"] = "rbxassetid://10709799288",
+                ["lucide-clipboard-check"] = "rbxassetid://10709798443",
+                ["lucide-clipboard-copy"] = "rbxassetid://10709798574",
+                ["lucide-clipboard-edit"] = "rbxassetid://10709798682",
+                ["lucide-clipboard-list"] = "rbxassetid://10709798792",
+                ["lucide-clipboard-signature"] = "rbxassetid://10709798890",
+                ["lucide-clipboard-type"] = "rbxassetid://10709798999",
+                ["lucide-clipboard-x"] = "rbxassetid://10709799124",
+                ["lucide-clock"] = "rbxassetid://10709805144",
+                ["lucide-clock-1"] = "rbxassetid://10709799535",
+                ["lucide-clock-10"] = "rbxassetid://10709799718",
+                ["lucide-clock-11"] = "rbxassetid://10709799818",
+                ["lucide-clock-12"] = "rbxassetid://10709799962",
+                ["lucide-clock-2"] = "rbxassetid://10709803876",
+                ["lucide-clock-3"] = "rbxassetid://10709803989",
+                ["lucide-clock-4"] = "rbxassetid://10709804164",
+                ["lucide-clock-5"] = "rbxassetid://10709804291",
+                ["lucide-clock-6"] = "rbxassetid://10709804435",
+                ["lucide-clock-7"] = "rbxassetid://10709804599",
+                ["lucide-clock-8"] = "rbxassetid://10709804784",
+                ["lucide-clock-9"] = "rbxassetid://10709804996",
+                ["lucide-cloud"] = "rbxassetid://10709806740",
+                ["lucide-cloud-cog"] = "rbxassetid://10709805262",
+                ["lucide-cloud-drizzle"] = "rbxassetid://10709805371",
+                ["lucide-cloud-fog"] = "rbxassetid://10709805477",
+                ["lucide-cloud-hail"] = "rbxassetid://10709805596",
+                ["lucide-cloud-lightning"] = "rbxassetid://10709805727",
+                ["lucide-cloud-moon"] = "rbxassetid://10709805942",
+                ["lucide-cloud-moon-rain"] = "rbxassetid://10709805838",
+                ["lucide-cloud-off"] = "rbxassetid://10709806060",
+                ["lucide-cloud-rain"] = "rbxassetid://10709806277",
+                ["lucide-cloud-rain-wind"] = "rbxassetid://10709806166",
+                ["lucide-cloud-snow"] = "rbxassetid://10709806374",
+                ["lucide-cloud-sun"] = "rbxassetid://10709806631",
+                ["lucide-cloud-sun-rain"] = "rbxassetid://10709806475",
+                ["lucide-cloudy"] = "rbxassetid://10709806859",
+                ["lucide-clover"] = "rbxassetid://10709806995",
+                ["lucide-code"] = "rbxassetid://10709810463",
+                ["lucide-code-2"] = "rbxassetid://10709807111",
+                ["lucide-codepen"] = "rbxassetid://10709810534",
+                ["lucide-codesandbox"] = "rbxassetid://10709810676",
+                ["lucide-coffee"] = "rbxassetid://10709810814",
+                ["lucide-cog"] = "rbxassetid://10709810948",
+                ["lucide-coins"] = "rbxassetid://10709811110",
+                ["lucide-columns"] = "rbxassetid://10709811261",
+                ["lucide-command"] = "rbxassetid://10709811365",
+                ["lucide-compass"] = "rbxassetid://10709811445",
+                ["lucide-component"] = "rbxassetid://10709811595",
+                ["lucide-concierge-bell"] = "rbxassetid://10709811706",
+                ["lucide-connection"] = "rbxassetid://10747361219",
+                ["lucide-contact"] = "rbxassetid://10709811834",
+                ["lucide-contrast"] = "rbxassetid://10709811939",
+                ["lucide-cookie"] = "rbxassetid://10709812067",
+                ["lucide-copy"] = "rbxassetid://10709812159",
+                ["lucide-copyleft"] = "rbxassetid://10709812251",
+                ["lucide-copyright"] = "rbxassetid://10709812311",
+                ["lucide-corner-down-left"] = "rbxassetid://10709812396",
+                ["lucide-corner-down-right"] = "rbxassetid://10709812485",
+                ["lucide-corner-left-down"] = "rbxassetid://10709812632",
+                ["lucide-corner-left-up"] = "rbxassetid://10709812784",
+                ["lucide-corner-right-down"] = "rbxassetid://10709812939",
+                ["lucide-corner-right-up"] = "rbxassetid://10709813094",
+                ["lucide-corner-up-left"] = "rbxassetid://10709813185",
+                ["lucide-corner-up-right"] = "rbxassetid://10709813281",
+                ["lucide-cpu"] = "rbxassetid://10709813383",
+                ["lucide-croissant"] = "rbxassetid://10709818125",
+                ["lucide-crop"] = "rbxassetid://10709818245",
+                ["lucide-cross"] = "rbxassetid://10709818399",
+                ["lucide-crosshair"] = "rbxassetid://10709818534",
+                ["lucide-crown"] = "rbxassetid://10709818626",
+                ["lucide-cup-soda"] = "rbxassetid://10709818763",
+                ["lucide-curly-braces"] = "rbxassetid://10709818847",
+                ["lucide-currency"] = "rbxassetid://10709818931",
+                ["lucide-database"] = "rbxassetid://10709818996",
+                ["lucide-delete"] = "rbxassetid://10709819059",
+                ["lucide-diamond"] = "rbxassetid://10709819149",
+                ["lucide-dice-1"] = "rbxassetid://10709819266",
+                ["lucide-dice-2"] = "rbxassetid://10709819361",
+                ["lucide-dice-3"] = "rbxassetid://10709819508",
+                ["lucide-dice-4"] = "rbxassetid://10709819670",
+                ["lucide-dice-5"] = "rbxassetid://10709819801",
+                ["lucide-dice-6"] = "rbxassetid://10709819896",
+                ["lucide-dices"] = "rbxassetid://10723343321",
+                ["lucide-diff"] = "rbxassetid://10723343416",
+                ["lucide-disc"] = "rbxassetid://10723343537",
+                ["lucide-divide"] = "rbxassetid://10723343805",
+                ["lucide-divide-circle"] = "rbxassetid://10723343636",
+                ["lucide-divide-square"] = "rbxassetid://10723343737",
+                ["lucide-dollar-sign"] = "rbxassetid://10723343958",
+                ["lucide-download"] = "rbxassetid://10723344270",
+                ["lucide-download-cloud"] = "rbxassetid://10723344088",
+                ["lucide-droplet"] = "rbxassetid://10723344432",
+                ["lucide-droplets"] = "rbxassetid://10734883356",
+                ["lucide-drumstick"] = "rbxassetid://10723344737",
+                ["lucide-edit"] = "rbxassetid://10734883598",
+                ["lucide-edit-2"] = "rbxassetid://10723344885",
+                ["lucide-edit-3"] = "rbxassetid://10723345088",
+                ["lucide-egg"] = "rbxassetid://10723345518",
+                ["lucide-egg-fried"] = "rbxassetid://10723345347",
+                ["lucide-electricity"] = "rbxassetid://10723345749",
+                ["lucide-electricity-off"] = "rbxassetid://10723345643",
+                ["lucide-equal"] = "rbxassetid://10723345990",
+                ["lucide-equal-not"] = "rbxassetid://10723345866",
+                ["lucide-eraser"] = "rbxassetid://10723346158",
+                ["lucide-euro"] = "rbxassetid://10723346372",
+                ["lucide-expand"] = "rbxassetid://10723346553",
+                ["lucide-external-link"] = "rbxassetid://10723346684",
+                ["lucide-eye"] = "rbxassetid://10723346959",
+                ["lucide-eye-off"] = "rbxassetid://10723346871",
+                ["lucide-factory"] = "rbxassetid://10723347051",
+                ["lucide-fan"] = "rbxassetid://10723354359",
+                ["lucide-fast-forward"] = "rbxassetid://10723354521",
+                ["lucide-feather"] = "rbxassetid://10723354671",
+                ["lucide-figma"] = "rbxassetid://10723354801",
+                ["lucide-file"] = "rbxassetid://10723374641",
+                ["lucide-file-archive"] = "rbxassetid://10723354921",
+                ["lucide-file-audio"] = "rbxassetid://10723355148",
+                ["lucide-file-audio-2"] = "rbxassetid://10723355026",
+                ["lucide-file-axis-3d"] = "rbxassetid://10723355272",
+                ["lucide-file-badge"] = "rbxassetid://10723355622",
+                ["lucide-file-badge-2"] = "rbxassetid://10723355451",
+                ["lucide-file-bar-chart"] = "rbxassetid://10723355887",
+                ["lucide-file-bar-chart-2"] = "rbxassetid://10723355746",
+                ["lucide-file-box"] = "rbxassetid://10723355989",
+                ["lucide-file-check"] = "rbxassetid://10723356210",
+                ["lucide-file-check-2"] = "rbxassetid://10723356100",
+                ["lucide-file-clock"] = "rbxassetid://10723356329",
+                ["lucide-file-code"] = "rbxassetid://10723356507",
+                ["lucide-file-cog"] = "rbxassetid://10723356830",
+                ["lucide-file-cog-2"] = "rbxassetid://10723356676",
+                ["lucide-file-diff"] = "rbxassetid://10723357039",
+                ["lucide-file-digit"] = "rbxassetid://10723357151",
+                ["lucide-file-down"] = "rbxassetid://10723357322",
+                ["lucide-file-edit"] = "rbxassetid://10723357495",
+                ["lucide-file-heart"] = "rbxassetid://10723357637",
+                ["lucide-file-image"] = "rbxassetid://10723357790",
+                ["lucide-file-input"] = "rbxassetid://10723357933",
+                ["lucide-file-json"] = "rbxassetid://10723364435",
+                ["lucide-file-json-2"] = "rbxassetid://10723364361",
+                ["lucide-file-key"] = "rbxassetid://10723364605",
+                ["lucide-file-key-2"] = "rbxassetid://10723364515",
+                ["lucide-file-line-chart"] = "rbxassetid://10723364725",
+                ["lucide-file-lock"] = "rbxassetid://10723364957",
+                ["lucide-file-lock-2"] = "rbxassetid://10723364861",
+                ["lucide-file-minus"] = "rbxassetid://10723365254",
+                ["lucide-file-minus-2"] = "rbxassetid://10723365086",
+                ["lucide-file-output"] = "rbxassetid://10723365457",
+                ["lucide-file-pie-chart"] = "rbxassetid://10723365598",
+                ["lucide-file-plus"] = "rbxassetid://10723365877",
+                ["lucide-file-plus-2"] = "rbxassetid://10723365766",
+                ["lucide-file-question"] = "rbxassetid://10723365987",
+                ["lucide-file-scan"] = "rbxassetid://10723366167",
+                ["lucide-file-search"] = "rbxassetid://10723366550",
+                ["lucide-file-search-2"] = "rbxassetid://10723366340",
+                ["lucide-file-signature"] = "rbxassetid://10723366741",
+                ["lucide-file-spreadsheet"] = "rbxassetid://10723366962",
+                ["lucide-file-symlink"] = "rbxassetid://10723367098",
+                ["lucide-file-terminal"] = "rbxassetid://10723367244",
+                ["lucide-file-text"] = "rbxassetid://10723367380",
+                ["lucide-file-type"] = "rbxassetid://10723367606",
+                ["lucide-file-type-2"] = "rbxassetid://10723367509",
+                ["lucide-file-up"] = "rbxassetid://10723367734",
+                ["lucide-file-video"] = "rbxassetid://10723373884",
+                ["lucide-file-video-2"] = "rbxassetid://10723367834",
+                ["lucide-file-volume"] = "rbxassetid://10723374172",
+                ["lucide-file-volume-2"] = "rbxassetid://10723374030",
+                ["lucide-file-warning"] = "rbxassetid://10723374276",
+                ["lucide-file-x"] = "rbxassetid://10723374544",
+                ["lucide-file-x-2"] = "rbxassetid://10723374378",
+                ["lucide-files"] = "rbxassetid://10723374759",
+                ["lucide-film"] = "rbxassetid://10723374981",
+                ["lucide-filter"] = "rbxassetid://10723375128",
+                ["lucide-fingerprint"] = "rbxassetid://10723375250",
+                ["lucide-flag"] = "rbxassetid://10723375890",
+                ["lucide-flag-off"] = "rbxassetid://10723375443",
+                ["lucide-flag-triangle-left"] = "rbxassetid://10723375608",
+                ["lucide-flag-triangle-right"] = "rbxassetid://10723375727",
+                ["lucide-flame"] = "rbxassetid://10723376114",
+                ["lucide-flashlight"] = "rbxassetid://10723376471",
+                ["lucide-flashlight-off"] = "rbxassetid://10723376365",
+                ["lucide-flask-conical"] = "rbxassetid://10734883986",
+                ["lucide-flask-round"] = "rbxassetid://10723376614",
+                ["lucide-flip-horizontal"] = "rbxassetid://10723376884",
+                ["lucide-flip-horizontal-2"] = "rbxassetid://10723376745",
+                ["lucide-flip-vertical"] = "rbxassetid://10723377138",
+                ["lucide-flip-vertical-2"] = "rbxassetid://10723377026",
+                ["lucide-flower"] = "rbxassetid://10747830374",
+                ["lucide-flower-2"] = "rbxassetid://10723377305",
+                ["lucide-focus"] = "rbxassetid://10723377537",
+                ["lucide-folder"] = "rbxassetid://10723387563",
+                ["lucide-folder-archive"] = "rbxassetid://10723384478",
+                ["lucide-folder-check"] = "rbxassetid://10723384605",
+                ["lucide-folder-clock"] = "rbxassetid://10723384731",
+                ["lucide-folder-closed"] = "rbxassetid://10723384893",
+                ["lucide-folder-cog"] = "rbxassetid://10723385213",
+                ["lucide-folder-cog-2"] = "rbxassetid://10723385036",
+                ["lucide-folder-down"] = "rbxassetid://10723385338",
+                ["lucide-folder-edit"] = "rbxassetid://10723385445",
+                ["lucide-folder-heart"] = "rbxassetid://10723385545",
+                ["lucide-folder-input"] = "rbxassetid://10723385721",
+                ["lucide-folder-key"] = "rbxassetid://10723385848",
+                ["lucide-folder-lock"] = "rbxassetid://10723386005",
+                ["lucide-folder-minus"] = "rbxassetid://10723386127",
+                ["lucide-folder-open"] = "rbxassetid://10723386277",
+                ["lucide-folder-output"] = "rbxassetid://10723386386",
+                ["lucide-folder-plus"] = "rbxassetid://10723386531",
+                ["lucide-folder-search"] = "rbxassetid://10723386787",
+                ["lucide-folder-search-2"] = "rbxassetid://10723386674",
+                ["lucide-folder-symlink"] = "rbxassetid://10723386930",
+                ["lucide-folder-tree"] = "rbxassetid://10723387085",
+                ["lucide-folder-up"] = "rbxassetid://10723387265",
+                ["lucide-folder-x"] = "rbxassetid://10723387448",
+                ["lucide-folders"] = "rbxassetid://10723387721",
+                ["lucide-form-input"] = "rbxassetid://10723387841",
+                ["lucide-forward"] = "rbxassetid://10723388016",
+                ["lucide-frame"] = "rbxassetid://10723394389",
+                ["lucide-framer"] = "rbxassetid://10723394565",
+                ["lucide-frown"] = "rbxassetid://10723394681",
+                ["lucide-fuel"] = "rbxassetid://10723394846",
+                ["lucide-function-square"] = "rbxassetid://10723395041",
+                ["lucide-gamepad"] = "rbxassetid://10723395457",
+                ["lucide-gamepad-2"] = "rbxassetid://10723395215",
+                ["lucide-gauge"] = "rbxassetid://10723395708",
+                ["lucide-gavel"] = "rbxassetid://10723395896",
+                ["lucide-gem"] = "rbxassetid://10723396000",
+                ["lucide-ghost"] = "rbxassetid://10723396107",
+                ["lucide-gift"] = "rbxassetid://10723396402",
+                ["lucide-gift-card"] = "rbxassetid://10723396225",
+                ["lucide-git-branch"] = "rbxassetid://10723396676",
+                ["lucide-git-branch-plus"] = "rbxassetid://10723396542",
+                ["lucide-git-commit"] = "rbxassetid://10723396812",
+                ["lucide-git-compare"] = "rbxassetid://10723396954",
+                ["lucide-git-fork"] = "rbxassetid://10723397049",
+                ["lucide-git-merge"] = "rbxassetid://10723397165",
+                ["lucide-git-pull-request"] = "rbxassetid://10723397431",
+                ["lucide-git-pull-request-closed"] = "rbxassetid://10723397268",
+                ["lucide-git-pull-request-draft"] = "rbxassetid://10734884302",
+                ["lucide-glass"] = "rbxassetid://10723397788",
+                ["lucide-glass-2"] = "rbxassetid://10723397529",
+                ["lucide-glass-water"] = "rbxassetid://10723397678",
+                ["lucide-glasses"] = "rbxassetid://10723397895",
+                ["lucide-globe"] = "rbxassetid://10723404337",
+                ["lucide-globe-2"] = "rbxassetid://10723398002",
+                ["lucide-grab"] = "rbxassetid://10723404472",
+                ["lucide-graduation-cap"] = "rbxassetid://10723404691",
+                ["lucide-grape"] = "rbxassetid://10723404822",
+                ["lucide-grid"] = "rbxassetid://10723404936",
+                ["lucide-grip-horizontal"] = "rbxassetid://10723405089",
+                ["lucide-grip-vertical"] = "rbxassetid://10723405236",
+                ["lucide-hammer"] = "rbxassetid://10723405360",
+                ["lucide-hand"] = "rbxassetid://10723405649",
+                ["lucide-hand-metal"] = "rbxassetid://10723405508",
+                ["lucide-hard-drive"] = "rbxassetid://10723405749",
+                ["lucide-hard-hat"] = "rbxassetid://10723405859",
+                ["lucide-hash"] = "rbxassetid://10723405975",
+                ["lucide-haze"] = "rbxassetid://10723406078",
+                ["lucide-headphones"] = "rbxassetid://10723406165",
+                ["lucide-heart"] = "rbxassetid://10723406885",
+                ["lucide-heart-crack"] = "rbxassetid://10723406299",
+                ["lucide-heart-handshake"] = "rbxassetid://10723406480",
+                ["lucide-heart-off"] = "rbxassetid://10723406662",
+                ["lucide-heart-pulse"] = "rbxassetid://10723406795",
+                ["lucide-help-circle"] = "rbxassetid://10723406988",
+                ["lucide-hexagon"] = "rbxassetid://10723407092",
+                ["lucide-highlighter"] = "rbxassetid://10723407192",
+                ["lucide-history"] = "rbxassetid://10723407335",
+                ["lucide-home"] = "rbxassetid://10723407389",
+                ["lucide-hourglass"] = "rbxassetid://10723407498",
+                ["lucide-ice-cream"] = "rbxassetid://10723414308",
+                ["lucide-image"] = "rbxassetid://10723415040",
+                ["lucide-image-minus"] = "rbxassetid://10723414487",
+                ["lucide-image-off"] = "rbxassetid://10723414677",
+                ["lucide-image-plus"] = "rbxassetid://10723414827",
+                ["lucide-import"] = "rbxassetid://10723415205",
+                ["lucide-inbox"] = "rbxassetid://10723415335",
+                ["lucide-indent"] = "rbxassetid://10723415494",
+                ["lucide-indian-rupee"] = "rbxassetid://10723415642",
+                ["lucide-infinity"] = "rbxassetid://10723415766",
+                ["lucide-info"] = "rbxassetid://10723415903",
+                ["lucide-inspect"] = "rbxassetid://10723416057",
+                ["lucide-italic"] = "rbxassetid://10723416195",
+                ["lucide-japanese-yen"] = "rbxassetid://10723416363",
+                ["lucide-joystick"] = "rbxassetid://10723416527",
+                ["lucide-key"] = "rbxassetid://10723416652",
+                ["lucide-keyboard"] = "rbxassetid://10723416765",
+                ["lucide-lamp"] = "rbxassetid://10723417513",
+                ["lucide-lamp-ceiling"] = "rbxassetid://10723416922",
+                ["lucide-lamp-desk"] = "rbxassetid://10723417016",
+                ["lucide-lamp-floor"] = "rbxassetid://10723417131",
+                ["lucide-lamp-wall-down"] = "rbxassetid://10723417240",
+                ["lucide-lamp-wall-up"] = "rbxassetid://10723417356",
+                ["lucide-landmark"] = "rbxassetid://10723417608",
+                ["lucide-languages"] = "rbxassetid://10723417703",
+                ["lucide-laptop"] = "rbxassetid://10723423881",
+                ["lucide-laptop-2"] = "rbxassetid://10723417797",
+                ["lucide-lasso"] = "rbxassetid://10723424235",
+                ["lucide-lasso-select"] = "rbxassetid://10723424058",
+                ["lucide-laugh"] = "rbxassetid://10723424372",
+                ["lucide-layers"] = "rbxassetid://10723424505",
+                ["lucide-layout"] = "rbxassetid://10723425376",
+                ["lucide-layout-dashboard"] = "rbxassetid://10723424646",
+                ["lucide-layout-grid"] = "rbxassetid://10723424838",
+                ["lucide-layout-list"] = "rbxassetid://10723424963",
+                ["lucide-layout-template"] = "rbxassetid://10723425187",
+                ["lucide-leaf"] = "rbxassetid://10723425539",
+                ["lucide-library"] = "rbxassetid://10723425615",
+                ["lucide-life-buoy"] = "rbxassetid://10723425685",
+                ["lucide-lightbulb"] = "rbxassetid://10723425852",
+                ["lucide-lightbulb-off"] = "rbxassetid://10723425762",
+                ["lucide-line-chart"] = "rbxassetid://10723426393",
+                ["lucide-link"] = "rbxassetid://10723426722",
+                ["lucide-link-2"] = "rbxassetid://10723426595",
+                ["lucide-link-2-off"] = "rbxassetid://10723426513",
+                ["lucide-list"] = "rbxassetid://10723433811",
+                ["lucide-list-checks"] = "rbxassetid://10734884548",
+                ["lucide-list-end"] = "rbxassetid://10723426886",
+                ["lucide-list-minus"] = "rbxassetid://10723426986",
+                ["lucide-list-music"] = "rbxassetid://10723427081",
+                ["lucide-list-ordered"] = "rbxassetid://10723427199",
+                ["lucide-list-plus"] = "rbxassetid://10723427334",
+                ["lucide-list-start"] = "rbxassetid://10723427494",
+                ["lucide-list-video"] = "rbxassetid://10723427619",
+                ["lucide-list-x"] = "rbxassetid://10723433655",
+                ["lucide-loader"] = "rbxassetid://10723434070",
+                ["lucide-loader-2"] = "rbxassetid://10723433935",
+                ["lucide-locate"] = "rbxassetid://10723434557",
+                ["lucide-locate-fixed"] = "rbxassetid://10723434236",
+                ["lucide-locate-off"] = "rbxassetid://10723434379",
+                ["lucide-lock"] = "rbxassetid://10723434711",
+                ["lucide-log-in"] = "rbxassetid://10723434830",
+                ["lucide-log-out"] = "rbxassetid://10723434906",
+                ["lucide-luggage"] = "rbxassetid://10723434993",
+                ["lucide-magnet"] = "rbxassetid://10723435069",
+                ["lucide-mail"] = "rbxassetid://10734885430",
+                ["lucide-mail-check"] = "rbxassetid://10723435182",
+                ["lucide-mail-minus"] = "rbxassetid://10723435261",
+                ["lucide-mail-open"] = "rbxassetid://10723435342",
+                ["lucide-mail-plus"] = "rbxassetid://10723435443",
+                ["lucide-mail-question"] = "rbxassetid://10723435515",
+                ["lucide-mail-search"] = "rbxassetid://10734884739",
+                ["lucide-mail-warning"] = "rbxassetid://10734885015",
+                ["lucide-mail-x"] = "rbxassetid://10734885247",
+                ["lucide-mails"] = "rbxassetid://10734885614",
+                ["lucide-map"] = "rbxassetid://10734886202",
+                ["lucide-map-pin"] = "rbxassetid://10734886004",
+                ["lucide-map-pin-off"] = "rbxassetid://10734885803",
+                ["lucide-maximize"] = "rbxassetid://10734886735",
+                ["lucide-maximize-2"] = "rbxassetid://10734886496",
+                ["lucide-medal"] = "rbxassetid://10734887072",
+                ["lucide-megaphone"] = "rbxassetid://10734887454",
+                ["lucide-megaphone-off"] = "rbxassetid://10734887311",
+                ["lucide-meh"] = "rbxassetid://10734887603",
+                ["lucide-menu"] = "rbxassetid://10734887784",
+                ["lucide-message-circle"] = "rbxassetid://10734888000",
+                ["lucide-message-square"] = "rbxassetid://10734888228",
+                ["lucide-mic"] = "rbxassetid://10734888864",
+                ["lucide-mic-2"] = "rbxassetid://10734888430",
+                ["lucide-mic-off"] = "rbxassetid://10734888646",
+                ["lucide-microscope"] = "rbxassetid://10734889106",
+                ["lucide-microwave"] = "rbxassetid://10734895076",
+                ["lucide-milestone"] = "rbxassetid://10734895310",
+                ["lucide-minimize"] = "rbxassetid://10734895698",
+                ["lucide-minimize-2"] = "rbxassetid://10734895530",
+                ["lucide-minus"] = "rbxassetid://10734896206",
+                ["lucide-minus-circle"] = "rbxassetid://10734895856",
+                ["lucide-minus-square"] = "rbxassetid://10734896029",
+                ["lucide-monitor"] = "rbxassetid://10734896881",
+                ["lucide-monitor-off"] = "rbxassetid://10734896360",
+                ["lucide-monitor-speaker"] = "rbxassetid://10734896512",
+                ["lucide-moon"] = "rbxassetid://10734897102",
+                ["lucide-more-horizontal"] = "rbxassetid://10734897250",
+                ["lucide-more-vertical"] = "rbxassetid://10734897387",
+                ["lucide-mountain"] = "rbxassetid://10734897956",
+                ["lucide-mountain-snow"] = "rbxassetid://10734897665",
+                ["lucide-mouse"] = "rbxassetid://10734898592",
+                ["lucide-mouse-pointer"] = "rbxassetid://10734898476",
+                ["lucide-mouse-pointer-2"] = "rbxassetid://10734898194",
+                ["lucide-mouse-pointer-click"] = "rbxassetid://10734898355",
+                ["lucide-move"] = "rbxassetid://10734900011",
+                ["lucide-move-3d"] = "rbxassetid://10734898756",
+                ["lucide-move-diagonal"] = "rbxassetid://10734899164",
+                ["lucide-move-diagonal-2"] = "rbxassetid://10734898934",
+                ["lucide-move-horizontal"] = "rbxassetid://10734899414",
+                ["lucide-move-vertical"] = "rbxassetid://10734899821",
+                ["lucide-music"] = "rbxassetid://10734905958",
+                ["lucide-music-2"] = "rbxassetid://10734900215",
+                ["lucide-music-3"] = "rbxassetid://10734905665",
+                ["lucide-music-4"] = "rbxassetid://10734905823",
+                ["lucide-navigation"] = "rbxassetid://10734906744",
+                ["lucide-navigation-2"] = "rbxassetid://10734906332",
+                ["lucide-navigation-2-off"] = "rbxassetid://10734906144",
+                ["lucide-navigation-off"] = "rbxassetid://10734906580",
+                ["lucide-network"] = "rbxassetid://10734906975",
+                ["lucide-newspaper"] = "rbxassetid://10734907168",
+                ["lucide-octagon"] = "rbxassetid://10734907361",
+                ["lucide-option"] = "rbxassetid://10734907649",
+                ["lucide-outdent"] = "rbxassetid://10734907933",
+                ["lucide-package"] = "rbxassetid://10734909540",
+                ["lucide-package-2"] = "rbxassetid://10734908151",
+                ["lucide-package-check"] = "rbxassetid://10734908384",
+                ["lucide-package-minus"] = "rbxassetid://10734908626",
+                ["lucide-package-open"] = "rbxassetid://10734908793",
+                ["lucide-package-plus"] = "rbxassetid://10734909016",
+                ["lucide-package-search"] = "rbxassetid://10734909196",
+                ["lucide-package-x"] = "rbxassetid://10734909375",
+                ["lucide-paint-bucket"] = "rbxassetid://10734909847",
+                ["lucide-paintbrush"] = "rbxassetid://10734910187",
+                ["lucide-paintbrush-2"] = "rbxassetid://10734910030",
+                ["lucide-palette"] = "rbxassetid://10734910430",
+                ["lucide-palmtree"] = "rbxassetid://10734910680",
+                ["lucide-paperclip"] = "rbxassetid://10734910927",
+                ["lucide-party-popper"] = "rbxassetid://10734918735",
+                ["lucide-pause"] = "rbxassetid://10734919336",
+                ["lucide-pause-circle"] = "rbxassetid://10735024209",
+                ["lucide-pause-octagon"] = "rbxassetid://10734919143",
+                ["lucide-pen-tool"] = "rbxassetid://10734919503",
+                ["lucide-pencil"] = "rbxassetid://10734919691",
+                ["lucide-percent"] = "rbxassetid://10734919919",
+                ["lucide-person-standing"] = "rbxassetid://10734920149",
+                ["lucide-phone"] = "rbxassetid://10734921524",
+                ["lucide-phone-call"] = "rbxassetid://10734920305",
+                ["lucide-phone-forwarded"] = "rbxassetid://10734920508",
+                ["lucide-phone-incoming"] = "rbxassetid://10734920694",
+                ["lucide-phone-missed"] = "rbxassetid://10734920845",
+                ["lucide-phone-off"] = "rbxassetid://10734921077",
+                ["lucide-phone-outgoing"] = "rbxassetid://10734921288",
+                ["lucide-pie-chart"] = "rbxassetid://10734921727",
+                ["lucide-piggy-bank"] = "rbxassetid://10734921935",
+                ["lucide-pin"] = "rbxassetid://10734922324",
+                ["lucide-pin-off"] = "rbxassetid://10734922180",
+                ["lucide-pipette"] = "rbxassetid://10734922497",
+                ["lucide-pizza"] = "rbxassetid://10734922774",
+                ["lucide-plane"] = "rbxassetid://10734922971",
+                ["lucide-play"] = "rbxassetid://10734923549",
+                ["lucide-play-circle"] = "rbxassetid://10734923214",
+                ["lucide-plus"] = "rbxassetid://10734924532",
+                ["lucide-plus-circle"] = "rbxassetid://10734923868",
+                ["lucide-plus-square"] = "rbxassetid://10734924219",
+                ["lucide-podcast"] = "rbxassetid://10734929553",
+                ["lucide-pointer"] = "rbxassetid://10734929723",
+                ["lucide-pound-sterling"] = "rbxassetid://10734929981",
+                ["lucide-power"] = "rbxassetid://10734930466",
+                ["lucide-power-off"] = "rbxassetid://10734930257",
+                ["lucide-printer"] = "rbxassetid://10734930632",
+                ["lucide-puzzle"] = "rbxassetid://10734930886",
+                ["lucide-quote"] = "rbxassetid://10734931234",
+                ["lucide-radio"] = "rbxassetid://10734931596",
+                ["lucide-radio-receiver"] = "rbxassetid://10734931402",
+                ["lucide-rectangle-horizontal"] = "rbxassetid://10734931777",
+                ["lucide-rectangle-vertical"] = "rbxassetid://10734932081",
+                ["lucide-recycle"] = "rbxassetid://10734932295",
+                ["lucide-redo"] = "rbxassetid://10734932822",
+                ["lucide-redo-2"] = "rbxassetid://10734932586",
+                ["lucide-refresh-ccw"] = "rbxassetid://10734933056",
+                ["lucide-refresh-cw"] = "rbxassetid://10734933222",
+                ["lucide-refrigerator"] = "rbxassetid://10734933465",
+                ["lucide-regex"] = "rbxassetid://10734933655",
+                ["lucide-repeat"] = "rbxassetid://10734933966",
+                ["lucide-repeat-1"] = "rbxassetid://10734933826",
+                ["lucide-reply"] = "rbxassetid://10734934252",
+                ["lucide-reply-all"] = "rbxassetid://10734934132",
+                ["lucide-rewind"] = "rbxassetid://10734934347",
+                ["lucide-rocket"] = "rbxassetid://10734934585",
+                ["lucide-rocking-chair"] = "rbxassetid://10734939942",
+                ["lucide-rotate-3d"] = "rbxassetid://10734940107",
+                ["lucide-rotate-ccw"] = "rbxassetid://10734940376",
+                ["lucide-rotate-cw"] = "rbxassetid://10734940654",
+                ["lucide-rss"] = "rbxassetid://10734940825",
+                ["lucide-ruler"] = "rbxassetid://10734941018",
+                ["lucide-russian-ruble"] = "rbxassetid://10734941199",
+                ["lucide-sailboat"] = "rbxassetid://10734941354",
+                ["lucide-save"] = "rbxassetid://10734941499",
+                ["lucide-scale"] = "rbxassetid://10734941912",
+                ["lucide-scale-3d"] = "rbxassetid://10734941739",
+                ["lucide-scaling"] = "rbxassetid://10734942072",
+                ["lucide-scan"] = "rbxassetid://10734942565",
+                ["lucide-scan-face"] = "rbxassetid://10734942198",
+                ["lucide-scan-line"] = "rbxassetid://10734942351",
+                ["lucide-scissors"] = "rbxassetid://10734942778",
+                ["lucide-screen-share"] = "rbxassetid://10734943193",
+                ["lucide-screen-share-off"] = "rbxassetid://10734942967",
+                ["lucide-scroll"] = "rbxassetid://10734943448",
+                ["lucide-search"] = "rbxassetid://10734943674",
+                ["lucide-send"] = "rbxassetid://10734943902",
+                ["lucide-separator-horizontal"] = "rbxassetid://10734944115",
+                ["lucide-separator-vertical"] = "rbxassetid://10734944326",
+                ["lucide-server"] = "rbxassetid://10734949856",
+                ["lucide-server-cog"] = "rbxassetid://10734944444",
+                ["lucide-server-crash"] = "rbxassetid://10734944554",
+                ["lucide-server-off"] = "rbxassetid://10734944668",
+                ["lucide-settings"] = "rbxassetid://10734950309",
+                ["lucide-settings-2"] = "rbxassetid://10734950020",
+                ["lucide-share"] = "rbxassetid://10734950813",
+                ["lucide-share-2"] = "rbxassetid://10734950553",
+                ["lucide-sheet"] = "rbxassetid://10734951038",
+                ["lucide-shield"] = "rbxassetid://10734951847",
+                ["lucide-shield-alert"] = "rbxassetid://10734951173",
+                ["lucide-shield-check"] = "rbxassetid://10734951367",
+                ["lucide-shield-close"] = "rbxassetid://10734951535",
+                ["lucide-shield-off"] = "rbxassetid://10734951684",
+                ["lucide-shirt"] = "rbxassetid://10734952036",
+                ["lucide-shopping-bag"] = "rbxassetid://10734952273",
+                ["lucide-shopping-cart"] = "rbxassetid://10734952479",
+                ["lucide-shovel"] = "rbxassetid://10734952773",
+                ["lucide-shower-head"] = "rbxassetid://10734952942",
+                ["lucide-shrink"] = "rbxassetid://10734953073",
+                ["lucide-shrub"] = "rbxassetid://10734953241",
+                ["lucide-shuffle"] = "rbxassetid://10734953451",
+                ["lucide-sidebar"] = "rbxassetid://10734954301",
+                ["lucide-sidebar-close"] = "rbxassetid://10734953715",
+                ["lucide-sidebar-open"] = "rbxassetid://10734954000",
+                ["lucide-sigma"] = "rbxassetid://10734954538",
+                ["lucide-signal"] = "rbxassetid://10734961133",
+                ["lucide-signal-high"] = "rbxassetid://10734954807",
+                ["lucide-signal-low"] = "rbxassetid://10734955080",
+                ["lucide-signal-medium"] = "rbxassetid://10734955336",
+                ["lucide-signal-zero"] = "rbxassetid://10734960878",
+                ["lucide-siren"] = "rbxassetid://10734961284",
+                ["lucide-skip-back"] = "rbxassetid://10734961526",
+                ["lucide-skip-forward"] = "rbxassetid://10734961809",
+                ["lucide-skull"] = "rbxassetid://10734962068",
+                ["lucide-slack"] = "rbxassetid://10734962339",
+                ["lucide-slash"] = "rbxassetid://10734962600",
+                ["lucide-slice"] = "rbxassetid://10734963024",
+                ["lucide-sliders"] = "rbxassetid://10734963400",
+                ["lucide-sliders-horizontal"] = "rbxassetid://10734963191",
+                ["lucide-smartphone"] = "rbxassetid://10734963940",
+                ["lucide-smartphone-charging"] = "rbxassetid://10734963671",
+                ["lucide-smile"] = "rbxassetid://10734964441",
+                ["lucide-smile-plus"] = "rbxassetid://10734964188",
+                ["lucide-snowflake"] = "rbxassetid://10734964600",
+                ["lucide-sofa"] = "rbxassetid://10734964852",
+                ["lucide-sort-asc"] = "rbxassetid://10734965115",
+                ["lucide-sort-desc"] = "rbxassetid://10734965287",
+                ["lucide-speaker"] = "rbxassetid://10734965419",
+                ["lucide-sprout"] = "rbxassetid://10734965572",
+                ["lucide-square"] = "rbxassetid://10734965702",
+                ["lucide-star"] = "rbxassetid://10734966248",
+                ["lucide-star-half"] = "rbxassetid://10734965897",
+                ["lucide-star-off"] = "rbxassetid://10734966097",
+                ["lucide-stethoscope"] = "rbxassetid://10734966384",
+                ["lucide-sticker"] = "rbxassetid://10734972234",
+                ["lucide-sticky-note"] = "rbxassetid://10734972463",
+                ["lucide-stop-circle"] = "rbxassetid://10734972621",
+                ["lucide-stretch-horizontal"] = "rbxassetid://10734972862",
+                ["lucide-stretch-vertical"] = "rbxassetid://10734973130",
+                ["lucide-strikethrough"] = "rbxassetid://10734973290",
+                ["lucide-subscript"] = "rbxassetid://10734973457",
+                ["lucide-sun"] = "rbxassetid://10734974297",
+                ["lucide-sun-dim"] = "rbxassetid://10734973645",
+                ["lucide-sun-medium"] = "rbxassetid://10734973778",
+                ["lucide-sun-moon"] = "rbxassetid://10734973999",
+                ["lucide-sun-snow"] = "rbxassetid://10734974130",
+                ["lucide-sunrise"] = "rbxassetid://10734974522",
+                ["lucide-sunset"] = "rbxassetid://10734974689",
+                ["lucide-superscript"] = "rbxassetid://10734974850",
+                ["lucide-swiss-franc"] = "rbxassetid://10734975024",
+                ["lucide-switch-camera"] = "rbxassetid://10734975214",
+                ["lucide-sword"] = "rbxassetid://10734975486",
+                ["lucide-swords"] = "rbxassetid://10734975692",
+                ["lucide-syringe"] = "rbxassetid://10734975932",
+                ["lucide-table"] = "rbxassetid://10734976230",
+                ["lucide-table-2"] = "rbxassetid://10734976097",
+                ["lucide-tablet"] = "rbxassetid://10734976394",
+                ["lucide-tag"] = "rbxassetid://10734976528",
+                ["lucide-tags"] = "rbxassetid://10734976739",
+                ["lucide-target"] = "rbxassetid://10734977012",
+                ["lucide-tent"] = "rbxassetid://10734981750",
+                ["lucide-terminal"] = "rbxassetid://10734982144",
+                ["lucide-terminal-square"] = "rbxassetid://10734981995",
+                ["lucide-text-cursor"] = "rbxassetid://10734982395",
+                ["lucide-text-cursor-input"] = "rbxassetid://10734982297",
+                ["lucide-thermometer"] = "rbxassetid://10734983134",
+                ["lucide-thermometer-snowflake"] = "rbxassetid://10734982571",
+                ["lucide-thermometer-sun"] = "rbxassetid://10734982771",
+                ["lucide-thumbs-down"] = "rbxassetid://10734983359",
+                ["lucide-thumbs-up"] = "rbxassetid://10734983629",
+                ["lucide-ticket"] = "rbxassetid://10734983868",
+                ["lucide-timer"] = "rbxassetid://10734984606",
+                ["lucide-timer-off"] = "rbxassetid://10734984138",
+                ["lucide-timer-reset"] = "rbxassetid://10734984355",
+                ["lucide-toggle-left"] = "rbxassetid://10734984834",
+                ["lucide-toggle-right"] = "rbxassetid://10734985040",
+                ["lucide-tornado"] = "rbxassetid://10734985247",
+                ["lucide-toy-brick"] = "rbxassetid://10747361919",
+                ["lucide-train"] = "rbxassetid://10747362105",
+                ["lucide-trash"] = "rbxassetid://10747362393",
+                ["lucide-trash-2"] = "rbxassetid://10747362241",
+                ["lucide-tree-deciduous"] = "rbxassetid://10747362534",
+                ["lucide-tree-pine"] = "rbxassetid://10747362748",
+                ["lucide-trees"] = "rbxassetid://10747363016",
+                ["lucide-trending-down"] = "rbxassetid://10747363205",
+                ["lucide-trending-up"] = "rbxassetid://10747363465",
+                ["lucide-triangle"] = "rbxassetid://10747363621",
+                ["lucide-trophy"] = "rbxassetid://10747363809",
+                ["lucide-truck"] = "rbxassetid://10747364031",
+                ["lucide-tv"] = "rbxassetid://10747364593",
+                ["lucide-tv-2"] = "rbxassetid://10747364302",
+                ["lucide-type"] = "rbxassetid://10747364761",
+                ["lucide-umbrella"] = "rbxassetid://10747364971",
+                ["lucide-underline"] = "rbxassetid://10747365191",
+                ["lucide-undo"] = "rbxassetid://10747365484",
+                ["lucide-undo-2"] = "rbxassetid://10747365359",
+                ["lucide-unlink"] = "rbxassetid://10747365771",
+                ["lucide-unlink-2"] = "rbxassetid://10747397871",
+                ["lucide-unlock"] = "rbxassetid://10747366027",
+                ["lucide-upload"] = "rbxassetid://10747366434",
+                ["lucide-upload-cloud"] = "rbxassetid://10747366266",
+                ["lucide-usb"] = "rbxassetid://10747366606",
+                ["lucide-user"] = "rbxassetid://10747373176",
+                ["lucide-user-check"] = "rbxassetid://10747371901",
+                ["lucide-user-cog"] = "rbxassetid://10747372167",
+                ["lucide-user-minus"] = "rbxassetid://10747372346",
+                ["lucide-user-plus"] = "rbxassetid://10747372702",
+                ["lucide-user-x"] = "rbxassetid://10747372992",
+                ["lucide-users"] = "rbxassetid://10747373426",
+                ["lucide-utensils"] = "rbxassetid://10747373821",
+                ["lucide-utensils-crossed"] = "rbxassetid://10747373629",
+                ["lucide-venetian-mask"] = "rbxassetid://10747374003",
+                ["lucide-verified"] = "rbxassetid://10747374131",
+                ["lucide-vibrate"] = "rbxassetid://10747374489",
+                ["lucide-vibrate-off"] = "rbxassetid://10747374269",
+                ["lucide-video"] = "rbxassetid://10747374938",
+                ["lucide-video-off"] = "rbxassetid://10747374721",
+                ["lucide-view"] = "rbxassetid://10747375132",
+                ["lucide-voicemail"] = "rbxassetid://10747375281",
+                ["lucide-volume"] = "rbxassetid://10747376008",
+                ["lucide-volume-1"] = "rbxassetid://10747375450",
+                ["lucide-volume-2"] = "rbxassetid://10747375679",
+                ["lucide-volume-x"] = "rbxassetid://10747375880",
+                ["lucide-wallet"] = "rbxassetid://10747376205",
+                ["lucide-wand"] = "rbxassetid://10747376565",
+                ["lucide-wand-2"] = "rbxassetid://10747376349",
+                ["lucide-watch"] = "rbxassetid://10747376722",
+                ["lucide-waves"] = "rbxassetid://10747376931",
+                ["lucide-webcam"] = "rbxassetid://10747381992",
+                ["lucide-wifi"] = "rbxassetid://10747382504",
+                ["lucide-wifi-off"] = "rbxassetid://10747382268",
+                ["lucide-wind"] = "rbxassetid://10747382750",
+                ["lucide-wrap-text"] = "rbxassetid://10747383065",
+                ["lucide-wrench"] = "rbxassetid://10747383470",
+                ["lucide-x"] = "rbxassetid://10747384394",
+                ["lucide-x-circle"] = "rbxassetid://10747383819",
+                ["lucide-x-octagon"] = "rbxassetid://10747384037",
+                ["lucide-x-square"] = "rbxassetid://10747384217",
+                ["lucide-zoom-in"] = "rbxassetid://10747384552",
+                ["lucide-zoom-out"] = "rbxassetid://10747384679"
+            }
+        }
+    end,
+    [30] = function()
+        local aa, ab, ac, ad, ae = b(30)
+        local af = {
+            SingleMotor = ac(ab.SingleMotor),
+            GroupMotor = ac(ab.GroupMotor),
+            Instant = ac(ab.Instant),
+            Linear = ac(ab.Linear),
+            Spring = ac(ab.Spring),
+            isMotor = ac(ab.isMotor)
+        }
+        return af
+    end,
+    [31] = function()
+        local aa, ab, ac, ad, ae = b(31)
+        local af, ag, ah, ai = game:GetService "RunService", ac(ab.Parent.Signal), function()
+            end, {}
+        ai.__index = ai
+        function ai.new()
+            return setmetatable({_onStep = ag.new(), _onStart = ag.new(), _onComplete = ag.new()}, ai)
+        end
+        function ai.onStep(aj, c)
+            return aj._onStep:connect(c)
+        end
+        function ai.onStart(aj, c)
+            return aj._onStart:connect(c)
+        end
+        function ai.onComplete(aj, c)
+            return aj._onComplete:connect(c)
+        end
+        function ai.start(aj)
+            if not aj._connection then
+                aj._connection =
+                    af.RenderStepped:Connect(
+                    function(c)
+                        if aj.step then 
+                            aj:step(c)
+                        end
+                    end
+                )
+            end
+        end
+        function ai.stop(aj)
+            if aj._connection then
+                aj._connection:Disconnect()
+                aj._connection = nil
+            end
+        end
+        ai.destroy = ai.stop
+        ai.step = ah
+        ai.getValue = ah
+        ai.setGoal = ah
+        function ai.__tostring(aj)
+            return "Motor"
+        end
+        return ai
+    end,
+    [32] = function()
+        local aa, ab, ac, ad, ae = b(32)
+        return function()
+            local af, ag = game:GetService "RunService", ac(ab.Parent.BaseMotor)
+            describe(
+                "connection management",
+                function()
+                    local ah = ag.new()
+                    it(
+                        "should hook up connections on :start()",
+                        function()
+                            ah:start()
+                            expect(typeof(ah._connection)).to.equal "RBXScriptConnection"
+                        end
+                    )
+                    it(
+                        "should remove connections on :stop() or :destroy()",
+                        function()
+                            ah:stop()
+                            expect(ah._connection).to.equal(nil)
+                        end
+                    )
+                end
+            )
+            it(
+                "should call :step() with deltaTime",
+                function()
+                    local ah, ai = (ag.new())
+                    function ah.step(aj, ...)
+                        ai = {...}
+                        ah:stop()
+                    end
+                    ah:start()
+                    local aj = af.RenderStepped:Wait()
+                    af.RenderStepped:Wait()
+                    expect(ai).to.be.ok()
+                    expect(ai[1]).to.equal(aj)
+                end
+            )
+        end
+    end,
+    [33] = function()
+        local aa, ab, ac, ad, ae = b(33)
+        local af, ag, ah = ac(ab.Parent.BaseMotor), ac(ab.Parent.SingleMotor), ac(ab.Parent.isMotor)
+        local ai = setmetatable({}, af)
+        ai.__index = ai
+        local aj = function(aj)
+            if ah(aj) then
+                return aj
+            end
+            local c = typeof(aj)
+            if c == "number" then
+                return ag.new(aj, false)
+            elseif c == "table" then
+                return ai.new(aj, false)
+            end
+            error(("Unable to convert %q to motor; type %s is unsupported"):format(aj, c), 2)
+        end
+        function ai.new(c, d)
+            assert(c, "Missing argument #1: initialValues")
+            assert(typeof(c) == "table", "initialValues must be a table!")
+            assert(
+                not c.step,
+                [[initialValues contains disallowed property "step". Did you mean to put a table of values here?]]
+            )
+            local e = setmetatable(af.new(), ai)
+            if d ~= nil then
+                e._useImplicitConnections = d
+            else
+                e._useImplicitConnections = true
+            end
+            e._complete = true
+            e._motors = {}
+            for f, g in pairs(c) do
+                e._motors[f] = aj(g)
+            end
+            return e
+        end
+        function ai.step(c, d)
+            if c._complete then
+                return true
+            end
+            local e = true
+            for f, g in pairs(c._motors) do
+                local h = g:step(d)
+                if not h then
+                    e = false
+                end
+            end
+            if c._onStep.fire then 
+                c._onStep:fire(c:getValue())
+            end
+            if e then
+                if c._useImplicitConnections then
+                    c:stop()
+                end
+                c._complete = true
+                if c._onComplete.fire then 
+                    c._onComplete:fire()
+                end
+                    
+            end
+            return e
+        end
+        function ai.setGoal(c, d)
+            assert(
+                not d.step,
+                [[goals contains disallowed property "step". Did you mean to put a table of goals here?]]
+            )
+            c._complete = false
+            if c._onStep.fire then 
+                c._onStart:fire()
+            end
+            for e, f in pairs(d) do
+                local g = assert(c._motors[e], ("Unknown motor for key %s"):format(e))
+                g:setGoal(f)
+            end
+            if c._useImplicitConnections then
+                c:start()
+            end
+        end
+        function ai.getValue(c)
+            local d = {}
+            for e, f in pairs(c._motors) do
+                d[e] = f:getValue()
+            end
+            return d
+        end
+        function ai.__tostring(c)
+            return "Motor(Group)"
+        end
+        return ai
+    end,
+    [34] = function()
+        local aa, ab, ac, ad, ae = b(34)
+        return function()
+            local af, ag, ah = ac(ab.Parent.GroupMotor), ac(ab.Parent.Instant), ac(ab.Parent.Spring)
+            it(
+                "should complete when all child motors are complete",
+                function()
+                    local ai = af.new({A = 1, B = 2}, false)
+                    expect(ai._complete).to.equal(true)
+                    ai:setGoal {A = ag.new(3), B = ah.new(4, {frequency = 7.5, dampingRatio = 1})}
+                    expect(ai._complete).to.equal(false)
+                    ai:step(1.6666666666666665E-2)
+                    expect(ai._complete).to.equal(false)
+                    for aj = 1, 30 do
+                        ai:step(1.6666666666666665E-2)
+                    end
+                    expect(ai._complete).to.equal(true)
+                end
+            )
+            it(
+                "should start when the goal is set",
+                function()
+                    local ai, aj = af.new({A = 0}, false), false
+                    ai:onStart(
+                        function()
+                            aj = not aj
+                        end
+                    )
+                    ai:setGoal {A = ag.new(1)}
+                    expect(aj).to.equal(true)
+                    ai:setGoal {A = ag.new(1)}
+                    expect(aj).to.equal(false)
+                end
+            )
+            it(
+                "should properly return all values",
+                function()
+                    local ai = af.new({A = 1, B = 2}, false)
+                    local aj = ai:getValue()
+                    expect(aj.A).to.equal(1)
+                    expect(aj.B).to.equal(2)
+                end
+            )
+            it(
+                "should error when a goal is given to GroupMotor.new",
+                function()
+                    local ai =
+                        pcall(
+                        function()
+                            af.new(ag.new(0))
+                        end
+                    )
+                    expect(ai).to.equal(false)
+                end
+            )
+            it(
+                [[should error when a single goal is provided to GroupMotor:step]],
+                function()
+                    local ai =
+                        pcall(
+                        function()
+                            af.new {a = 1}:setGoal(ag.new(0))
+                        end
+                    )
+                    expect(ai).to.equal(false)
+                end
+            )
+        end
+    end,
+    [35] = function()
+        local aa, ab, ac, ad, ae = b(35)
+        local af = {}
+        af.__index = af
+        function af.new(ag)
+            return setmetatable({_targetValue = ag}, af)
+        end
+        function af.step(ag)
+            return {complete = true, value = ag._targetValue}
+        end
+        return af
+    end,
+    [36] = function()
+        local aa, ab, ac, ad, ae = b(36)
+        return function()
+            local af = ac(ab.Parent.Instant)
+            it(
+                "should return a completed state with the provided value",
+                function()
+                    local ag = af.new(1.23)
+                    local ah = ag:step(0.1, {value = 0, complete = false})
+                    expect(ah.complete).to.equal(true)
+                    expect(ah.value).to.equal(1.23)
+                end
+            )
+        end
+    end,
+    [37] = function()
+        local aa, ab, ac, ad, ae = b(37)
+        local af = {}
+        af.__index = af
+        function af.new(ag, ah)
+            assert(ag, "Missing argument #1: targetValue")
+            ah = ah or {}
+            return setmetatable({_targetValue = ag, _velocity = ah.velocity or 1}, af)
+        end
+        function af.step(ag, ah, ai)
+            local aj, c, d = ah.value, ag._velocity, ag._targetValue
+            local e = ai * c
+            local f = e >= math.abs(d - aj)
+            aj = aj + e * (d > aj and 1 or -1)
+            if f then
+                aj = ag._targetValue
+                c = 0
+            end
+            return {complete = f, value = aj, velocity = c}
+        end
+        return af
+    end,
+    [38] = function()
+        local aa, ab, ac, ad, ae = b(38)
+        return function()
+            local af, ag = ac(ab.Parent.SingleMotor), ac(ab.Parent.Linear)
+            describe(
+                "completed state",
+                function()
+                    local ah, ai = af.new(0, false), ag.new(1, {velocity = 1})
+                    ah:setGoal(ai)
+                    for aj = 1, 60 do
+                        ah:step(1.6666666666666665E-2)
+                    end
+                    it(
+                        "should complete",
+                        function()
+                            expect(ah._state.complete).to.equal(true)
+                        end
+                    )
+                    it(
+                        "should be exactly the goal value when completed",
+                        function()
+                            expect(ah._state.value).to.equal(1)
+                        end
+                    )
+                end
+            )
+            describe(
+                "uncompleted state",
+                function()
+                    local ah, ai = af.new(0, false), ag.new(1, {velocity = 1})
+                    ah:setGoal(ai)
+                    for aj = 1, 59 do
+                        ah:step(1.6666666666666665E-2)
+                    end
+                    it(
+                        "should be uncomplete",
+                        function()
+                            expect(ah._state.complete).to.equal(false)
+                        end
+                    )
+                end
+            )
+            describe(
+                "negative velocity",
+                function()
+                    local ah, ai = af.new(1, false), ag.new(0, {velocity = 1})
+                    ah:setGoal(ai)
+                    for aj = 1, 60 do
+                        ah:step(1.6666666666666665E-2)
+                    end
+                    it(
+                        "should complete",
+                        function()
+                            expect(ah._state.complete).to.equal(true)
+                        end
+                    )
+                    it(
+                        "should be exactly the goal value when completed",
+                        function()
+                            expect(ah._state.value).to.equal(0)
+                        end
+                    )
+                end
+            )
+        end
+    end,
+    [39] = function()
+        local aa, ab, ac, ad, ae = b(39)
+        local af = {}
+        af.__index = af
+        function af.new(ag, ah)
+            return setmetatable({signal = ag, connected = true, _handler = ah}, af)
+        end
+        function af.disconnect(ag)
+            if ag.connected then
+                ag.connected = false
+                for ah, ai in pairs(ag.signal._connections) do
+                    if ai == ag then
+                        table.remove(ag.signal._connections, ah)
+                        return
+                    end
+                end
+            end
+        end
+        local ag = {}
+        ag.__index = ag
+        function ag.new()
+            return setmetatable({_connections = {}, _threads = {}}, ag)
+        end
+        local RunService = game:GetService("RunService")
+        function ag.fire(ah, ...)
+            RunService.Heartbeat:Connect(function()
+                if not RunService:IsRunning() then
+                    print("Not running on main thread")
+                    return
+                end
+        
+                for ai, aj in pairs(ah._connections) do
+                    aj._handler(...)
+                end
+                for c, d in pairs(ah._threads) do
+                    coroutine.resume(d, ...)
+                end
+                ah._threads = {}
+            end)
+        end
+        function ag.connect(ah, aj)
+            local c = af.new(ah, aj)
+            table.insert(ah._connections, c)
+            return c
+        end
+        function ag.wait(ah)
+            table.insert(ah._threads, coroutine.running())
+            return coroutine.yield()
+        end
+        return ag
+    end,
+    [40] = function()
+        local aa, ab, ac, ad, ae = b(40)
+        return function()
+            local af = ac(ab.Parent.Signal)
+            it(
+                "should invoke all connections, instantly",
+                function()
+                    local ag, ah, aj = (af.new())
+                    ag:connect(
+                        function(c)
+                            ah = c
+                        end
+                    )
+                    ag:connect(
+                        function(c)
+                            aj = c
+                        end
+                    )
+                    if ag.fire then 
+                        ag:fire "hello"
+                    end
+                    expect(ah).to.equal "hello"
+                    expect(aj).to.equal "hello"
+                end
+            )
+            it(
+                "should return values when :wait() is called",
+                function()
+                    local ag = af.new()
+                    spawn(
+                        function()
+                            if ag.fire then 
+                                ag:fire(123, "hello")
+                            end
+                        end
+                    )
+                    local ah, aj = ag:wait()
+                    expect(ah).to.equal(123)
+                    expect(aj).to.equal "hello"
+                end
+            )
+            it(
+                "should properly handle disconnections",
+                function()
+                    local ag, ah = af.new(), false
+                    local aj =
+                        ag:connect(
+                        function()
+                            ah = true
+                        end
+                    )
+                    aj:disconnect()
+                    if ag.fire then 
+                        ag:fire()
+                    end
+                    expect(ah).to.equal(false)
+                end
+            )
+        end
+    end,
+    [41] = function()
+        local aa, ab, ac, ad, ae = b(41)
+        local af = ac(ab.Parent.BaseMotor)
+        local ag = setmetatable({}, af)
+        ag.__index = ag
+        function ag.new(ah, aj)
+            assert(ah, "Missing argument #1: initialValue")
+            assert(typeof(ah) == "number", "initialValue must be a number!")
+            local c = setmetatable(af.new(), ag)
+            if aj ~= nil then
+                c._useImplicitConnections = aj
+            else
+                c._useImplicitConnections = true
+            end
+            c._goal = nil
+            c._state = {complete = true, value = ah}
+            return c
+        end
+        function ag.step(ah, aj)
+            if ah._state.complete then
+                return true
+            end
+            local c = ah._goal:step(ah._state, aj)
+            ah._state = c
+            if ah._onStep.fire then 
+                ah._onStep:fire(c.value)
+            end
+            if c.complete then
+                if ah._useImplicitConnections then
+                    ah:stop()
+                end
+                if ah._onComplete.fire then 
+                    ah._onComplete:fire()
+                end
+            end
+            return c.complete
+        end
+        function ag.getValue(ah)
+            return ah._state.value
+        end
+        function ag.setGoal(ah, aj)
+            ah._state.complete = false
+            ah._goal = aj
+            ah._onStart:fire()
+            if ah._useImplicitConnections then
+                ah:start()
+            end
+        end
+        function ag.__tostring(ah)
+            return "Motor(Single)"
+        end
+        return ag
+    end,
+    [42] = function()
+        local aa, ab, ac, ad, ae = b(42)
+        return function()
+            local af, ag = ac(ab.Parent.SingleMotor), ac(ab.Parent.Instant)
+            it(
+                "should assign new state on step",
+                function()
+                    local ah = af.new(0, false)
+                    ah:setGoal(ag.new(5))
+                    ah:step(1.6666666666666665E-2)
+                    expect(ah._state.complete).to.equal(true)
+                    expect(ah._state.value).to.equal(5)
+                end
+            )
+            it(
+                [[should invoke onComplete listeners when the goal is completed]],
+                function()
+                    local ah, aj = af.new(0, false), false
+                    ah:onComplete(
+                        function()
+                            aj = true
+                        end
+                    )
+                    ah:setGoal(ag.new(5))
+                    ah:step(1.6666666666666665E-2)
+                    expect(aj).to.equal(true)
+                end
+            )
+            it(
+                "should start when the goal is set",
+                function()
+                    local ah, aj = af.new(0, false), false
+                    ah:onStart(
+                        function()
+                            aj = not aj
+                        end
+                    )
+                    ah:setGoal(ag.new(5))
+                    expect(aj).to.equal(true)
+                    ah:setGoal(ag.new(5))
+                    expect(aj).to.equal(false)
+                end
+            )
+        end
+    end,
+    [43] = function()
+        local aa, ab, ac, ad, ae = b(43)
+        local af, ag, ah, aj = 0.001, 0.001, 0.0001, {}
+        aj.__index = aj
+        function aj.new(c, d)
+            assert(c, "Missing argument #1: targetValue")
+            d = d or {}
+            return setmetatable(
+                {_targetValue = c, _frequency = d.frequency or 4, _dampingRatio = d.dampingRatio or 1},
+                aj
+            )
+        end
+        function aj.step(c, d, e)
+            local f, g, h, i, j = c._dampingRatio, c._frequency * 2 * math.pi, c._targetValue, d.value, d.velocity or 0
+            local k, l, m, n = i - h, (math.exp(-f * g * e))
+            if f == 1 then
+                m = (k * (1 + g * e) + j * e) * l + h
+                n = (j * (1 - g * e) - k * (g * g * e)) * l
+            elseif f < 1 then
+                local o = math.sqrt(1 - f * f)
+                local p, s, t = math.cos(g * o * e), (math.sin(g * o * e))
+                if o > ah then
+                    t = s / o
+                else
+                    local u = e * g
+                    t = u + ((u * u) * (o * o) * (o * o) / 20 - o * o) * (u * u * u) / 6
+                end
+                local u
+                if g * o > ah then
+                    u = s / (g * o)
+                else
+                    local v = g * o
+                    u = e + ((e * e) * (v * v) * (v * v) / 20 - v * v) * (e * e * e) / 6
+                end
+                m = (k * (p + f * t) + j * u) * l + h
+                n = (j * (p - t * f) - k * (t * g)) * l
+            else
+                local o = math.sqrt(f * f - 1)
+                local p, s = -g * (f - o), -g * (f + o)
+                local t = (j - k * p) / (2 * g * o)
+                local u = k - t
+                local v, w = u * math.exp(p * e), t * math.exp(s * e)
+                m = v + w + h
+                n = v * p + w * s
+            end
+            local o = math.abs(n) < af and math.abs(m - h) < ag
+            return {complete = o, value = o and h or m, velocity = n}
+        end
+        return aj
+    end,
+    [44] = function()
+        local aa, ab, ac, ad, ae = b(44)
+        return function()
+            local af, ag = ac(ab.Parent.SingleMotor), ac(ab.Parent.Spring)
+            describe(
+                "completed state",
+                function()
+                    local ah, aj = af.new(0, false), ag.new(1, {frequency = 2, dampingRatio = 0.75})
+                    ah:setGoal(aj)
+                    for c = 1, 100 do
+                        ah:step(1.6666666666666665E-2)
+                    end
+                    it(
+                        "should complete",
+                        function()
+                            expect(ah._state.complete).to.equal(true)
+                        end
+                    )
+                    it(
+                        "should be exactly the goal value when completed",
+                        function()
+                            expect(ah._state.value).to.equal(1)
+                        end
+                    )
+                end
+            )
+            it(
+                "should inherit velocity",
+                function()
+                    local ah = af.new(0, false)
+                    ah._state = {complete = false, value = 0, velocity = -5}
+                    local aj = ag.new(1, {frequency = 2, dampingRatio = 1})
+                    ah:setGoal(aj)
+                    ah:step(1.6666666666666665E-2)
+                    expect(ah._state.velocity < 0).to.equal(true)
+                end
+            )
+        end
+    end,
+    [45] = function()
+        local aa, ab, ac, ad, ae = b(45)
+        local af = function(af)
+            local ag = tostring(af):match "^Motor%((.+)%)$"
+            if ag then
+                return true, ag
+            else
+                return false
+            end
+        end
+        return af
+    end,
+    [46] = function()
+        local aa, ab, ac, ad, ae = b(46)
+        return function()
+            local af, ag, ah = ac(ab.Parent.isMotor), ac(ab.Parent.SingleMotor), ac(ab.Parent.GroupMotor)
+            local aj, c = ag.new(0), ah.new {}
+            it(
+                "should properly detect motors",
+                function()
+                    expect(af(aj)).to.equal(true)
+                    expect(af(c)).to.equal(true)
+                end
+            )
+            it(
+                "shouldn't detect things that aren't motors",
+                function()
+                    expect(af {}).to.equal(false)
+                end
+            )
+            it(
+                "should return the proper motor type",
+                function()
+                    local d, e = af(aj)
+                    local f, g = af(c)
+                    expect(e).to.equal "Single"
+                    expect(g).to.equal "Group"
+                end
+            )
+        end
+    end,
+    [47] = function()
+        local aa, ab, ac, ad, ae = b(47)
+        local af = {Names = {"Dark", "Darker", "Light", "Aqua", "Amethyst", "Rose"}}
+        for ag, ah in next, ab:GetChildren() do
+            local aj = ac(ah)
+            af[aj.Name] = aj
+        end
+        return af
+    end,
+    [48] = function()
+        local aa, ab, ac, ad, ae = b(48)
+        return {
+            Name = "Amethyst",
+            Accent = Color3.fromRGB(97, 62, 167),
+            AcrylicMain = Color3.fromRGB(20, 20, 20),
+            AcrylicBorder = Color3.fromRGB(110, 90, 130),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(85, 57, 139), Color3.fromRGB(40, 25, 65)),
+            AcrylicNoise = 0.92,
+            TitleBarLine = Color3.fromRGB(95, 75, 110),
+            Tab = Color3.fromRGB(160, 140, 180),
+            Element = Color3.fromRGB(140, 120, 160),
+            ElementBorder = Color3.fromRGB(60, 50, 70),
+            InElementBorder = Color3.fromRGB(100, 90, 110),
+            ElementTransparency = 0.87,
+            ToggleSlider = Color3.fromRGB(140, 120, 160),
+            ToggleToggled = Color3.fromRGB(0, 0, 0),
+            SliderRail = Color3.fromRGB(140, 120, 160),
+            DropdownFrame = Color3.fromRGB(170, 160, 200),
+            DropdownHolder = Color3.fromRGB(60, 45, 80),
+            DropdownBorder = Color3.fromRGB(50, 40, 65),
+            DropdownOption = Color3.fromRGB(140, 120, 160),
+            Keybind = Color3.fromRGB(140, 120, 160),
+            Input = Color3.fromRGB(140, 120, 160),
+            InputFocused = Color3.fromRGB(20, 10, 30),
+            InputIndicator = Color3.fromRGB(170, 150, 190),
+            Dialog = Color3.fromRGB(60, 45, 80),
+            DialogHolder = Color3.fromRGB(45, 30, 65),
+            DialogHolderLine = Color3.fromRGB(40, 25, 60),
+            DialogButton = Color3.fromRGB(60, 45, 80),
+            DialogButtonBorder = Color3.fromRGB(95, 80, 110),
+            DialogBorder = Color3.fromRGB(85, 70, 100),
+            DialogInput = Color3.fromRGB(70, 55, 85),
+            DialogInputLine = Color3.fromRGB(175, 160, 190),
+            Text = Color3.fromRGB(240, 240, 240),
+            SubText = Color3.fromRGB(170, 170, 170),
+            Hover = Color3.fromRGB(140, 120, 160),
+            HoverChange = 0.04
+        }
+    end,
+    [49] = function()
+        local aa, ab, ac, ad, ae = b(49)
+        return {
+            Name = "Aqua",
+            Accent = Color3.fromRGB(60, 165, 165),
+            AcrylicMain = Color3.fromRGB(20, 20, 20),
+            AcrylicBorder = Color3.fromRGB(50, 100, 100),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(60, 140, 140), Color3.fromRGB(40, 80, 80)),
+            AcrylicNoise = 0.92,
+            TitleBarLine = Color3.fromRGB(60, 120, 120),
+            Tab = Color3.fromRGB(140, 180, 180),
+            Element = Color3.fromRGB(110, 160, 160),
+            ElementBorder = Color3.fromRGB(40, 70, 70),
+            InElementBorder = Color3.fromRGB(80, 110, 110),
+            ElementTransparency = 0.84,
+            ToggleSlider = Color3.fromRGB(110, 160, 160),
+            ToggleToggled = Color3.fromRGB(0, 0, 0),
+            SliderRail = Color3.fromRGB(110, 160, 160),
+            DropdownFrame = Color3.fromRGB(160, 200, 200),
+            DropdownHolder = Color3.fromRGB(40, 80, 80),
+            DropdownBorder = Color3.fromRGB(40, 65, 65),
+            DropdownOption = Color3.fromRGB(110, 160, 160),
+            Keybind = Color3.fromRGB(110, 160, 160),
+            Input = Color3.fromRGB(110, 160, 160),
+            InputFocused = Color3.fromRGB(20, 10, 30),
+            InputIndicator = Color3.fromRGB(130, 170, 170),
+            Dialog = Color3.fromRGB(40, 80, 80),
+            DialogHolder = Color3.fromRGB(30, 60, 60),
+            DialogHolderLine = Color3.fromRGB(25, 50, 50),
+            DialogButton = Color3.fromRGB(40, 80, 80),
+            DialogButtonBorder = Color3.fromRGB(80, 110, 110),
+            DialogBorder = Color3.fromRGB(50, 100, 100),
+            DialogInput = Color3.fromRGB(45, 90, 90),
+            DialogInputLine = Color3.fromRGB(130, 170, 170),
+            Text = Color3.fromRGB(240, 240, 240),
+            SubText = Color3.fromRGB(170, 170, 170),
+            Hover = Color3.fromRGB(110, 160, 160),
+            HoverChange = 0.04
+        }
+    end,
+    [50] = function()
+        local aa, ab, ac, ad, ae = b(50)
+        return {
+            Name = "Dark",
+            Accent = Color3.fromRGB(96, 205, 255),
+            AcrylicMain = Color3.fromRGB(60, 60, 60),
+            AcrylicBorder = Color3.fromRGB(90, 90, 90),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(40, 40, 40), Color3.fromRGB(40, 40, 40)),
+            AcrylicNoise = 0.9,
+            TitleBarLine = Color3.fromRGB(75, 75, 75),
+            Tab = Color3.fromRGB(120, 120, 120),
+            Element = Color3.fromRGB(120, 120, 120),
+            ElementBorder = Color3.fromRGB(35, 35, 35),
+            InElementBorder = Color3.fromRGB(90, 90, 90),
+            ElementTransparency = 0.87,
+            ToggleSlider = Color3.fromRGB(120, 120, 120),
+            ToggleToggled = Color3.fromRGB(0, 0, 0),
+            SliderRail = Color3.fromRGB(120, 120, 120),
+            DropdownFrame = Color3.fromRGB(160, 160, 160),
+            DropdownHolder = Color3.fromRGB(45, 45, 45),
+            DropdownBorder = Color3.fromRGB(35, 35, 35),
+            DropdownOption = Color3.fromRGB(120, 120, 120),
+            Keybind = Color3.fromRGB(120, 120, 120),
+            Input = Color3.fromRGB(160, 160, 160),
+            InputFocused = Color3.fromRGB(10, 10, 10),
+            InputIndicator = Color3.fromRGB(150, 150, 150),
+            Dialog = Color3.fromRGB(45, 45, 45),
+            DialogHolder = Color3.fromRGB(35, 35, 35),
+            DialogHolderLine = Color3.fromRGB(30, 30, 30),
+            DialogButton = Color3.fromRGB(45, 45, 45),
+            DialogButtonBorder = Color3.fromRGB(80, 80, 80),
+            DialogBorder = Color3.fromRGB(70, 70, 70),
+            DialogInput = Color3.fromRGB(55, 55, 55),
+            DialogInputLine = Color3.fromRGB(160, 160, 160),
+            Text = Color3.fromRGB(240, 240, 240),
+            SubText = Color3.fromRGB(170, 170, 170),
+            Hover = Color3.fromRGB(120, 120, 120),
+            HoverChange = 0.07
+        }
+    end,
+    [51] = function()
+        local aa, ab, ac, ad, ae = b(51)
+        return {
+            Name = "Darker",
+            Accent = Color3.fromRGB(72, 138, 182),
+            AcrylicMain = Color3.fromRGB(30, 30, 30),
+            AcrylicBorder = Color3.fromRGB(60, 60, 60),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(25, 25, 25), Color3.fromRGB(15, 15, 15)),
+            AcrylicNoise = 0.94,
+            TitleBarLine = Color3.fromRGB(65, 65, 65),
+            Tab = Color3.fromRGB(100, 100, 100),
+            Element = Color3.fromRGB(70, 70, 70),
+            ElementBorder = Color3.fromRGB(25, 25, 25),
+            InElementBorder = Color3.fromRGB(55, 55, 55),
+            ElementTransparency = 0.82,
+            DropdownFrame = Color3.fromRGB(120, 120, 120),
+            DropdownHolder = Color3.fromRGB(35, 35, 35),
+            DropdownBorder = Color3.fromRGB(25, 25, 25),
+            Dialog = Color3.fromRGB(35, 35, 35),
+            DialogHolder = Color3.fromRGB(25, 25, 25),
+            DialogHolderLine = Color3.fromRGB(20, 20, 20),
+            DialogButton = Color3.fromRGB(35, 35, 35),
+            DialogButtonBorder = Color3.fromRGB(55, 55, 55),
+            DialogBorder = Color3.fromRGB(50, 50, 50),
+            DialogInput = Color3.fromRGB(45, 45, 45),
+            DialogInputLine = Color3.fromRGB(120, 120, 120)
+        }
+    end,
+    [52] = function()
+        local aa, ab, ac, ad, ae = b(52)
+        return {
+            Name = "Light",
+            Accent = Color3.fromRGB(0, 103, 192),
+            AcrylicMain = Color3.fromRGB(200, 200, 200),
+            AcrylicBorder = Color3.fromRGB(120, 120, 120),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 255, 255)),
+            AcrylicNoise = 0.96,
+            TitleBarLine = Color3.fromRGB(160, 160, 160),
+            Tab = Color3.fromRGB(90, 90, 90),
+            Element = Color3.fromRGB(255, 255, 255),
+            ElementBorder = Color3.fromRGB(180, 180, 180),
+            InElementBorder = Color3.fromRGB(150, 150, 150),
+            ElementTransparency = 0.65,
+            ToggleSlider = Color3.fromRGB(40, 40, 40),
+            ToggleToggled = Color3.fromRGB(255, 255, 255),
+            SliderRail = Color3.fromRGB(40, 40, 40),
+            DropdownFrame = Color3.fromRGB(200, 200, 200),
+            DropdownHolder = Color3.fromRGB(240, 240, 240),
+            DropdownBorder = Color3.fromRGB(200, 200, 200),
+            DropdownOption = Color3.fromRGB(150, 150, 150),
+            Keybind = Color3.fromRGB(120, 120, 120),
+            Input = Color3.fromRGB(200, 200, 200),
+            InputFocused = Color3.fromRGB(100, 100, 100),
+            InputIndicator = Color3.fromRGB(80, 80, 80),
+            Dialog = Color3.fromRGB(255, 255, 255),
+            DialogHolder = Color3.fromRGB(240, 240, 240),
+            DialogHolderLine = Color3.fromRGB(228, 228, 228),
+            DialogButton = Color3.fromRGB(255, 255, 255),
+            DialogButtonBorder = Color3.fromRGB(190, 190, 190),
+            DialogBorder = Color3.fromRGB(140, 140, 140),
+            DialogInput = Color3.fromRGB(250, 250, 250),
+            DialogInputLine = Color3.fromRGB(160, 160, 160),
+            Text = Color3.fromRGB(0, 0, 0),
+            SubText = Color3.fromRGB(40, 40, 40),
+            Hover = Color3.fromRGB(50, 50, 50),
+            HoverChange = 0.16
+        }
+    end,
+    [53] = function()
+        local aa, ab, ac, ad, ae = b(53)
+        return {
+            Name = "Rose",
+            Accent = Color3.fromRGB(180, 55, 90),
+            AcrylicMain = Color3.fromRGB(40, 40, 40),
+            AcrylicBorder = Color3.fromRGB(130, 90, 110),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(190, 60, 135), Color3.fromRGB(165, 50, 70)),
+            AcrylicNoise = 0.92,
+            TitleBarLine = Color3.fromRGB(140, 85, 105),
+            Tab = Color3.fromRGB(180, 140, 160),
+            Element = Color3.fromRGB(200, 120, 170),
+            ElementBorder = Color3.fromRGB(110, 70, 85),
+            InElementBorder = Color3.fromRGB(120, 90, 90),
+            ElementTransparency = 0.86,
+            ToggleSlider = Color3.fromRGB(200, 120, 170),
+            ToggleToggled = Color3.fromRGB(0, 0, 0),
+            SliderRail = Color3.fromRGB(200, 120, 170),
+            DropdownFrame = Color3.fromRGB(200, 160, 180),
+            DropdownHolder = Color3.fromRGB(120, 50, 75),
+            DropdownBorder = Color3.fromRGB(90, 40, 55),
+            DropdownOption = Color3.fromRGB(200, 120, 170),
+            Keybind = Color3.fromRGB(200, 120, 170),
+            Input = Color3.fromRGB(200, 120, 170),
+            InputFocused = Color3.fromRGB(20, 10, 30),
+            InputIndicator = Color3.fromRGB(170, 150, 190),
+            Dialog = Color3.fromRGB(120, 50, 75),
+            DialogHolder = Color3.fromRGB(95, 40, 60),
+            DialogHolderLine = Color3.fromRGB(90, 35, 55),
+            DialogButton = Color3.fromRGB(120, 50, 75),
+            DialogButtonBorder = Color3.fromRGB(155, 90, 115),
+            DialogBorder = Color3.fromRGB(100, 70, 90),
+            DialogInput = Color3.fromRGB(135, 55, 80),
+            DialogInputLine = Color3.fromRGB(190, 160, 180),
+            Text = Color3.fromRGB(240, 240, 240),
+            SubText = Color3.fromRGB(170, 170, 170),
+            Hover = Color3.fromRGB(200, 120, 170),
+            HoverChange = 0.04
+        }
+    end
+}
+do
+    local ab, ac, ad, ae, af, ag, ah, aj, c, e, f, g, h, i, j, k =
+        task,
+        setmetatable,
+        error,
+        newproxy,
+        getmetatable,
+        next,
+        table,
+        unpack,
+        coroutine,
+        script,
+        type,
+        require,
+        pcall,
+        getfenv,
+        setfenv,
+        rawget
+    local l, m, n, o, p, s, t, u, v, w, x = ah.insert, ah.remove, ah.freeze or function(l)
+                return l
+            end, ab and ab.defer or function(l, ...)
+                local m = c.create(l)
+                c.resume(m, ...)
+                return m
+            end, "0.0.0-venv", {}, {}, {}, {}, {}, {}
+    local y, z = {GetChildren = function(y)
+                local z, A = x[y], {}
+                for B in ag, z do
+                    l(A, B)
+                end
+                return A
+            end, FindFirstChild = function(y, z)
+                if not z then
+                    ad("Argument 1 missing or nil", 2)
+                end
+                for A in ag, x[y] do
+                    if A.Name == z then
+                        return A
+                    end
+                end
+                return
+            end, GetFullName = function(y)
+                local z, A = y.Name, y.Parent
+                while A do
+                    z = A.Name .. "." .. z
+                    A = A.Parent
+                end
+                return "VirtualEnv." .. z
+            end}, {}
+    for A, B in ag, y do
+        z[A] = function(C, ...)
+            if not x[C] then
+                ad("Expected ':' not '.' calling member function " .. A, 1)
+            end
+            return B(C, ...)
+        end
+    end
+    local C = function(C, D, E)
+        local F, G, H, I, J = ac({}, {__mode = "k"}), function(F)
+                ad(F .. " is not a valid (virtual) member of " .. C .. ' "' .. D .. '"', 1)
+            end, function(F)
+                ad("Unable to assign (virtual) property " .. F .. ". Property is read only", 1)
+            end, (ae(true))
+        local K = af(I)
+        K.__index = function(L, M)
+            if M == "ClassName" then
+                return C
+            elseif M == "Name" then
+                return D
+            elseif M == "Parent" then
+                return E
+            elseif C == "StringValue" and M == "Value" then
+                return J
+            else
+                local N = z[M]
+                if N then
+                    return N
+                end
+            end
+            for N in ag, F do
+                if N.Name == M then
+                    return N
+                end
+            end
+            G(M)
+        end
+        K.__newindex = function(L, M, N)
+            if M == "ClassName" then
+                H(M)
+            elseif M == "Name" then
+                D = N
+            elseif M == "Parent" then
+                if N == I then
+                    return
+                end
+                if E ~= nil then
+                    x[E][I] = nil
+                end
+                E = N
+                if N ~= nil then
+                    x[N][I] = true
+                end
+            elseif C == "StringValue" and M == "Value" then
+                J = N
+            else
+                G(M)
+            end
+        end
+        K.__tostring = function()
+            return D
+        end
+        x[I] = F
+        if E ~= nil then
+            x[E][I] = true
+        end
+        return I
+    end
+    local function D(E, F)
+        local G, H, I, J = E[1], E[2], E[3], E[4]
+        local K = m(I, 1)
+        local L = C(H, K, F)
+        s[G] = L
+        if I then
+            for M, N in ag, I do
+                L[M] = N
+            end
+        end
+        if J then
+            for M, N in ag, J do
+                D(N, L)
+            end
+        end
+        return L
+    end
+    local E = {}
+    for F, G in ag, a do
+        l(E, D(G))
+    end
+    for H, I in ag, aa do
+        local J = s[H]
+        t[J] = I
+        local K = J.ClassName
+        if K == "LocalScript" or K == "Script" then
+            l(v, J)
+        end
+    end
+    local J = function(J)
+        local K, L = J.ClassName, u[J]
+        if L and K == "ModuleScript" then
+            return aj(L)
+        end
+        local M = t[J]
+        if not M then
+            return
+        end
+        if K == "LocalScript" or K == "Script" then
+            M()
+            return
+        else
+            local N = {M()}
+            u[J] = N
+            return aj(N)
+        end
+    end
+    function b(K)
+        local L = s[K]
+        local M = t[L]
+        if not M then
+            return
+        end
+        local N, O, P, Q, R, S, T = false, n {Version = p, Script = e, Shared = w, GetScript = function()
+                    return e
+                end, GetShared = function()
+                    return w
+                end}, L, function(N, ...)
+                if x[N] and N.ClassName == "ModuleScript" and t[N] then
+                    return J(N)
+                end
+                return g(N, ...)
+            end
+        local U, V = function(U, ...)
+                if not N then
+                    T()
+                end
+                if f(U) == "number" and U >= 0 then
+                    if U == 0 then
+                        return S
+                    else
+                        U = U + 1
+                        local V, W = h(i, U)
+                        if V and W == R then
+                            return S
+                        end
+                    end
+                end
+                return i(U, ...)
+            end, function(U, V, ...)
+                if not N then
+                    T()
+                end
+                if f(U) == "number" and U >= 0 then
+                    if U == 0 then
+                        return j(S, V)
+                    else
+                        U = U + 1
+                        local W, X = h(i, U)
+                        if W and X == R then
+                            return j(S, V)
+                        end
+                    end
+                end
+                return j(U, V, ...)
+            end
+        function T()
+            R = i(0)
+            local W = {maui = O, script = P, require = Q, getfenv = U, setfenv = V}
+            S =
+                ac(
+                {},
+                {__index = function(X, Y)
+                        local Z = k(S, Y)
+                        if Z ~= nil then
+                            return Z
+                        end
+                        local _ = W[Y]
+                        if _ ~= nil then
+                            return _
+                        end
+                        return R[Y]
+                    end}
+            )
+            j(M, S)
+            N = true
+        end
+        return O, P, Q, U, V
+    end
+    for K, L in ag, v do
+        o(J, L)
+    end
+    do
+        local M
+        for N, O in ag, E do
+            if O.ClassName == "ModuleScript" and O.Name == "MainModule" then
+                M = O
+                break
+            end
+        end
+        if M then
+            return J(M)
+        end
+    end
+end
 
-do return(function(wm,fm,Hm,Gm,rm,qm,bm,am,Km,tm,xm,Tm,dm,jm,Um,Xm,Dm,zm,Am,Lm,Em,Wm,pm,om,Ym,Pm,N,J,h)local u,x,O=select,Pm,assert;local c,Y=nil,nil;for FV=0,1 do if FV~=0 then Y=0x0000100000000;continue;else c=Hm;end;end;local I,sm,e,Im,B,i=tostring,0X0001,nil,nil,nil,(nil);local G,k=setfenv,(tonumber);do repeat do if sm<=0X1 then do if sm~=0 then e=xm;do sm=0x00000;end;continue;else Im=1;do sm=3;end;continue;end;end;else do if sm==0X2 then i={0x3,0X00002,0X5};sm=4;else do B=Wm;end;sm=0x2;continue;end;end;end;end;until sm==0X4;end;sm=0X1;local R,V=nil,nil;while sm~=0x2 do if sm~=0 then R=Km.gsub;do sm=0;end;else V=wm;do sm=0X2;end;end;end;local H,M=rawget,Km.match;sm=0X4;local v,cm,K,E,l,g,r=nil,nil,nil,nil,nil,nil,(nil);while sm<0x7 do if not(sm<=0x2)then if not(sm<=4)then if sm~=0x5 then K=coroutine.wrap;sm=0X00000;continue;else g=zm.lshift;do sm=0X1;end;continue;end;else do if sm~=3 then do v=string.byte;end;sm=3;continue;else cm=function(...)do return u('\035',...),{...};end;end;sm=0x6;end;end;end;else if sm<=0x0 then do E=unpack;end;sm=2;else if sm~=0x1 then do l=Em;end;do sm=5;end;continue;else r=zm.bxor;sm=7;continue;end;end;end;end;local C,z,T,o=nil,nil,nil,nil;for tq=0,4 do if not(tq<=0X0001)then do if tq<=0X0002 then T=Am;continue;else do if tq==3 then do z=function(Bt,wt,Yt)local It=nil;local Ct=(2);while Ct<=2 do if not(Ct<=0X000)then do if Ct==0X1 then It=Yt-wt+0X0001;do Ct=0x0;end;continue;else if not(wt>Yt)then else do return;end;end;Ct=1;continue;end;end;else if It>=8 then return Bt[wt],Bt[wt+0x1],Bt[wt+2],Bt[wt+3],Bt[wt+0X4],Bt[wt+5],Bt[wt+0X006],Bt[wt+0X7],z(Bt,wt+8,Yt);elseif It>=0X0007 then return Bt[wt],Bt[wt+1],Bt[wt+2],Bt[wt+0X0003],Bt[wt+4],Bt[wt+0X5],Bt[wt+0X0006],z(Bt,wt+7,Yt);elseif It>=0X06 then do return Bt[wt],Bt[wt+1],Bt[wt+2],Bt[wt+0X3],Bt[wt+4],Bt[wt+5],z(Bt,wt+6,Yt);end;elseif It>=0X5 then return Bt[wt],Bt[wt+0X0001],Bt[wt+2],Bt[wt+0X3],Bt[wt+0X04],z(Bt,wt+5,Yt);elseif It>=4 then return Bt[wt],Bt[wt+0X1],Bt[wt+2],Bt[wt+3],z(Bt,wt+4,Yt);elseif It>=3 then return Bt[wt],Bt[wt+1],Bt[wt+om],z(Bt,wt+0X3,Yt);elseif not(It>=0X2)then return Bt[wt],z(Bt,wt+1,Yt);else do return Bt[wt],Bt[wt+1],z(Bt,wt+om,Yt);end;end;Ct=0X3;continue;end;end;end;end;else do o=Gm;end;end;end;end;end;else if tq==0 then C=string.rep;else continue;end;end;end;local X=getfenv;sm=0X4;local f,U,Vm,D,em=nil,nil,nil,nil,nil;while-0X8B1BaE8 do if not(sm<=1)then if not(sm<=0x0002)then if sm==0X003 then do Vm=function(...)return(...)();end;end;sm=0x00002;do continue;end;else do f=X();end;sm=1;continue;end;else D=0X80000000;do sm=0;end;continue;end;else if sm==0 then do em=function()(l)('\Y\111\117\114\ \en\118\i\114\on\ment\ d\111e\s\032\110\o\116\032sup\p\ort\ L\117\097\JI\T\'\s\ \F\070\I\032\libr\097\114\y,\ t\he\114\e\102\or\e\ you\ \099\097nn\111t\ u\se\ L\L\/\085\L\076\047\i\032\su\102\102\i\120\e\115.');end;end;break;else U=0X1;sm=0X3;continue;end;end;end;local d=R(e("LPH%F8002H3C26431333012H0074766226FF32012H00BAAE67111E00816B2H00390074083H00F8098DCCEF9C4A2B74063H00A071A5245114740C3H004E2F17864C06ABA41873953974093H004A4BDB6AF791FCCC0A740C3H00332CC299932F62EE69BD6B892900C6017H00740D3H00CFE8269D6E2H1977C3F183868E1F4H009FBF1B21490502004400457E7A012H006786012H006782012H00677E2H0068152H000D1F2H002C232H003894072H0038A40700A80519D802D006D8045FC005F007B8033CD403F804B00737E42H04BC051DE005AC07800762C4019C0390053EC404EC0194070290069805AC0226A803EC0400674200840650B002AC02176B1F2H00332H040033040800192H081B282H080067662H003300040067062H000D1F2H043F032H003300040067062H000D1F2H043F132H0067C66HFF0F2H001A3H003300040067062H000D1F2H043F0F2H003300040067062H000D1F2H043F0B2H0067022H003300040067062H000D1F2H043F072H0067A26HFF0F00800119605C0048002H0C2708040067022H004800040067EA6HFF0F2H00C46F6A130033012H00896C0075FF32012H00323E27208801796B2H003900334H00F83BF32H17030100075D7A012H00674A2H0067462H0067422H00680D2H000D032H002C072H003890072H0038B40700B4061DEC04D407442CF00790028C042218FC07D40639F4075080031E9407D002D4032C9402E804900130EC07880214116CD402D80748D805D002C005299407C0016C3010C4076429B401B80100540004FC0619F407F00700F10D7E77E2017D6B2H007D0074093H002465184335C545AE8672C6017H00C68H00514H00FECEAC67C01009002A00290028004400260023002400250048007B012H0067C2052H0067BE052H0067BA052H0068152H000D072H002C132H003884072H0038AC07001C30D002A402B00562689C07BC0727F002A007B4034DAC078002FC07399002D005DC055C34F406C4055DA406EC059C054D9004F805006782052H00298A01100067D2032H0029E2030800330C200067022H000100200067D2032H00330C20000100200067A2012H0067F26HFF0F2H004E101C0067062H0047C0011C00050018002C071C00331C2000480024002C03280068012C001310200067062H00478405200029AA6HFF0F0400674A2H003314180067062H000D07180033181C006726000B280C1C006702000B5B1020004610140067DA6HFF0F2H00331014006702006429B401CC010067DE6HFF0F2H004800200B280C240B5B10280067826HFF0F2H0067EE032H00330C20000100200067062H0047B406200067B20200840650B002AC020029AA02180067E26HFF0F2H0067C202000F28182C0F281C30003320340067062H000D07346429B801EC016429BC01F00100679A01000F28082400677A00E00450B006D406002400340067062H0047F80334003320346429CC01EC01F80269E805880600240034003320340067062H000D07340048203800671E2H00332034F80269F40584066429E001F001002400340033203400482C380067322H0048243C0067022H00240034003320340067062H000D0734F80269F0058406E00450C006D406002400340067BE6HFF0F000F2814280067DAFE5HFF0F00E00450C806D4060067022H002400340067222H002400340067062H0047B80434003320340067062H000D07346429BC01EC0100670A00F80269EC058006800119608C016429C801F00100240034003320340067062H000D07346429C801EC010067AEFE5HFF0F000F28042000679EFE5HFF0F2H00330C14000100140067062H0047CC07140067A2FD5HFF0F2H0029DAFD5HFF0F140067B6FC5HFF0F2H0029DA6HFF0F1C006792012H00330C200067062H000D0720000100200067022H0067F6FB5HFF0F2H00330C14000100140067062H0047AC04140067DAFB5HFF0F00F80269CC05D405002C030C00400004003304086429B401C0010067022H002C0310004000080067062H0047F40708005A00080067062H0047AC04080033080CE004509806A8060067022H002C03140C4E2H0C0067062H0047B8040C002986FB5HFF0F0C00670A2H003300040067A26HFF0F2H0067C6FC5HFF0F2H00330C20000100200067022H0067B6FE5HFF0F2H0067DEFE5HFF0F2H0092740F75FF32012H005EEB81243007BA6B2H00B90074053H009D46062262C6027H00C6F0817690D7730400C656A7384AA12E0D00C6D04DCB470CE3F9FFC6A3D884178A710300C67D662154C4CB090074043H001A9BA46CC62F890845F0D2F3FFC69309C31D28F70500C6D9EDC665773E0A00C6F5B6C62D29850400C601DED8F14A4C2HFF74083H006E4F9D1732E21F06C6525062552BE3F5FFC638D1F388DCF60A00C6B7A0DDD16BB6FAFF740A3H009637528CCAF84BE7B91FC6D9DFEB0E4H00C65BCFDE6A9B16F7FFC6F47FF00D60A90A0074053H003849FF3AA2C6388F92546B55F8FFC6C8DF38B27016F4FFC68C21DDB390480600C6BCCEE97E43A40B00C6191AE0B5156F0100C60B4445D87731FDFFC6DA6BAC3BDCF60A00C6ADBBBA354H00C6A238A4BBF9910A00C6CBECBA804H00C6391B6FE21751FBFFC6017H0074053H003DE66A81C9C6FC69EDD5BAA40900C6E5075AADAF2D0500C64DAA2653C63CF0FFC66H001000C6F22C3312D4CE0200740A3H00BA3BFABA910420EBEC23C6CE5C56D880180B00C649A703159AF20C00740A3H001C0D3CF1FC2635A6C375C606A7CC20B2C3F3FFC61913F61909CC0E00C631B6AE54A67E090074073H005EBFBE855D9C1EC687ED6DEAB4D9F7FF74053H00DD869BE96974063H005ADB792ACAE9C65C2C211BA97D0300C6B02D4FB554320F00C6BBD69CA24H00C60EC3BA01B318F5FFC64C1A321EA1F4F7FFC657E74FEEE13A0500C6E7CFD5CE5FA90A00C632D2F76BC7DE0600C68B94C1FA5617F0FFC6FF036H00C6DBA31058E9310D00C664535509D8730400C60D75D099EE60070074063H0028B9E1A6D5C1A04H00A31C2B63BE1D020021001F867D012H006796082H006792082H00678E082H0068152H000D132H002C87022H00388C072H0038A80700E0033CA401E80290021BAC0444840712CC03D005F8031270C804C00612880690018C024E98045CEC06118405F4031C63840280060067D6072H002C331C0067CE052H0045004000675A00083A2H380067022H005FDA0A380067520020022H380067EA6HFF0F2H00330040BF01142H40003300440067062H000D13441F142H440067062H000D1344004500400067062H00477040004000380067C66HFF0F2H0040003C1C032H3C0067C26HFF0F00E00450A406DC060067EE6HFF0F2H0067D217008B01142H2800671A2H0033002457142H240067062H000D1324003300280067E26HFF0F2H0033002C8302142H2C00672A00775B2H200067D66HFF0F0057142H380067062H000D1338DB010A6F3CF80269D0058C0600674A006B5E2H3000674A2H0033003003142H300067062H000D1330003300340067062H000D13348B01142H340067062H000D1334003300380067B26HFF0F2H002C273C00400034004500300067BA6HFF0F2H004000380067EA6HFF0F2H005F920F300067362H0029BA031C0067E2FD5HFF0F2H002CEF011C0067F26HFF0F2H0067DA1100E00450C406F00600678A062H0048102800677E006429B401E401006792102H002CEB011C0067B20B00E00450AC06C8060067D20E2H0067EE6HFF0F2H002C7B240067522H00679A0800E00450A006C8060067C215006429BC01E4010067D2032H0048002000678A022H002CC301300067C6152H0067F6102H005FE6102800671E2H0045002C1C022H2C004500280067062H00472028F701172H280067DE6HFF0F2H0067D66HFF0F2H00298206240067FA1500D7013H2800679A012H004500340067062H0047B403345F282H34004500300067062H00478C02309F015B2H300067022H003300348302142H340067062H000D1334003300380067062H000D13381F142H38004500340067062H0047702H342A2H30005FB2143000674600CB01142H2C0067062H000D132C0033003003142H300067062H000D1330003300340067062H000D13348302142H340067062H000D1334004824380067EAFE5HFF0F2H0033002C0067BE6HFF0F2H0067BA060008392H1C005F9E051C0067BE042H0067B2042H0067BE0C00CF01212H30005F86123000673A00143E2H20005FFE0D200067A60D2H002C4F380067AE0C2H0048041C0067C20E2H00678A0C2H00291A580067D611006429C801E4010067DE03006429D001E4010067CA112H0067F66HFF0F00142A2H58005F9213580067E60100E004509C06B4060067EA0400042A2H1C005F860E1C0067BA6HFF0F0080011960880130188701300067F66HFF0F008701283H34412H300067EE6HFF0F009B01362H340067EE6HFF0F0004032H34006702000B5B2H340067EA6HFF0F2H004000340067EA6HFF0F2H002C8F013C0067F26HFF0F2H0029E2FE5HFF0F20006786012H0029DEF95HFF0F4400678E0C00F80269F005A4060067FE032H0067F66HFF0F2H002CE301300067B6FE5HFF0F0023282H300045002C003304300067062H000D133037142H300067062H000D1330002CC701340067022H002CA30138004000300067062H0047DC0130004000280067062H00478C0628E00450B406C4060067022H004000240067062H0047FC052414042H240067022H005FA60A240067DA0B2H0067C6FB5HFF0F00F80269E005A4060067A2112H00450024004500200067062H0047F40220002C9701240040001C00671E2H0033001C0067062H000D131C8B01142H1C00673E008302142H24006716000F442H1C005FA2FA5HFF0F1C00673A2H004500280067B66HFF0F2H003300280067062H000D1328CB01142H280067062H000D13286429B801E0010067DA6HFF0F2H00330020BF01142H20003300240067B66HFF0F2H0067DA0A2H006782FA5HFF0F001B212H58005FE2FC5HFF0F580067D20B2H002C2B240067FE0800E00450C006C8060067C2012H003300380067062H000D13381F142H380067062H000D1338004500340067062H004780052H34022H3018392H300067022H005F8E01300067122H0033003400670200BF01142H340067BA6HFF0F2H0067D60A00F80269CC05EC050067F6FC5HFF0F00F80269D405E80500675600735B2H24003300280067062H000D1328BF01142H280067062H000D13280033002C00670200CB01142H2C0067062H000D132C003300300067062H000D13308B01142H300067062H000D1330FF01250834005F9A0A340067A60F2H0029DE0D1C006786092H002C172000678AF75HFF0F2H0029DEFA5HFF0F3000679EFC5HFF0F00182A2H1C005F161C0067E20900F80269CC05FC0500673A2H00294E580067D6092H0029920C1C0067EE0B2H00330058BF01142H580067062H000D13580033005C1F142H5C004500580067062H0047D404580067AA0A2H0029D6FB5HFF0F300067FAF75HFF0F2H00299201380067F2022H002C2F580067E6080008042H58005FDE08580067D2F75HFF0F2H0029820A580067AE6HFF0F2H0067F6F95HFF0F2H0067DEF75HFF0F2H0033005C0067062H000D135C03142H5C006796022H0045005C004500580067C2012H003300548302142H54003300580067062H000D1358CB01142H580067C66HFF0F2H003300680067062H000D13681F142H68004500640067062H0047A80664004500600067B66HFF0F008302142H640067D66HFF0F2H004500340067062H0047BC0334E00450B006D006004000304B282H30F3015B3H301607300033003457142H340067062H000D1334003300380067062H000D13388B01142H380033003C00670200CB01142H3C0067062H000D133C0033004000670A2H005FCEFD5HFF0F5800677E00CB01142H400067062H000D13400033004400670A00B301212H580067DE6HFF0F008B01142H440067062H000D1344003300480067062H000D1348CB01142H480033004C0067062H000D134C8B01142H4C003300500067062H000D135057142H500067FAFD5HFF0F2H003300600067062H000D136003142H600067062H000D13600033006400679AFE5HFF0F2H0067CEF85HFF0F2H0067B60600204D2H58005F9AFD5HFF0F580067A6042H0029E6F65HFF0F1C0067D60500CB01142H5C006752008302142H540033005857142H580067062H000D13580033005C0067DE6HFF0F001F142H5C004500580067062H00478C052H583E2H540067D602008302142H3400678A022H0033004C8B01142H4C003300508302142H500067BE012H003300600067062H000D13608302142H6000673A2H004000580067062H0047E00558004500540067062H0047B80654003300580067062H000D13588302142H580067062H000D13580033005C0067826HFF0F2H003300640067062H000D1364BF01142H640067062H000D1364003300680067062H000D1368BF01142H680033006C0067062H000D136C1F142H6C0067062H000D136C00450068004500640067062H0047840564004500600067062H00478404600045005C0067062H0047E4075CE00450A006F8060067DAFE5HFF0F2H003300540067EEFD5HFF0F2H0045002C0067062H00479C062C535B2H2C003300300067062H000D13308B01142H300067062H000D1330003300340067F2FD5HFF0F2H0033003857142H380067062H000D13380033003C0067062H000D133C8B01142H3C0033004000670200BF01142H400067022H00330044CB01142H44003300488302142H480067B6FD5HFF0F2H005F96015400678EF15HFF0F2H002C67580067CEFC5HFF0F2H0029AE013000678EF75HFF0F2H0048002400675E2H002CBB01300067D6F15HFF0F2H0067A6F15HFF0F2H0067E2062H0029D2F45HFF0F380067F66HFF0F2H002942240067CEF35HFF0F2H00480C580067B6F95HFF0F006429C80188020067FE062H003300480067162H003300440067062H000D1344BF01142H440067E66HFF0F001F142H480067022H0045004400679AF45HFF0F2H004500202H042H20005F86F45HFF0F200067D2F25HFF0F2H0067B26HFF0F2H002CAB01340067B6022H0029B206540067AA6HFF0F2H0067660098051BA405A0050067FE052H004000240067062H0047880124B701172H240067222H0045002C0067062H0047DC062CF80269DC05FC050040002800670200E004509C06C4060067CE6HFF0F2H005FBAF05HFF0F240067522H0067EEFE5HFF0F2H0067AAF75HFF0F2H0067C2F55HFF0F2H002996EE5HFF0F20006782F75HFF0F2H00678EEF5HFF0F00E00450A006B4060067CE042H00330020006702008302142H200067022H003300240067062H000D13241F142H24004500200067062H0047E001200067BE6HFF0F2H00678AEF5HFF0F00F80269E405A4060067CEF15HFF0F2H002C431C006786F15HFF0F2H0029BEF65HFF0F1C0067EA042H0029D2F45HFF0F580067BEEE5HFF0F2H0029C6EF5HFF0F280067BEEE5HFF0F2H0067D6F45HFF0F2H004814280067EE6HFF0F2H002C8301540067A2FE5HFF0F2H0067BEF15HFF0F2H002CA701580067EEF65HFF0F2H0067B66HFF0F2H002942340067EA022H002CDF01380067DEF75HFF0F2H004820380067C2F65HFF0F001C022H3020392H30005FEE03300067322H002CC7013C002CAF01400040002H38032H34E00450A006D006004000300067D66HFF0F2H003304380067062H000D133837142H380067D26HFF0F2H0067C6FC5HFF0F2H0033044C37142H4C002CC70150002C47540040004C004000440067162H004500540067062H00477854002C3B5800676A2H004500400045003C0067062H0047DC043C04022H3C003300400067062H000D13408302142H4000330044006702001F142H440067062H000D1344004500400067062H0047C40440004000380067062H0047483800392H38005FC6FB5HFF0F3800671A2H0040004C004500480067EAFE5HFF0F2H00400050002C5B540067EA6HFF0F2H0067FAF45HFF0F2H002CD3015800679AEF5HFF0F2H002CE701300067F2F95HFF0F00E00450A406B40600671A2H0067E2FA5HFF0F2H005FBEF75HFF0F1C00673A001F142H24004500200067260013282H1C003300200067062H000D1320BF01142H200067062H000D1320003300240067D26HFF0F0020392H1C0067C26HFF0F2H0067D6EB5HFF0F2H00679E6HFF0F2H00299AF95HFF0F3000679E6HFF0F2H006796FB5HFF0F2H005FDAF35HFF0F3000678A010057142H280067062H000D13280033002CCB01142H2C0067062H000D132C003300300067062H000D1330BF01142H300067062H000D1330003300341F142H34004500300067062H0047A4022H303A00300067AA6HFF0F007F282H1C003300200067062H000D1320BF01142H200067062H000D1320003300240067062H000D13248B01142H240067022H003300280067FAFE5HFF0F2H0067DEFA5HFF0F2H002CFB01380067EEED5HFF0F2H0029E2EA5HFF0F300067C2EC5HFF0F006429CC01E8010067E2FB5HFF0F00F80269D00590060067C6E75HFF0F2H0067E6FB5HFF0F2H0029C6F05HFF0F300067DEEC5HFF0F00E00450A406B4060067CAF15HFF0F2H002996F55HFF0F580067DAFD5HFF0F2H004500500067062H0047A401506429D801880200671E2H005FB2ED5HFF0F4400672E2H004500440067062H0047704493013H440067E66HFF0F2H0040004C004500480067062H004794074863282H480067D66HFF0F2H0067D2F95HFF0F2H0067866HFF0F2H002C3F240067FEEF5HFF0F2H0079E4182EFF32010003C420105E9701796B2H0089008B4H00B304A616870503004C004A004D747A012H0067422H00673E2H00673A2H0068112H000D032H002C072H003888072H0038B80700D80163E0028801F0022A24D801FC043C44F001D40356CC04F806980163DC07980788023C8405D8035437D4078005F00310AC0148B00602F40178005F262H0067262H00291E080067162H003300080067062H000D0308001E2H080067E66HFF0F2H00672600840650B002AC020067E26HFF0F2H000C00080067062H0047A806080067EA6HFF0F2H00332H08F80269CC05D8050067E66HFF0F2H003304080067062H000D03086429B401C00100670A2H004B00080067DA6HFF0F00B80771CC04DC040067F26HFF0F3H00434E3AFF32012H000CE80A2A44007E6B2H007D0074033H00D64F44436H00304174043H00A562856FC68H00432H00C03HFFDF41CB4H004BE594336507063H0043001A0028002B0015887A012H00678E012H00678A012H006786012H0068152H000D072H002C172H003894072H0038AC0700AC07679002E403FC0329C401B002544E90058C04C00542EC03D00290051FE003B002A4043E68D4036404C401B803F003418007F806E80126B00378CC03508801F4023C12C4042C00674200840650B002AC02002C13100013142H0033042H00553H00543H00673A2H00330C040067062H000D070400332H080067062H000D07080033100C002C031000670A2H0033042H0067CE6HFF0F2H002C07140046100800670A2H0033082H0067C26HFF0F2H0033080C0067062H000D070C00332H10002C0B140067022H002C0718004E100C0067022H004B3H0067062H0047E4042H0033082H0067062H000D072H003314040067062H000D0704001A0008002C0F0C0067D6FE5HFF0F00B406508C058C050054345337FF32012H00E819F958D508BE6B2H000900C656AD4BF116832HFFC6A72BCCED6D082H00C6833B4641F728F3FFC6C4312352422C0200740A3H00E1BAE02HED2C24A989A274053H00836CFC34A4C603346D9835EC2H00C697BA05BB7115F5FFC6C015A03F69070B00C6BF28F6B00DAC2H00C63173823B79F90600C6859795CB0BE6F3FFC6AA503A6B4H00C671D27205ACADF5FFC6A7C9FAAEFE292HFFC680905A043969F7FF74053H006031E7CAACC6CCF795EACC820C00C6B462BC9CEE55030074043H00453E8FA1C6BD2B35EFAF110E0074083H00D972A6529D47445BC6E7A5725633182H00C6FF036H00C6CB4B93087B60F9FFC6BF7A42CC1BA32H00C66B7101B94H00C6828603954H00C6096771BB33182H00C6BE11A03F69070B00C64CD10E7BB4A60B00C681E789D72808F8FFC6FB3F2928E75F0400C655EDD570D6000A00740A3H00815AD962ADD8470B2042740A3H00230C86E4FCE7C39B4374C6329ABE2205E4FAFF74063H00E5DEF2071D74C6BD2B35EFAF110C00C6545E6D8022330E00C639C3B2D6B1AF0100C661E82405B9BB0800C6FBC23A6175920B00C6A25D2311B646F0FFC6BC8F0109F9C80B00C6027H0074053H0073DCB1AFFFC6CF97E5ABF2740B00C6422BA3BD98920E00C69F008C2A11BDF0FF740A3H00D0213BC70A52ADDE36C9C62B2F763E0F7FFCFF74053H00E2C3C1B4F8C6AABFD4AC64560600740A3H0017A0628A048638D13108C6773070B358E80D0074073H0019B27510420915C68BD98B3DBC890B00C6017H00C6F51ADFBFD6000A0074063H0070C1F95E8DB9C67EF93195D2160400C61560B6E43149F6FFC6A5562C53A4112H00C60EA28FE14EA4F6FF740A3H004E8FE9D3DCBCCE4D38B7C6F39513C8E592F5FFC66H001000C65D1245362270FEFF904H008A3EB625DF1D020021001FE57D012H0067EE0E2H0067EA0E2H0067E60E2H0068152H000D172H002C97022H003888072H0038A00700C0042ACC07EC02A007108003B406F40204CC01E802D0064ED8039006C0063BC4069C03D803198C04C803BC0330E00384030067B20E2H002C0B280067961C0073282H30006702002H5B2H3000330034D301142H340067062H000D17340033003843142H380067062H000D17380033003C0067062H000D173CD301142H3C0033004017142H400067022H00330044D301142H44003300480067062H000D1748E301142H480067062H000D17480033004C0067222H00022H3C0067122H004000300067826HFF0F00483E18480067262H00450038006726004F142H4C0067062H000D174C004500480067DE6HFF0F00E7015B2H3C0067C66HFF0F2H005FAE074800671A00F80269D0058806004000340067062H0047FC0134002CFB01380067AE6HFF0F2H0067FE012H0067CE0B2H0029AA063000670E2H0029DE15240067B60F2H0067C20B2H0067FA062H0067E20B2H0029EA0E3C0067AE1A0028392H3C005FC6073C00679E0900F80269D805F0050067D26HFF0F2H004828680067A6082H0067C21400E004509C06BC060067E2182H0067CA062H0067AE6HFF0F2H003300300067062H000D1730E301142H300067062H000D1730003300344F142H340067022H004500300067D26HFF0F2H0067B60900F80269E405F00500678A132H00330050006736008B025B2H4C14032H4CF80269F4059C06004000480033004CF301142H4C0067DE6HFF0F2H0045004C0067062H0047582H4C3E2H48005F820A4800670A004F142H500067E26HFF0F2H006786152H002C23340067B6022H0029AE133400679E062H0029AE6HFF0F4C0067A60E00202A2H34005FEA6HFF0F340067FE102H006792102H00299202340067D26HFF0F2H005F82FE5HFF0F24006782012H004500280033002C0067062H000D172CE301142H2C00672E2H0033002C0067062H000D172C4F142H2C0067062H000D172C004500280067062H004784072H282A2H240067B66HFF0F2H003300304F142H300067062H000D17300045002C0067062H00478C022C004000240067062H0047F40524003300280067062H000D1728E301142H2800679A6HFF0F2H0067CE0500F80269F005FC050067C20F2H00678AFB5HFF0F006429B401E0010067522H00330028F301142H280033002C4F142H2C0067062H000D172C004500280067D60E00E00450B006CC060067DA152H006792062H0029DA05340067F6FC5HFF0F2H005FE6162800671E2H004000280067062H0047C80528BF01442H280067E66HFF0F2H004810300067E66HFF0F2H00679A6HFF0F2H005FE2046800679A022H0033004C0067B20100775B2H345F5B3H3416B701340067022H0033003843142H380067062H000D17380033003CD301142H3C003300400067062H000D1740F301142H400067062H000D17400033004443142H440067062H000D1744003300480067062H000D1748D301142H480067966HFF0F00D301142H640067062H000D1764003300680067062H000D1768E301142H680067062H000D17680033006C4F142H6C004500680067062H0047B4032H68354B683F172H680067CAFE5HFF0F2H003300640067B66HFF0F0043142H4C0067062H000D174C00330050D301142H5000330054D301142H540067062H000D1754003300580067062H000D1758D301142H580067062H000D17580033005C0067062H000D175C43142H5C003300600067062H000D176017142H6000679A6HFF0F2H006792012H0029FEF95HFF0F3C0067F208001C042H30005FCA03300067BE0A2H002982133C00678E092H006782FA5HFF0F2H002C1F300067BA0A006429C801F8010067960C2H002C87026400671E2H0033045C0067062H000D175C57142H5C0067022H002CBB01600067DE6HFF0F2H0040005C0067062H004780025C006782012H0029AE08480067F6042H004810300067966HFF0F2H0048143400678E022H002CAF01440067A60C00E00450C806CC060067CEFA5HFF0F2H0067D6122H006782F95HFF0F2H005FEA113400671E2H004000340067062H0047CC013437322H340067E66HFF0F2H002CAB013C0067E66HFF0F2H0067E6FB5HFF0F00F80269F40598060067FEF95HFF0F2H0029CA05380067CA0D2H0029DEF75HFF0F3C0067DE092H002CD7013C00679EF85HFF0F2H002C8302340067860D2H002C4760004000580067062H0047F0045820032H5800670A2H005FC2F95HFF0F4C00672200E004509806F40600400054E00450B406F00600400050F80269F005A0060040004CA301322H4C0067DA6HFF0F2H0067162H00298A0A300067B2112H002C0F340067BA062H0067D2F75HFF0F2H00672HFE5HFF0F2H00291A680067DE0A2H0040005C142A2H5C0067022H005F8A095C0067222H002C7F6C0067022H004000640067062H0047B4036400450060004804640067CE6HFF0F2H00678EFE5HFF0F0008032H300067162H004500300067062H0047D4053020032H300067E66HFF0F00F701252H30005F866HFF0F3000672HF65HFF0F2H002C9F013C00679EFE5HFF0F2H0029523C00670E2H0067EA102H002C1B4800678E012H0067A6102H002986FA5HFF0F2C0067AAF95HFF0F2H0067D6FC5HFF0F2H0067FA052H00299A0E30006796F65HFF0F00E00450C806E0060067BA01002B212H34005FEAF75HFF0F34006792FD5HFF0F00202A2H380067122H004000380067F26HFF0F006429D801F4010067F26HFF0F2H005FC609380067262H00480034006792F95HFF0F2H002C93014C004000440067062H0047AC0344DF01252H44005F92084400679A6HFF0F2H0067B6082H0067D2080038412H3400675200EB01282H380067F26HFF0F00E004509806E406004000440067062H0047980144004500400067062H0047BC0340004804440040003C0067062H0047AC073C002C534000400038006702009B015B2H388F02362H380067B66HFF0F00800119608C013418EB01340067F66HFF0F2H0029AE6HFF0F48006782F85HFF0F00F80269EC058406006796FC5HFF0F2H002C273C0067CAFA5HFF0F2H0029AEF65HFF0F2C006796FE5HFF0F006429E401E801006782F65HFF0F2H00678AFC5HFF0F2H006A2H00F80269E80588060067C20D006429C401E4010067960C2H00678204006429C801F001006796F45HFF0F00D301142H240067062H000D1724003300280067062H000D172817142H2800672E2H00400030B301442H30005F82043000676600E301142H340067062H000D1734F80269D80584060067122H0033002000673E2H0033002C0067162H0045003400480C380067C26HFF0F2H003300340067CA6HFF0F0017142H2C0067062H000D172C003300300067062H000D173043142H300067DA6HFF0F00F301142H20003300240067EEFE5HFF0F2H0067BAFD5HFF0F001C2A2H3C005FF6F85HFF0F3C0067CA012H0033003C0067062H000D173CE301142H3C0067062H000D173C003300400067062H000D17404F142H400045002H3C032H3800671E2H003300300067062H000D173043142H300067362H0040003C0067A66HFF0F2H004500340067062H00478C0434004500300067062H0047BC04300045002C0067062H004798022C33282H2C0067BA6HFF0F2H0033003443142H34003300380067062H000D1738E301142H380033003C0067062H000D173CD301142H3C0033004017142H40006702006429E001F801004500400067062H0047B80140002C03440067826HFF0F2H006792F15HFF0F00E004509806CC06006786FB5HFF0F0018392H3C005FC6FA5HFF0F3C0067EA022H0029F6FA5HFF0F340067E66HFF0F2H0067EAFC5HFF0F2H004814340067B6F25HFF0F2H002C9302680067D2F95HFF0F2H0029CE03280067A201000C2A2H48005FEE024800679AFA5HFF0F2H0067820A2H0067B20A2H0067A6FC5HFF0F2H006782F15HFF0F004F142H3000670A2H003300300067F26HFF0F2H0045002C0067062H0047A0042C00679AF25HFF0F2H0033002C0067062H000D172CF301142H2C0067D66HFF0F00E00450A006E0060067AA6HFF0F2H0067A2092H0067C6062H002C8B01340040002C0067CAF95HFF0F2H0033042C57142H2C0067062H000D172C002CBB01300067DE6HFF0F2H002946300067A2062H0067DEF25HFF0F2H004500280067062H0047E406280067AA022H00330028F301142H280067062H000D17280033002C4F142H2C0067D66HFF0F2H0067DE092H002CBB0134002C133800671A2H0045002C003304300067062H000D173057142H300067DE6HFF0F2H004000300067062H0047EC052H304D2H2C005FAEFA5HFF0F2C006796FE5HFF0F2H0048203800679AF65HFF0F2H004824380067F2FB5HFF0F2H0040003C0067062H0047F0053C0067FEED5HFF0F2H0033043C0067062H000D173C57142H3C0067062H000D173C002CBB0140002C8F01440067CE6HFF0F2H00678AEF5HFF0F00F80269F80588060067D2F75HFF0F2H002982F65HFF0F5C0067D2F45HFF0F006429D001FC010067F6F45HFF0F2H00678EFE5HFF0F001C392H28005F92FD5HFF0F280067DE012H002C2F48006796F85HFF0F2H002992F85HFF0F480067F26HFF0F2H002CBB0140002CCB01440040003C0067062H00479C043C0067BEFC5HFF0F2H0033043C57142H3C0067DE6HFF0F0010032H30244D2H30005F9EED5HFF0F300067EAFC5HFF0F2H002962440067B2F45HFF0F2H0067E2F55HFF0F2H0067AAFC5HFF0F2H005FB206240067120008022H2800450024184D2H240067EA6HFF0F2H0067AEF35HFF0F2H002C7B3800675E2H003300340067062H000D17344F142H340067122H00678AFD5HFF0F2H00330030E301142H300067DE6HFF0F2H004500300067EA6HFF0F2H0067DEFB5HFF0F2H0045004000671A2H0040003C0067062H0047D4053C2C042H3C005FD2F25HFF0F3C00670A2H002C07440067E26HFF0F2H00679EFC5HFF0F2H0029DAF35HFF0F380067B6FD5HFF0F00F80269DC05F4050067AAFB5HFF0F2H0045002H343A103400671A0018032H2400673200D301142H2C0067322H0033003800671A2H005FA2EF5HFF0F3400674E2H00330028F301142H280033002C0067DA6HFF0F004F142H380067BE6HFF0F006F282H240067E26HFF0F2H003300300067062H000D173017142H300067062H000D1730003300340067062H000D1734F301142H340067A66HFF0F2H0067FEEB5HFF0F2H002CA701300067C2F35HFF0F002C032H340067020008022H3400032H3400670A2H005FF2F95HFF0F3400670E00CF01282H34C301252H340067EE6HFF0F2H0067BAFD5HFF0F2H006782FC5HFF0F2H0033002C0067062H000D172C43142H2C0067062H000D172C00330030F301142H30006702006429C001E80100672E00EF01282H24004500200067062H0047DC052087015B2H2000672A2H0040002C0067062H0047B8042C8301252H2C00670E2H00450030002C3B340067E26HFF0F2H005FCAF35HFF0F2C00672E2H003300240067062H000D1724F301142H240067062H000D1724003300280067062H000D172843142H280067EAFE5HFF0F2H0067BEFB5HFF0F2H0067AAF35HFF0F006429E401F0010067D6EF5HFF0F2H0067DEEF5HFF0F2H003304480067062H000D174857142H480067062H000D1748002CBB014C002CDB015000671E2H0045003800673E2H00481C4C004000440067CA6HFF0F2H004500480067EE6HFF0F2H004000480067062H0047A40448004000400067062H0047AC05400045003C0067C66HFF0F2H005F9EF05HFF0F380067D20100103A2H380067F26HFF0F009701142H2C0067062H000D172C003300309701142H30003300340067062H000D1734E301142H340067062H000D1734003300380067062H000D17389701142H380067222H002CFF01340040002C004500280067062H0047E404286B3H280033002C0067A26HFF0F2H0033003C0067062H000D173CF301142H3C0067062H000D173C003300400067062H000D1740D301142H400067062H000D1740003300440067062H000D1744D301142H440067062H000D1744003300480067062H000D1748F301142H480067062H000D17486429D4018002006782FE5HFF0F2H0067DAE65HFF0F2H0029C6E85HFF0F340067BAF25HFF0F2H0029E6FA5HFF0F240067C6F85HFF0F006429C80180020067DAE75HFF0F0067442H3C005FDAE65HFF0F3C0067A6F25HFF0F2H00330024F301142H240067062H000D1724003300280067062H000D17284F142H280067022H004500240067062H004714240067EEFB5HFF0F2H002CC7012C0067DAF15HFF0F2H00678AE95HFF0F00E00450C806F4060067F6F75HFF0F2H0033003CE301142H3C003300400067062H000D17404F142H400067062H000D17400045003C0067062H0047F8013C0067EAEF5HFF0F2H0029D6F75HFF0F280067FEF55HFF0F2H002C63480067DEF75HFF0F2H0067FAF75HFF0F00E004509C06C8060067A2EF5HFF0F2H00D2F98C4CFF3201000761709B243A017C6B2H0095002900290174353H00401191CC9909F4AE965F8937577464CDDF35860C04CCEC1C0D79FBA9D22C883C4E1CF371A8FD1D4DF8EEE701711BCA6CF2CBE3AC38354H00F2CD993FC908050033004800320049001E887A012H00673E2H00673A2H0067362H00680D2H000D0F2H002C132H00388C072H0038A80700D8075F8C070C305FE401DC0484024ED403AC030427C802A00290071CFC03E003A4054EF401B004A0065CA40588023067A803A002005F122H0067122H00332H08005FA201080067120098051BA405A00500330008005FEA6HFF0F0800676A2H0067322H003304080033000C00670200E004509806A80600670A2H002400080067C66HFF0F2H0045000C0067062H004794040C002C03100067E66HFF0F2H003304080033080C0067062H000D0F0C004800100045000C0067062H0047C8070C002C0710002400080067062H0047C806080067262H00679A6HFF0F2H00332H100067062H000D0F10E004509806AC06001A00180067022H001314080067E6FE5HFF0F2H00330C080067062H000D0F08002C0B0C0067CE6HFF0F2H003DEECF1DFF32010003A853167CA4017C6B2H008D00C6017H0074033H000DFAA02901FD4H005F519D011A0902001600446E7A012H0067462H0067422H00673E2H00680D2H000D032H002C0F2H003880072H0038B80700406CC406BC06B40763C407DC04C80147F80460900203CC018C02900247EC05AC04A0071CC803D007E005198002880300670A2H00114A0C00673A2H001A000800670E2H00050010002C0314001FE66HFF0F0C0069000C04600008002C030C003300100067062H000D0310002C0714006900180067D26HFF0F2H0033040C0001000C98051BA405A005181E082H1C2D00AE6HFF0F002C0B1C000F001C00245E4961FF32012H0019C5CC4772007A6B2H000900747D3H00F889FBEC19EF769B1550AACEBA33578DA7B71FB6529906435FE429DBCAFA7A6FEB5C3253634F82576CBE4B2F548AACBF04167317AFF9B4AEBE46D6BB305DCB9D5DAF8DB1C9FDEF78D551AB9971A50B51697BDE765C59094705B2FF1BA8A03CEEA801A5106C5A7AE7084E24C4EB704E89E9F507F64FEA266A710248B4AAD54H00AF0A686309020100195B7A012H00673E2H00673A2H0067362H0068112H000D072H002C0B2H003894072H0038A80700A0020BD4018C02C40456349C02E4050434EC03C80538B00590015C3CF4059007E0052DC8018407D00161B4034C8C0438E4030800333H002C0304000C2H00840650B002AC02001BF17D1CFF32012H00A521627BC801796B2H009D002E4H0083364D6CD70502003B003E6D7A012H006786012H006782012H00677E2H00680D2H000D032H002C072H003880072H0038A40700B4063010DC02AC0737D006F807A4031EFC05C005CC055390049403A80302BC028004EC074DFC058802F00661A802980200674A006429B801BC01006702008001192H60003300040067062H000D03046429B401BC01004500040067062H0047B80204003304080067062H000D0308E004509806A4060C2704080067C26HFF0F00E0045098069C06800119605C00330004005FF26HFF0F040067BA6HFF0F00840650B002AC0200DA2H9403FF32012H00D12C5479EE01826B2H00E10072C68H00C6027H00C6017H00C600016H0074093H0075A6D5C71646DE4D1374083H00AEBFC3F540AA5AE274083H00B6C7D6FC57A959FF744H009B4H0011239E03090F07001B0024005300550058001C005ACE7A012H0067E6032H0067E2032H0067DE032H0068152H000D032H002C172H003888072H0038A80700880708C80138500BFC028C07F006499007F006CC072EA801EC01B805506468B40422F406E404D40638F8059C0388036CFC03E4073815B80688040067A2032H0033182400670200201E2H2400480428006716000F14181C0067062H000D031C0B1418200067DA6HFF0F002827201C0067062H0067D601000364241C0067F66HFF0F00E00450AC06C0060033102C003304300067062H000D033000480434E00450BC06D006004000300067062H0047D40130102B3H301E2H2C00092814003308280067062H000D032810412H2800330C2C0067062H000D032H2C032H2813232H28E00450C006A80600675200F80269E005E40500670200F80269E405D0050067022H006762001B200C4E0067262H00673E00900629D406E0060067D6012H00674A2H001B04100067022H004810040067EE6HFF0F2H0067C26HFF0F2H0067562H0067E66HFF0F00072004D66HFF0F0067CE6HFF0F2H0011CEFE5HFF0F180067E66HFF0F00FC0619F407F007E004509C06A80600679A01001F200C0E0067DE6HFF0F2H00578AFE5HFF0F1000671A2H003314100067062H000D0310F80269D405E00594050FFC05FC05004FE26HFF0F100067CA6HFF0F0068341C3400674E2H003304100067062H000D0310E004509C06AC060067422H003308140067062H000D031410412H1400330C180067062H000D032H18032H140067020013232H14F80269E005DC05002C2314002C0B180067AE6HFF0F2H002C0F20001FE6FE5HFF0F18002C0F18002C0F1C00462H100067B26HFF0F006429C401B8010067F2FE5HFF0F000F1400040067062H000D03040B1400080067062H000D03080033000C0067062H000D030CE004509C06A8060045000C17200CE2FD5HFF0F00678EFE5HFF0F2H00FC97CD73FF32012H001C030224BE017A6B2H00C500728E4H002284076C080705003E004C001A001E00097F7A012H0067AE012H0067AA012H0067A6012H0068112H000D072H002C0B2H003888072H0038A00700800229089C04144DD003A40690021F9807F002B00129F802EC043427C0019405F00715EC02C002F8060830E8070067722H004800046429B801B40100332H04001E2H040067062H000D0704005F82010400675A00036400080067762H004800100067162H00332H080067062H000D070800332H0C0067E66HFF0F2H003310140067062H000D072H141E04140067062H000D0714001310080067022H003304080067B66HFF0F2H0067926HFF0F2H005F2A2H0067062H0067B66HFF0F2H003300040067062H000D0704001E2H040067062H000D07040029EEFE5HFF0F040067D26HFF0F2H006A3H00203C670CFF32012H0044816C1A1B05BB6B2H005100C6D83EF4281EA20900740A3H00BEEFD70EE565DA7608B7740A3H00B80946AF44EF847A00D1C6B29D7923EC72F5FFC6834C418EFC7BFBFFC6027H00C62HB8FDC67B5A0B00C61E44FEDC439D0C00C65A89B73C8FA1F5FFC658DE91C069DBF9FFC6663638E8B8960400C6F3578452F48AFEFFC6B54A69CF4281FBFF740A3H00F263A5B5D49ACA553F2BC6C270079EA8420700740A3H006CFD4340EB3C4C3FB7C574083H0026D7AD47BADA9FE6C6FF036H00C65386DEEB76C70300C62A3E902EEEF30D00C607C8DA654EE90D00C6E49CE7182H00020074053H006E9F4D987C740A3H00834435D6331DE0404E8CC6FF725556BD710B00C6F018BC3C9D9EF3FFC612E71A34F1190700C6D99965A34H0074043H001DFE5FD9C6CB30BDEBB09F0F00C6017H00C6DC6BAD6E1906FBFFC641FBE23596BEFCFFC64EA90A19B6BC0A00C6143453114H00C6BE181338EA930400C674F1F52D7FD6F8FFC616FBFEDB8DBCFAFFC66CFFE00264E70300740A3H0081A236BA933AF2BB4FEAC6C02C0AEEFC7C0400C65288CC9DFEF9F3FFC6DC5D742435A7FCFFC62HCC91636DF5F4FF74053H00DB1C91E787C642DD85F87034FAFFC6CD8F7A1F2H45FEFFC6B65687F0F308F5FFC6EBCC2FD84A650900C64553CC9915D1FCFFC649EEEA605877070074053H0040115FC21C74073H0075D6E1E4B61519C65ED47BD75D1DF2FFC66H001000C65BAD057D5AC00700C6CDCF180612EEFAFF74063H00AC3D7D2AB9CDC6D20DB78E62610C00C674BE38DE9E89F7FFC6A593783189DBF7FF74053H00C23395671574063H00171804659F5AC65A462720EEF30D00740A3H00CDAE65DCCC94B8DE9EF6C6EA8FCB7763D40500334H00C22A067B8A14020021001FC77D012H0067CA0D2H0067C60D2H0067C20D2H0068152H000D0F2H002C8B022H003880072H0038A40700CC0539E0059806742694055C9001039007E407DC0138E804A80780072EE007F007A80548049806C40350D003A801EC0152F003F00794054EE405E005AC0334840238D802030088050067FE0C2H0067A61A006429C001DC01006796172H00480430F80269EC0580060067022H0040002C004500280067062H0047F00528203A2H28005F961A280067D20E2H0067960F2H0067921A2H0067DA042H003300400067062H000D0F40D301142H400067022H003300440067062H000D0F4473142H440067062H000D0F44004500400067062H0047AC02400067820E2H002CB7011C0067D60F2H0067C2162H00481C280067861900E00450B406CC060067E20F2H005FAA073800678A022H00330048D301142H480067062H000D0F48030A0F4C00670A2H0033003800671A2H004500480067062H0047E405488301282H4800450044006752005B142H380033003C0067062H000D0F3CFB01142H3C0067062H000D0F3C003300400067062H000D0F40FB01142H400067062H000D0F40003300440067062H000D0F44D301142H440067826HFF0F2H00450040006766006B282H440067F26HFF0F00F80269D805F805004000240067062H0047D407246F282H24003300280067062H000D0F28CF01142H280033002C0067062H000D0F2C5B142H2C003300300067062H000D0F30CF01142H300067022H003300340067062H000D0F345B142H340067AEFE5HFF0F2H0045003C0067062H00476C3C002C4B40004000381C042H380067F2FD5HFF0F2H00678EFD5HFF0F2H002C7F300067960F2H004500246429C001DC010067CA012H002C97013800670A2H003300240067662H004000300067062H0047EC053000330034E701142H340067062H000D0F34003300380067062H000D0F3873142H38004500340067062H0047B0072H343E2H3000671E00CF01142H346429CC01EC0100670A2H003300340067EE6HFF0F2H002CE3013C00674A2H005F9A0E3000676200CF01142H240067062H000D0F24003300280067062H000D0F28FB01142H280033002C0067062H000D0F2C5B142H2C0067062H000D0F2C00330030CF01142H300067AA6HFF0F2H004000340067062H0047D0033420022H340067BAFE5HFF0F2H004000208B01282H200067B6FE5HFF0F2H0067CA0C2H002CA701280067B2122H0033042C0067062H000D0F2C43142H2C00670A2H005F86012800671E2H002CB30130002C3F340040002C0067062H0047C8022H2C042H280067DE6HFF0F2H0067FA142H0067F6062H002CEF01380067CE0200F80269EC05840600679A022H002CAF01280067E2142H0067D2070043142H1C0067062H000D0F1C002CB301200067022H002C0B240040001C0067DE6HFF0F2H0033041C0067DA6HFF0F00FC0619F407F007002CC7012800679614002B212H28005F9A102800679E102H0029EA1028006796090073142H2C0067022H004500280067FE0F2H00330028D301142H280067062H000D0F280033002C0067DA6HFF0F2H0033003C0067062H000D0F3CE701142H3C0067062H000D0F3C003300400067062H000D0F4073142H400067062H000D0F400045002H3C022H386429D801F001004000340067062H00478C01343B212H34005FBE09340067C2092H002C77180067AE072H0029B2012C00679E132H0033043C43142H3C002CB30140002C37440040003C0067062H004794052H3C392H38005F0E380067BE0F2H00679A092H00679E092H0029F60F3800679E0900F3015B2H381C022H3808392H38005FCE06380067B6042H0029A20D300067BA0A2H0029FE0734006782092H002C27240067A2112H0029D26HFF0F380067BA092H002CBB01340067E26HFF0F2H0029A6FE5HFF0F380067BAF85HFF0F00FF015B2H1C003300200067062H000D0F205B142H200067062H000D0F20003300240067062H000D0F24D301142H240067AE0300E00450A406C8060067D6022H004000340067062H0047E80434002C4F38004000306429C801E8010040002C00670A2H005FFA0D2800679A032H004500280067062H0047D40328004500240067062H0047F40124004500200067062H0047AC022010022H200045001C0067F2FE5HFF0F00F701142H280067062H000D0F280033002C0067062H000D0F2CCF01142H2C0067062H000D0F2C00330030CF01142H300067062H000D0F30003300345B142H340067062H000D0F340033043843142H380067062H000D0F38002CB3013C002C0740004000380067062H004780032H3803103800676E2H004000200067062H0047BC062014022H200045001C0067062H0047E4031C002C5320004000180067062H0047CC031813282H1814022H18C3015B2H180033001C0067062H000D0F1CFB01142H1C0067622H004500280067062H0047DC062810392H280067FAFD5HFF0F2H002C9F01440040003C0067CEFD5HFF0F2H0033043C0067062H000D0F3C43142H3C0067062H000D0F3C002CB301400067D66HFF0F2H004000280067062H0047C00328004500240067062H0047B006246429B401DC010067D6FE5HFF0F2H00330020FB01142H200067062H000D0F20003300240067062H000D0F24FB01142H240067062H000D0F24003300280067B6FD5HFF0F2H00330028D301142H280033002CD301142H2CF80269D805FC050045002C0067D6FE5HFF0F2H0067EA042H0067D2F95HFF0F2H0067F2FA5HFF0F2H00679E0B2H002C33300067C2FB5HFF0F2H0029EE03400067E60900E701142H200067062H000D0F200058AB0124005FF6012400674A2H003300140067062H000D0F145B3H140067062H000D0F14003300180067062H000D0F185B142H180067062H000D0F180033001C0067062H000D0F1CCF01142H1C003300200067A26HFF0F2H00678E022H006796062H00298A031C00678A042H0067A20D2H0033003800670A2H005FC2FA5HFF0F3400673600D301142H380067062H000D0F380033003C0067020073142H3C0067062H000D0F3C004500380067062H0047A8072H383A2H340067C66HFF0F2H0067FE082H004808280067BA0C2H006792092H0033003C0067062H000D0F3C73142H3C0045003800678EF95HFF0F2H0033003800670200E701142H380067DA6HFF0F2H0029FAF85HFF0F380067EA6HFF0F2H0029D6F45HFF0F280067CE0B2H0029860138006796F15HFF0F2H0029E60A240067CE0B2H0029A20918006792022H0029BE02400067E2022H0067A2F75HFF0F00183E2H28005F860B280067362H003300280067062H000D0F28D301142H280033002C0067062H000D0F2C73142H2C0067022H004500280067062H00478002280067E2072H0067BEF15HFF0F006429B401DC010067CEF55HFF0F2H0067AA032H0067BA6HFF0F0028187B288001196080012C412H280067F26HFF0F2H00450034004500300067062H0047B407300045002C0067062H0047D4072C20032H2C0067020057282H2C00670200DB01362H2C7B282H2C0067C26HFF0F2H002C9B0138004000300067062H0047940630DF015B2H3018042H30005FDEF75HFF0F3000679AF55HFF0F00E004509C06CC060067DA6HFF0F009301252H40005FAAFE5HFF0F400067CE09008702282H1CF80269DC05EC050067022H004000180067022H004D2H18005F82FE5HFF0F180067D6FB5HFF0F2H0029DEFC5HFF0F3400676E2H00678EF05HFF0F2H00481C280067D2FD5HFF0F2H0048041800678607006429D801F4010067960100E00450A406C0060067C206006429CC01EC010067CE062H0067966HFF0F2H0067D2EE5HFF0F2H005F9EFD5HFF0F3800671E008F015B2H400045003C20032H3C0067022H00450038083A2H380067DE6HFF0F2H0067C6012H00679EEF5HFF0F2H0067CAF15HFF0F00E004509806D8060067D26HFF0F2H002CA301340067E6FB5HFF0F2H0067F2F35HFF0F2H00678EFD5HFF0F2H0033002C73142H2C0067062H000D0F2C004500280067E66HFF0F2H003300280067062H000D0F28E701142H280067D66HFF0F2H0029DEFC5HFF0F280067E66HFF0F2H0029B204400067F2082H002CD701280067022H0029EEF35HFF0F28006782FB5HFF0F2H0029C6ED5HFF0F300067BEED5HFF0F2H0067E66HFF0F2H0029AE051C0067E2032H00480C300067DE020073142H280067062H000D0F28004500240067062H0047AC05240067EEFB5HFF0F2H003300240067062H000D0F24D301142H240067062H000D0F24003300280067C66HFF0F2H003300380067062H000D0F38D301142H380067062H000D0F380033003C0067062H000D0F3C73142H3C0067062H000D0F3C004500380067062H006D00380067F6FA5HFF0F00E00450AC06C0060067CAF25HFF0F005B142H400067062H000D0F40003300440067062H000D0F44CF01142H440067062H000D0F44003300480067FE012H0033003C0067062H000D0F3CFB01142H3C003300400067BE6HFF0F2H00400040BF01442H40005FFAFD5HFF0F400067FE0100E00450B806E4060067E20100E004509806CC060040002C00674E2H003300300067062H000D0F30E701142H3000330034006796012H004000446429BC01FC010067BA6HFF0F00FB01142H2C0067D66HFF0F2H002C83023800400030006792012H00330038FB01142H380067826HFF0F2H0033002C0067DA6HFF0F001C022H2C003304300067062H000D0F3043142H300067062H000D0F30002CB301340067BE6HFF0F2H003300340067062H000D0F34E701142H340067062H000D0F34003300380067062H000D0F3873142H380067062H000D0F380045002H34022H300067CAFE5HFF0F00E701142H340067866HFF0F00475B3H281617280067866HFF0F00FB01142H480067A6FE5HFF0F2H004000281B5B2H280067E26HFF0F2H004500480067062H0047BC01480048204C0067B2FE5HFF0F2H0067BEF15HFF0F2H00671E006429B801DC010067E2FB5HFF0F2H002C1F400067FEF95HFF0F2H00299201280067A6F15HFF0F2H0067FAEF5HFF0F00F80269CC05E8050067A2012H003304440067062H000D0F4443142H440067022H002CB30148002C5F4C004000440067062H004798042H444D2H400067022H005FC6F55HFF0F4000678EF75HFF0F2H00679EF15HFF0F2H00292E28006796E95HFF0F0023442H28005F92FB5HFF0F2800679EFB5HFF0F00F80269E40584060067C6F05HFF0F00E00450B806D80600679AF55HFF0F2H0067AAEE5HFF0F2H00481C3800679EEF5HFF0F00084D2H28005F8203280067EA6HFF0F2H002C2F280067CEEA5HFF0F002H042H28005FF2F65HFF0F28006796F95HFF0F2H002C63380067EEF65HFF0F00104D2H38005FB6F05HFF0F380067DEED5HFF0F0008022H1C002A2H1C0067022H005FBAF55HFF0F1C0067B2F45HFF0F2H002C671C0067022H0040001400670200EB01282H14003300180067062H000D0F18CF01142H180033001C0067062H000D0F1CF701142H1C00671A2H0040002C0067062H0047C4052C043E2H2C005FE6EE5HFF0F2C0067622H00330020CF01142H200067062H000D0F200033002400670200E701142H240067062H000D0F24003300280067062H000D0F285B142H280067062H000D0F280033002C0067062H000D0F2CCF01142H2C0067062H000D0F2CF80269D405FC05F80269E005800600678A6HFF0F2H00676E2H005F86F95HFF0F1C00673E2H00450020004808240040001C0067062H0047C4011C00330020D301142H20003300240067020073142H240067062H000D0F240045002H204D2H1C0067BE6HFF0F2H0067C2F35HFF0F2H00299AE85HFF0F280067C2FD5HFF0F2H002CCB012800679AEC5HFF0F2H00679AE65HFF0F2H00481C380067BEF55HFF0F006429D001DC010067FEE85HFF0F00F80269E005F80500678AED5HFF0F2H0067EAED5HFF0F2H00291A280067D6F35HFF0F006429BC01EC010067F2ED5HFF0F2H0067C66HFF0F2H0029C6EA5HFF0F280067D6E55HFF0F00043A2H28005FC2F75HFF0F280067D6FB5HFF0F2H002C87012C00678AEE5HFF0F2H0067DEF75HFF0F2H0033001C0067062H000D0F1CE701142H1C0067062H000D0F1C003300200067062H000D0F2073142H200045001C0067CE6HFF0F006429C401F4010067B6FB5HFF0F2H00FDBC6342FF32012H00182E3E5CF701796B2H00E900FE4H00ACD2C611BE0706003E004C0009001D001A001E857A012H0067EE012H0067EA012H0067E6012H0068112H000D032H002C072H003888072H0038AC07000C6C8004C805B40747840258EC043AEC06F40744039406F004C8073B1CD806BC075F9C01D403B8011F84042484061EDC04E403A00241D005600067AA010098051BA405A0050033140C006702006429B401C401001A001400672A2H00332H0C0067062H000D030CE004509806A8060045000C0067062H0047E8022H0C270804003310080067C66HFF0F2H0013100800670E2H001A000400332H080067C66HFF0F2H003304080067062H000D03086429B801C0010C2700080067966HFF0F2H0067DA6HFF0F2H0048042H00332H04001E2H040029826HFF0F040067EA6HFF0F00F80269CC05D0050067E66HFF0F2H0067F66HFF0F2H003300040067062H000D0304001E2H040029CE6HFF0F040067E66HFF0F2H005FD6FE5HFF0F2H0067E26HFF0F2H00877A4C490033012H009384A9160433012H003EA9801FFF32012H006AADBE0459027C6B2H00A100C68H00C6027H00C6017H00024H00A7378E58DA0A00927A012H0067462H0067422H00673E2H0068112H000D032H002C0F2H00388C072H0038AC0700E005678406C003C00441EC06E803E0061D6CCC06D40352D007B402C00161E802A4050426F003DC040842AC033400670A2H0067222H0067CE012H002C0B08002C030C0067BA012H0067C6010008030C18F80269E405D80500676E006429B801C4010048102H006732000723002H104A030E00678A01006429CC01BC0100670E001002001407362H1400670A00E00450AC06980600670A002H0708180067DE6HFF0F2H004A030E0067CA6HFF0F00042E00F66HFF0F0067926HFF0F2H00480C10000F001008030C140067062H0067C26HFF0F006429C801C0010067F66HFF0F2H00678A6HFF0F001002001800671A002H070820006702006429D401BC01E00450B4069C060048182H00671E0007362H181402041C0067020007362H1C0067D66HFF0F2H0067B26HFF0F2H006A3H004A039A6HFF0F0067B2FE5HFF0F00044A03926HFF0F0067BAFE5HFF0F00072300100723042H145310AA6HFF0F0067A26HFF0F2H00D3F36036FF32012H006F2913238B037C6B2H00D500C6027H00C68H00C6017H00A44H00D66490416D07007D7A012H006786012H006782012H00677E2H0068152H000D032H002C0F2H003880072H0038A40700F00330DC04D401D404269005D807C407679003A802D4073C8007E4049407480C9C02C40463BC07BC02880639FC048C01D8070D6488020067462H00673E2H002C0B10006782012H0067F66HFF0F0080011960680B5B042H0C16030C006702000C030C2H106C0010006702000C042H10005F5A100067D66HFF0F2H002C07100067D26HFF0F2H006A3H005FCE6HFF0F080B5B042H0C16030C00671600106C2H0C0B230C100067020010020C1080011960680C5D000C00670A00101603100067DE6HFF0F000B5B08100B5B042H14022H100B282H100067E66HFF0F2H0029826HFF0F100067A66HFF0F2H005020CB6FFF32012H0080177813A5007C6B2H007900C68H00C6017H00C6FF7H00024H003D30B162C112040006000400070005107B012H00679E012H00679A012H006796012H00680D2H000D032H002C0F2H003888072H0038A40700E8013EEC06D801A0012A00F0033015B402DC04EC043A840248B40761D806C005900642CC01C002DC07489C039801C40208E402DC0600675E2H002C072C0067022H001F0E24002C0324002C0B280067EA6HFF0F2H0011FE042400678A022H005A00380067062H00477C2H381E10380029BA043800670A2H003308380067E26HFF0F2H0067EA022H00330004005A00040067062H00475004002C0708001FD2042H002C072H0067E26HFF0F2H0033042400330028005A00280067062H00478001280033002C0067062H000D032C004E042C000500240067062H0047980324003304280033002C005A002C00330030004E04300005002H28272410003304240067062H000D032400330028005A00280033002C0067062H000D032C004E042C000500240067062H00477824003304280067062H000D03280033002C0067062H000D032C005A002C0067062H0047EC052C003300300067062H000D0330004E04300067062H0047B403300005002H2827241000678E032H0011E2FD5HFF0F140067522H005A00340067062H0047A404340067FAFD5HFF0F2H003300340067EA6HFF0F2H0033042H0067062H000D032H00330804005A00040067062H0047A00504003300080067062H000D0308004E04080067062H0047EC020800063H0067CA022H004E04400067062H0047AC03400005003800670A2H003308400067E66HFF0F2H0067CA012H005A003C0067EE6HFF0F2H003304380033083C0067EE6HFF0F2H00678E6HFF0F2H003308380067062H006782012H005A00380067F66HFF0F2H002F2H00840650B002AC02001FCEFE5HFF0F14002C0714003300180067062H000D0318005A0018002C071C0067E26HFF0F2H0067E26HFF0F2H004E043C006756003827341000678EFC5HFF0F2H0033083C0067062H000D033C005A003C003300400067062H000D0340004E0440046000380067D26HFF0F2H005A00380067062H0047AC07380033003C0067B66HFF0F003827341000330C34003308380067DE6HFF0F2H000500340067062H0047A40734003804380067A26HFF0F003827341000330034005A00340067062H0047E80634003308380067062H000D0338005A0038005FB66HFF0F380067122H00330834005A0034005F96FB5HFF0F3400679AFD5HFF0F2H006792FE5HFF0F2H00111E2H006786FE5HFF0F2H0011AEFB5HFF0F140067BEFE5HFF0F2H002C03140067122H002C071C0067122H001A00100067EA6HFF0F2H002C0B180067EA6HFF0F2H001FD66HFF0F1400AB1D1035FF32012H00C8DC5763DB00816B2H000500C63H00014H00C600016H00C6087H00C6037H00C6107H00C6207H00C6407H00C62H00015H00504H0041BE81059408043H000300020004917A012H00678A012H006786012H006782012H0068152H000D032H002C232H003890072H0038B4070094054E6894062402E806A403A4013BA00148B0061CC4062084060EA405A407C406109802B401C0056C68DC01C0064DD8011000674A2H006A3H002C171C004000140067062H0047F805141F072H140067AE012H004000140067062H0047C8052H14032H108001196068144E102H0067062H00478C032H00330C10F80269D805E00500674E2H00333H0067062H000D032H00332H0400670A2H00330C1400677A2H00332H080067062H000D03080033080C0067062H000D030C0F282H0C0067AE6HFF0F2H004000142H073H14032H100067CA6HFF0F2H002C1B1800671200F80269D005E4050067322H002C0B1C0067F2FE5HFF0F2H0040001003072H1000330C140067062H000D0314004808180067BEFE5HFF0F0014032H1000330C140067CA6HFF0F2H002C131C0067AA6HFF0F2H004800180067C26HFF0F2H0087EB243EFF32012H00B40807165F00846B2H00B100C6FF076H00C6157H00C6147H00C6017H00C61F7H00436H00F041C68H00C6027H00C6207H00C6FF036H00436H003043684H00C4AE914D35090200060005B07A012H00677A2H0067762H0067722H0068152H000D032H002C2F2H00388C072H0038A807007467C00194045047644C9C075064C005A0014EA804C004EC0337A007B004940230E004AC05880430F006249001536CE806DC07118801B007006736008001196070006786022H002C0F1400675E2H005A00040067062H0047F40304002C0F080033040CE004509C06A8060067DE6HFF0F2H00372H140067322H00333H005A3H0067062H0047E4072H003300040067C66HFF0F2H002C231C004000140067062H004794072H14160F140067CA6HFF0F001B2010720067462H002C0B180046100C0067062H00479C060C17072H0C00032H0C00330410F80269D005E005002C0718002C131C00462H100067062H0047A40610003304140067022H0048041800679E6HFF0F2H0067D2FE5HFF0F006429CC01BC010067022H00673A2H002C0F18004818100067022H002C1B180067E26HFF0F0098051BA405A0050320101E00673E2H000F00181C03082H1C412H180067F26HFF0F002B360C1C0067EE6HFF0F00275B102H18161F1800670200184114180067E66HFF0F001B200CB26HFF0F00672E2H0029EAFD5HFF0F1800672E2H0067162H0067F26HFF0F001B362H180067F66HFF0F000F0714180067F26HFF0F001B210C18005FDA6HFF0F180067EE6HFF0F001B07141880011960701B0714181B362H180067022H0067AAFD5HFF0F2H00679E6HFF0F000283DC1F283F007F6B2H00D10074083H00A7280AEEF925B35974063H006F70239B27F1C6017H0074053H00A58645DD79C6087H0074033H002A1BFCD44H008C46C445A60A00757A012H0067362H0067322H00672E2H0068212H000D0F2H002C1B2H003890072H0038B40700DC0556B401A80198044DCC07B002F80342C801E805AC0712FC01D805800347E8079801D8031D8C05C407000D030007143H000D03040F142H040067062H000D0F04002C0B08F80269D005D805002C1710002C13140040000C0067062H0047CC070C006801100068051400680D180068111C0068092000671A2H0067062H006712006429D401D801000100240067F26HFF0F2H006A2H00F80269EC05F0050067022H005A00240067062H0047FC0424005FE66HFF0F240067CE6HFF0F2H004B60D76F4A007C6B2H000900436H00F03F438H00436H002040C24H002D5BBF00340200757A012H0067522H00674E2H00674A2H0068152H000D072H002C132H00388C072H0038B80700F0041DA80770880215A4037CE402108C06C80494071FA405D005EC05118C0514B006158006EC05F40541D0049C0590045DC805B805EC06129803D00300670E00F00529D805D8050427142H00675E2H0068012H00671E00DC030EF406F00600671E2H002C07080019000C002C03100067022H001F3A08004E042H0067DE6HFF0F2H004708040056082H0067062H000D072H002C0B2H041E3H0067062H000D072H001A00040067BE6HFF0F2H0067FE6HFF0F00FC0619F407F00700119A6HFF0F080067F26HFF0F2H006ED427650233012H00E0233A31FF320100037A0DEA1A6500796B2H00F900144H0017D79F0B000300597A012H00673E2H00673A2H0067362H0068152H000D032H002C072H003898072H0038A00700785618A405DC0326C003F801FC0639D405F402900526CC078801D80267DC07AC03FC015DAC04E8050067060098051BA405A00500690004002F000400E8474B38FF32012H00A8B6CD2CB9027B6B2H000D0029002901654H008B3601239B0400607A012H0067462H0067422H00673E2H0068152H000D0B2H002C0F2H003894072H0038B8070084043780061C940338EC04F403BC021CD4047094013C549002C80648DC019C0688072CEC06CC07B0053BA002F806E005621C4000670600FC0619F407F007001A00080067020003640008076404080067022H001E2H088001192H600093E72025FF3201000308BA49357E01796B2H008100714H00AD74FE17FD050100035C7A012H0067462H0067422H00673E2H0068112H000D032H002C072H003894072H0038A407009C066C8405C802BC021B9801082H04D004D404AC053CA007E407403084039C028C0715B401E007C80512DC07840398070B9C029C0600670600FC0619F407F007EC062FC807C8070033000C80011964600050F1A57F8C008D6B2H002900740A3H006D4658AF22557547F4DA74033H00AFD85874063H00A2C353E2732674063H00C0915534988074073H007EFFF7E6167AAA740C3H000DE6F8CF95B5C8B04727211F74073H0009423CF32EC395740D3H006031F554F9E06AFE3C3870DF19740C3H00AD86186FEF1F2C0DBB2H8A6074063H00A9E25C139122290129007274073H0097008E15C6414974073H00BE3FB7A6DF3C7874073H004D26B88F51758C74083H000475D1D0DB28EECF74073H00EC9DA968C1158E744H0074093H004BD49A01B6E6FD378BEF4H001B9E7415451903004400100048657B012H0067BE082H0067BA082H0067B6082H0068192H000D532H002C472H00388C072H0038A00700A80603C8028805900427D003940254088405F403B00402CC019002B40626E005A807B80112D407B405D80419D007C401CC2H04DC0384020067FE07000C040C1800678603000C4D0C1000679E03000C2A0C18005FF602180067E66HFF0F001C272H0C0033081C0067DA0200E00450B406D80640082H38F80269E80588060067E6022H0040001C0067DE6HFF0F2H004E0C280067CA0100E00450A406BC0600480C2800672A00F80269E80584066429D001F0010067CA6HFF0F0040271C0C6429D001F4010067F601001C411C500067CE01006429D001F80100675A2H004000200067062H0047980520002C2B240067222H006809286429C001E00100678A02006429B801D4010067A66HFF0F001C031C481C021C4C0067BE6HFF0F2H0040001C0067062H0047FC062H1C272H0C0033081C0067062H000D531C0048042000678201006429D001FC0148082H3C00676E2H004000200067062H0047D00220002C2B240067C6FE5HFF0F001C6C1C5C336B1708840650B002AC021C391C201C3E1C241C3A1C28006786012H00050020002C2B240024001C0067062H0047C4031C002C4B1C0067D66HFF0F001C041C30E00450B406CC06E00450B406D00600092H34006796FE5HFF0F001C5D1C541C3C1C580067AA6HFF0F001C1E0C4000678EFE5HFF0F000C1E0C246429C001DC010067826HFF0F2H002C4B4400092H40002C4B44F80269E805940600092H44002C0748002H481C0067A6FE5HFF0F00E004509C06B80600480C24006786FE5HFF0F2H0033081C00678AFE5HFF0F001C2A1C2C0067926HFF0F2H00481C400067D2FD5HFF0F006429C001E401006796FD5HFF0F000C3A0C14005FDEFC5HFF0F140C3E0C140067D6FC5HFF0F000C3F1708003F4308003F47080067A20200F80269D805E805F80269D805EC050067B6042H003308100067062H000D53106429B801C8010067A2022H00480C200067162H002C2B18002400100067DA6HFF0F000C5D2H200067F60100E00450A406BC06F80269D805F405005A00280067062H004770286429C001E0010067522H004000140067CA6HFF0F2H004E001C0067062H0047A4021C000500140067062H0047C80214002C2B1800240010006786012H0040000C003308100067062H000D5310F80269D005E005E00450A406B00600480C1CF80269D805EC050067AA0100F80269D805FC050045002C0067062H0047D4032CE00450A406C806F80269D8058006E00450A406D006004E0C300067062H0047880330004E001C0005001400676E2H003F37080067FA022H003F4F08006782022H005FF2FD5HFF0F100067F202006429C001E00100092H28006776002F6B1F080067B2012H0033081000672A2H00092H2000480C24002C4B280067C2012H003F1B080067B66HFF0F2H003F03080067B66HFF0F000C3C0C2400679E01006429B801C80100678E01006429C001CC0100674E2H002C2B180067562H00480C2400480C28E00450A406C406004500280067062H0047A80728E00450A406C406004E042C0067EEFD5HFF0F2H004E101C0067062H0047D8061C000500140067062H0047B80714002C2B18006772006429C001D001006786FD5HFF0F2H0033000C0067CEFC5HFF0F2H002400100067062H0047E804100C390C100067B6FE5HFF0F2H0033040C0067062H000D530C001A001000672A00E00450A406B0060067AEFC5HFF0F00246C3H20022H1C0067FAFC5HFF0F2H00092H24002C4B2800678AFE5HFF0F2H003F230800678EFE5HFF0F00E00450A006AC0600678AFD5HFF0F2H003F3B080067462H002400100067062H0047D80310003308100067062H000D53106429B801C801E00450A406B0060C030C1C0C410C20006786FC5HFF0F2H0068012H00680504001A00080067DEFE5HFF0F2H00480C240067CAFD5HFF0F2H002H3F08003F0B08003F2708003F0F080067CEFD5HFF0F2H003F130800679A6HFF0F2H0067D6F75HFF0F2H00403F516EFF32010003F387E61AFC027B6B2H00B10029012900614H00AF4F4C07470902001A0048797A012H0067722H00676E2H00676A2H00680D2H000D0B2H002C0F2H003898072H0038B00700A801398C04E003701180058807AC0504D40584018C0653D007AC04F0040DCC03EC068C03528804EC0700673A2H0067622H002C031C00620C14002F00140C4E000C0067062H0047EC030C003304140067022H003304180067022H00480C1C002C072000671A2H0033000C0067062H000D0B0CE004509C06A806006900140067C26HFF0F2H004000180067062H0047EC0718005FA66HFF0F1800679E6HFF0F2H003304180067062H000D0B186429C401D0016429B401D401004000180067062H0047F4011800672HFE5HFF0F0098051BA405A0050030D3C305FF32012H00FAF83F71F300796B2H008500384H003E4790691D0502001000466D7A012H00675E2H00675A2H0067562H0068152H000D032H002C072H003890072H0038A40700B4070DD806F001A0066CE0049C05E8023174B0048C064DC8039803CC022EC0038407CC0619A407C007F40327A404D80294022EAC05F0011C6CC405F00700671A0098051BA405A005B406508C058C05004E00080067062H004794070800063H00333H0067062H000D032H001A0004003300080067062H000D03080033040C005A000C0067062H0047100C00330410004E04100067BA6HFF0F2H0073508609FF32012H00733F894098018F6B2H003900740B3H00BCAD2185B9554F4D0D791B740D3H00DF78FE207A7818C2AE419D159C740A3H00B4E5BAC0A62CCF81393F740E3H00F69702A22HA577DA721A714794DC740D3H00AC1D2508AEE275F731F20F3D06740E3H00F942E09383E5587C041A19CD3BCA740E3H001FB8BBF13C22CE896B0546DB499A740C3H00250E8E78E9874DF8EB5FBBD5740D3H00010A7B369C30CB371C4683992974083H0086A774A82ABEFBA374103H00AE8FD84BEBAD4858BF143FCFD9C488F0740C3H00FE5F887BBBFDF8994325D516740D3H00FA7B441727413CAC4B14BDBF18740C3H0017F0222H25F75AF29AFDDB00740F3H00332CEFA5882E62F577B1759CA6860D740E3H00C2030C1F7FD9E4822H8557BA52FA740A3H00384966BCBF4914EE8ED674063H003ABB00DCFE0A74063H00881915C26E63740D3H00B65742E22HE5B71AB25ABD9BC074073H00736CAD744EEE25740E3H00DA5B643747615CCC6B26CEDF3985064H008066C749210402004D004FF07A012H00676E2H00676A2H0067662H0068112H000D5B2H002C5F2H003894072H0038B40700DC0530AC07F406D80567F406C007CC030ED806F003C0043C9C014C80075CB8069C07840142D003C401D003229C06EC06A00715E002E00294021DF40414DC030D980298030067262H00332H040067020027140008002C270C0067022H002400040067062H00479C01040067AE042H003300040067062H000D5B04531400080067062H000D5B08000C00040067062H00478C2H0400332H040067062H000D5B04471400080067062H000D5B08002C470C00240004003300040067062H000D5B044B140008000C0004003300040067062H000D5B043B1400080067062H000D5B08000C0004003300041B1400080067062H000D5B08000C0004003300040F1400080067062H000D5B08000C00040067062H0047A40704003300040067062H000D5B044F1400080067062H000D5B08000C0004003300040067062H000D5B0417140008000C0004003300040067062H000D5B0413140008000C00040067062H0047842H04003300040067062H000D5B0437140008000C00040067062H0047800104003300040067062H000D5B043F140008000C0004003300040067062H000D5B0423140008000C00040067062H0047B40104003300042F140008000C0004003300040067062H000D5B042B1400080067062H000D5B08000C00040067062H0047E40104003300040067062H000D5B04571400080067062H000D5B08000C00040033000433140008000C00040067062H0047FC0204003300040067062H000D5B0403140008000C0004003300040067062H000D5B041F1400080067062H000D5B08000C00040033000407140008000C0004271400040067062H000D5B04005F46040067F2FB5HFF0F00431400080067062H000D5B08000C00040067062H0047C40604003300040067062H000D5B040B1400080067062H000D5B08000C00040067062H0047E80204840650B002AC02003300040067BA6HFF0F2H00EF579869FF32012H006076EE331E027D6B2H000D00C6067H00C6077H00C6047H00723D4H0040E7E32C5D0703005A0057005B787A012H00677E2H00677A2H0067762H00680D2H000D032H002C132H003888072H0038B80700E80363E004E804AC01279007F8076402A402A801E80653840384012015B404D4038C060E9C059C03D4071EF4027C0067422H00330410006702000C1E2H100067162H000C00140067062H0047A40514041E001400671A000F64082H003308140067062H000D0314004810180067D66HFF0F2H000F00140B59040A006736000320042E003300080067062H000D0308041E2H080067062H000D032H081E000C0067062H000D030C005F060C00678A6HFF0F2H006A2H00075904CE6HFF0F0067C66HFF0F000271CB590FBE009D6C2H00F100C649D293F03DDAF2FF74053H00D0A11076C4740A3H0045C63F9B8DF6449E8D8E74083H007F604982C025B93AC6F729D12847BA0800C6601B3D2AB3DA2H0074073H00C72814DB9F6F75C62AD7386992A10100C6B5FC9C256F7EF1FFC638C47EF54H00C6DE5E489304ECF3FFC6729A6A8E9871F4FF740A3H001E0FD2FDF12D5450EF57C6777F68E83ADAF3FF74063H00B809271AE8C5740D3H00AE9FF32560AA0A92588420F8A874073H000B2C5B52407F93C69D2CEAACF4EF0400C65AC2AE8ACCD90200740D3H00A25387F1741EB64E44FCCFB8ACC6191DC85B42CB0E0074093H00BFA0165797E370F871C6A8A477EE00C0F0FFC63DD4D2F8325CF0FF74083H0068B993453F382C3BC61CA718F2748FF5FF74093H003001A51660D743F98EC63F6300C4C995F8FF74063H00498AD8B48C9CC6A1566H00C627F96H00C65D705241B8320900C6AA5DEFD9A817F3FFC6D051D6F400F90700C6FEE0673E417BFBFF740C3H00DFC0FD3D62C046C255E1B77DC6F94B075579C20700740A3H004B6C1B0B0133558BFC5AC6374858FF78C20700C6F77H00C69FFC25BF767C030074113H00C546C57D1ADEB48E2H688A8ED2064AAB3BC66FB06H00C649946C7386B3FDFFC6AB6399F56E9F0A00C672DC605BFDEE0B00C6A6EAADF8320C0100C616960B02596AF7FFC603378199ADD52H00740A3H00D6472D6B460B1ECC978FC6F47F3553CB850E00C6DD9AC6BE359B0B00C6F3BD952F4E160300740F3H00704161DF3B8B03B14DE7A98F754240C66D0BC7D0CECBF0FFC62710414B7F800600C6D493D618A164F9FFC6D88277A70DF5FEFFC626715B1298C10C00C6C5166H00740A3H001F00A5FD2D91189402BAC63F2DF94BA519020074083H00195AEDC3CFD3CEE4C6AF7566E617DD0A0074113H006122B41171F4962FC48F6F5D392F5D4C94C6FD1722795F940E00740A3H00B26370FA65F39A5014CC74DE092H00CCDDD4E29DDA19F99E05863758E92A1B7C4D4E7F6031F2A3049518E72D71B5E1C0D3D0C1FE8F4C3D9465E617B8C9047552A1A2554F19D186629516E922599ACB2C3D3E2FD0E1A213F445CE7D98296A57B3858DBAA577348324B536C16DB1F2240312110738C98170D1A62554F00145B196E1E291805112C3A439B928409FD4216C7D7E6F1021E253348506B8D269A49E9CADAE9F80D1124381199607A6F13C0B2C3D58497607C4B5748506F758298CF8D42722D1CE9F5C0DEA7BF86D8DB97A2BA4B3BEAF5C622CB974C546F718A9EADB3C07013F2EF7D203A435B62788337AAB8498928FB04108FB5223C6B718E9AA3D196564130ED1924324B536A7C8195A8BECFDF0E39AA961D6BC0FE6575EE32A1B7641647F6031F2A3049516842479B58BACBDBEAF908B4239926DE61BBECF057550A2AD5A4617B2E304F37EE16839FAAB4C5D5E4FB081C273F74FCA7996276455B08288DFC011528324B536CF68B7FF010C1D1E0F30C18270D4A5253798692ADB96E28E9A805F11C6AA3ABE2B4695D501607271651C2FEE5C3C8F66D7B809CAFB9CADAE9F80D17743E475F667C8995A0B4F535D2F1061A2D374E368973D638AFBDC2D2EDFCF91520584159607E8B97A2BA4B8DEAC506B24957EC3269778C9E9D43A6D6E5F40FEB766CA59D32788591ACBECFD9B80D02104FB5825A6DB7485C435126D6E1505B1F22327B53C8DC8195A8BEFFDFEE196C102B3D465E65738894A7B7045467A005192C3649618872879BAE7CABDBECC90E14439946BE077D8A96A1B5AA1A05C2071B2E36BF316870D51FAAB4C3B3620DCE9A41FF44ACA5D9821655BBC8D86DFA67734E642B536A76EB6F62B007D1D0750A1E213D8A52657F8094ABB9CEE8EFF8F5D14A3A235B94728F9BA6B60787D6A70418233548D06B7D869AA919CADAE9F80B77E26811B960982F63A6B4F2H524C1061A2B517ED69983B29EA9BD32D2BBFA0F154638415FE6988D91A4BA0BBDECF586F289C7EC546F278C9E0DB3C0D0B5F4091D203A450D647E8397AAB8C95FEEFB64908FD5A2BA3D176A3CA3413620E7F06DD92432CB356C7CB155A8BECF29EE090AD68D5D465E6575BEF4A7B794E4B77683492A50E9519E74819DA8BACDBD0CFF3E1225397638677D8CF0F7E3CCDCE3F2071D48F6BFD7C87075AB0CE2933384FD3E1AC159425A67498260A3BDCED8BB9C01152E54BDB56C768B5F5230412140330C18C7CD2C5463798692ADBFC8D8E938A571ACDAB30D6474B93DC6B0C1D766C182FEC5D3A8900B4D209A5B19CC8C0F9E6B17C25E475F601A2F93A6B4C52582F1061A2D3748506F75829EA9BBC4D4ED9A0F1510CEC709607E8B97A2BCCDDDECF566D22937CA5269778C98ABB5C6D6E5F40FEBE03A435B627EB377CA1A69B9883B54402FD522FA6D77889C55B7C0D661100D19E4B44D556C7A81F5583E3F2F1E093A962DCB265E65738894A7B1C2D2E1F005192C30C95168B2E19DA8BACBDBEAF90874E339C058611B2C66A735387A05A4A12B28B64FA1687683992CB265D5E4FB081C21CF445C67798236F3BDCEDEEDFC01134ED48B550C764BAF62B021B7E6F50A1E213D7A52854F20C4CB490EE8EFFE03118C3A435BC47289FD5016A77546F1E27ED5D37E566D7B809CAFBF0CDCEFFEAB71243811B9A01C8993C63405D5E4F700DCAB674E060F75829EA9BBC4D4EBFC89F580FE475F907E8B97A2BCCDDDECF566D229374C546F71DC98ABB5C03001540FBB26DC135B62788591ACBEC959E8FB04102F3542BA6D77881AA5B7C0D0E7F60B19A4324B536A7C8195481E42HF88FF0C102B3D465E65738894A1D74414E7F6E3EFCA9649016872876DA8BC9DDD0C0DA8142539E65E811D8A96A1B3CCDA8514011D28364F576E708599ACB2C333129B081C219FA43A617F8490A3BDC8B82BFAC7B38EF4AD556C768B7F621041B160135A1E270D4A0465DF80946DBFCE8EE93837B12C3A435B02B4896BA6B0C1D1E0F1A21E253348506B7D869AA9BFCCDCEFFE0B17223841B9567C8995A0B2C3D3E457E04A2D37485069F3429EA9BBC4D4ED9C09D570BEA75F66788D91A45AADDBBAF5C62089374C546F718A6EAD15C6D6E5F40F2B263C455D647E8397AAB8C9D9E8FB04102F35425A6D77889CA3B1C6D6E1F00D1924324B536A7C8195A8BECFDFEEF90A162D3B405863758E92A1B7C482E796E3DF189049516872879B2E3CCD3D8AF90E122399465E617B8C90A7B5CADAE5F4011D28364F576E708599ACB2C3D3E2FD0E1A213F445C67798296A5BBC8D8EBFA07132E344D556C768B9FA2B0C2H1D6F36CF8E70FEA52657F8094ABB92EBE09F8C5772A3C439B6274899DA0B6C7D7E6F1021E253348506B7D869AA9BFCCDCEFFE0B1722384159607A8F93A6B4C5D5E4F7001C2B314E5669738498AFBDC2D2ED7A0975C0FE75FF66788D91A4BACBDBEAF536F229D71A526FD18A68ABB330D0E3F20F1B263C455D647E8397AAB8C9D9E8FB04102F35425A6D77889CA3B1C6D6E1F00D1924324B536A7C8195A8BECFDFEEF9FC164DDB80DAC3758E92A1B7C4D4E7F6031F2AD0B951684487CB4EBC9BDD8C3FC824E339465E617B8C90A7B5CADAE5F4011D28364F576E708599ACB2C3D3E2FD0E1A213F445C67798296A5BBC8D8EBFA07E528348DB59ED68B9FA2B0C1D1E0F30C18273D4A52C5FF80949DB99E3EE91805972A3C455D6224795DA0B6C7D7E6F1021E253348506B7D869AA9BFCCDCEFFE0B1722384159607A8F93A6B4C5D5E4F7001CDD374E9689D12498AFBDC2D2EDFC0915203E475F66788D6154BACB8DEA95C6128F314A5269778C98AD33C056E3A2FFFB263C455D647E8397AAB8C9D9E8FB04102F35425A6D77889CA3B1C6D6E1F00D1924044D53AA7C0335A8BECFDFEEF90A162D3B405863758E92A1B7F474E71665192A00A951EE74819DAEDC2D7BEAF90E12253F405E319B8C305755CADAE5F4011D28364F576E708599ACB2C3D3421DEE4A81DF225A67B9826405BBC8D8EBFA07132E344D556C768B9FA2B0C1D1E6F3AC18C76B4C54652F40946B49CE38EFFE03172A3C455D6474497DF6B0C1D1E0F1521EC5554E566BDD86ACA9DF2C3C89FEABD78238175F601A6F930414C5D5E4F7001C2B314E5669738498AFBDC2D2EDFC091520CE475FC61E8B97A2BA9B1BEAF506B2A9514A526971EA7EAD85C6D6E5F40FBB260A435B642E8311ACB869D9281B04102FC3445C6B77289C2111C6D6E1F00D1924324B536A7C8195A8BECFDFEEF90A162D3B465853958E7297B1C2D2E1F0037FAAF0A9516872879BAEBCCDDDECFF08142339465E617B8C90A7550A7A65A4671B2E3049570E90651B0CB2C3D3E2FD0E1A213F445C67798296A5BBC8D8EBFA07132E344D556C76EB1F42B0C1D100035A1E213B4C5463798692ADBFC8D8EFFE03172A3C455D64728F9BA6B0C1D1E0F7041825B3A850EBFF269AA9BFCCDCEFFE0B1722384159607A8F93A6B4C5D5E4F7001C2B314E5669738498AF7DF2224D1C0915203E475F66986D51647A0B1B2A35C6F2C9D7AC546F718A9EADB3C0D0E332FF29849B928DB4AC213740A3H005A8B0F1FD05685A026D3C6DCF4DD9E4H002HC66999394H00C6EE30BDFE0136040074073H007405F69439C586740A3H001B3CF524FE003EEF6E04C61BD96H00C6E5F4DD9E4H0074093H009516E08D4D1CCEA2AB74083H00DECFC4F83296FB43C617A1FC97233CF4FFC657D9E5C3EA8FF6FFC66FE953F5D4030900740F3H00A6170BBD7852320A40382D70A6E04CC632A8704C2C5EF9FFC6754649203960010074083H00B536D5692EE9AE98C6EF46427765ACF8FF740E3H00FDFE9BB1C30E769A26A959FB885EC60E0D052HE4BE0B00C6FA9B932E6A7C0700740A3H005B7C1E21ECE178EFAE4474093H00D556987710D48F6965740A3H001E0FEDC658546E41ED57740A3H00B80988A3BCDA87378751C6D99DFA65F5D0FDFFC69CA61D85864F0600C6FF7H00C623336H00C61DDEDD9E4H00740A3H0012C3B38A12FAB74FD30B72C66B9B3221C2F8F9FFC6017H00740C3H002C3D575C7C82CE3C87F07412C6FB1F1A8D4H00740E3H00D82902F4D3A6A8CACE12468AEB7BC6BCC31AFBAAC50100740C3H0096071BCD8842223A703D5571C601AE6EC09F390C00C63B454F5B4129F6FFC6057H00740E3H00C27360C444FB9D67E3D5AF889CABC68886390997A8F2FFC600016H00C61810A870D62E0800C60C54E5436A84F1FFC63A32828A9FC80E00C6BBF1E2C2514AF9FFC675E510C21B24F8FFC673A64F1AA840F8FFC693CFAF5F6489FDFF74063H00C0913E6CC55174123H00B627EBB6682419091701350F81E151A432D2C6D22D874C5CFC0300C6DABEE98414560F00740C3H001869F584926879968ED5175B74083H00C455A426DF9E5F1FC6FE27E69004CCF5FF74053H008C9DF3E61E740E3H004102E02D8B07A74BECEAA33C5B1DC6131B7C5B4H00740D3H001F00A2E6318D1B9149AA602EEE740A3H00ACBDFFC6C1326480375C2901C64A2CCF44245EF7FFC602730901CDC4F8FFC6ABAE914CCB3CF9FFC6037H00C6CB6999394H00740E3H0086F72BDD9872522A60524185D10BC6F375B55B4H00C6C39102002E91FCFFC685E01C63C58EFDFFC674E6EF2105F50A00740A3H000495F747C1180708C9DD74043H00DECFC0E8C6960CF9A1F2C3F6FFC690CFE1B2EA9E0700C6C482A6B78CCFF9FFC60E5AC381A8A7090074053H0042F3F944DEC6077H00C68AF283BD54ED2HFF74063H001778AF635538740E3H006D6E382565BFE650D442C66A35FF74123H00CBEC949A8ABED50B75CD20BE52FB9C5E340EC61194099ACB850E00C63E9A1F46F56A0E00C6067H00C64AE3DF264C672HFFC6448BD08705322HFF740A3H008D8E12A10D54AA7FD356C62D7D8858F20A0100740E3H00C7280DDB896078307A9EB1E350BFC603201A8D4H0074033H0065E67774083H00B8092914F2CECFEB74063H00805165B10585740C3H0076E717C6B46A41585D4E7C8D74053H00A253C8EC3EC6D3FF8263A6480900C69389B1A85627FCFFC631A3F86C7294F7FF740A3H0077D8FD1AB0804BAEB4A0C65FD2AE8DBF200700C6DBE01EC96F470D00C6DBAE1416AB65F1FF74083H00713290F067FF690F74063H00B9FA46233938C6BF777E67AB650C00C6E06842DA4H00C683DCC12ECBAA0A00C6D76842DA4H00C6BC25EFD874770900C6097H00C6E639FB6063460A00C6869E1C4B21740B00C69B7H00C6588437E0285F0200C6A0A8676AA0640B00C6177D26475937FAFFC6ADBB19A483EEFCFFC675A181F0F1730B00740A3H004F30CDB6E66271259EF8740B3H00498AD8B39F81AAB4F83C6674723H00A4359655EDAD6F39025D0D0A244787FD42ED20C2760ADEB2936326D1CE9F5B03B630A232DA971A4EFFB5B0A15E6822D63A814AF74BECBE9679594F6B61B3FE26CC0ED63CEA3C29A9F19D838FBE4F0CF30929A68C78F6B57252292B4700CC920461E170E2864F5283E2F3F0E699A13FDABD05C69D12445BE064F2FF74113H00A6170BAC7E493D1A033A3470A6E246D953740F3H00A7082AEEB9859399C1B6CE107ED53174063H00C637FF9A5F39C6E185ED939F3B0200C687033E6C1B17F0FF74083H007C8DE70C2C4493D6740A3H0044D55AE8FB943B47081DC6C9166H00C643C9B31142CB0E0074083H001E0F97ACE347B70D740D3H00E657CB7D3812F2CA80F9E93F7674073H00C36481178524FC74123H00DA0B454E585A7E82D63A9BEB6E18B7420FFFC61768C20D4831F3FFC652D5676E75950F0074063H00BCCDA9DECD14C6DB1E64454H0074063H0032E3EA70EE73C695AEEC8DFDEE0B00C6813A1301E5BE0B0074053H0068B9895E2EC661405BA075950F0074073H005D5E2A4273AD0174063H0014A552EE882CC6027H00C6FAB5DDCD0CC20200C6CD6999394H0074063H008ABBBE949ABAC649ED67A91932F5FFC64FA5C18DBFC50300740A3H00C09100131290D17E82D974083H001A4B19132H0E334A740E3H00E29347A032DA7D1DCBAF9D6F629AC61630EBD18C5D050074093H00E0B10146B033B329DE740E3H00F93A38F5F32HFF032422EB749354C6A25FD0F3630D0500C65DB44C7994F3F1FFC65B7F5F5366510400C6E770B04539DEF3FFC657D9E79ABAEA0700C6087H00C6CEAD22DF0E61F6FFC6AC3C182295260100C654283B49D96F0E0043807079157EB9C1C2740A3H00D73895174338EEEF1F00C6A7DF8714D26E0300C674C69A4F82F50C00C6C81FCEEF2D45F9FFC60CC5000800690500C601AE6H00740A3H00D1924A880C6E5A731F5AC609BB1F84446F0500C6C97H00C6F8D32E986D5EFEFFC6DF5E9FE6BFD80600740C3H008BACD4CDCCF30D4DA00177E374053H00F758C88868C6BA4DC5AA3BB4FBFFC687BF8A61BD2CFAFFC6D03159406BCCF1FFC60CCE61C667DD0B00C600B3B8DE673EF3FF74063H003C4D054D4E9DC692352E4403850900C6659B11D384B20500C6C13032CAE722F5FFC661FC229EF51A0700C6ADBAC2BBA45B0A0074063H00B26367F07FEB740A3H00E83989EBDA413E6BB281C6047H00C6A3B8FE618599FCFF74093H00422HF340D2641DA77CC6624F2533CF17FEFFC6FBA367B9A2B8FDFF74083H003B5C1E0B332572A6740C3H008324C642D56137FDE59F889C290074083H00EFD0C21076D531A3C60C185E8AB6120500C6F75BD54E4H00C62903633B95330E00C62672B87CFE00F1FFC6CAE4AB1BB6120500C6337H00C6B14BB49BB4482HFFC68H002HC6D79FEE0165FCFFC6B26BFEBEF56A0E00C6E6CD9C5AEE120A00C6CF9BA1037F09F5FFC68583D1A400FD2H00C6CBB3777B1AB10700C649406BC6D507FBFF034H000701D34BEF6B005484012H00679E482H00679A482H006796482H00685D2H000D032H002C9F092H003894072H0038AC0700E8061DDC038C01D8023480069007CC06318804F006C8064EF404A407BC0634EC0380010067EA472H00298204D0020067DE1C2H0029E626D8020067B64F2H002C9708D0020067FA0C2H0029BA1DC8020067AE4D2H005FE62BF8020067AA0300F80269A808B008004500E0020067062H00478004E002BF0620E0028E1600670A2H00486CE0020067E26HFF0F2H0067BE1800DC021EC402E0020067062H000D03E0020029F64EE0020067BA2B00E40241CC028803D4020388038803C303238803880300488803E4020067A21B2H004500D8020067062H0047D803D802004500D4020067062H0047F805D402DF085BD402D402FF03148401D802FB07148401DC020067062H000D03DC02CB0343DF04E002005FC605E0020067CA422H004500F00243148401F402C304148401F8020067062H000D03F802004500F402004000EC020067062H0047C005EC02004500E8020067062H00479001E802DB0828E802E802FF03148401EC020067062H000D03EC02D704148401F0020067062H000D03F0028F07147CF4020067062H000D03F402002CA305F802002CBF04FC02004000F4020067062H004774F402EB0317F402F4020067022H005F8215F4020067EA392H006D00FC02004FDA1EF402E0045088078C0900489402F8020067EE6HFF0F0043148401E002C304148401E4020067062H000D03E402004500E0020067062H004738E0020067F60400F80269E405A408000100D8020067062H0047A402D8020067A2472H002CBF02EC02004000E4020067062H0047B404E402002C9F08E802004000E0020067062H0047FC05E002FF0128E002E0028F07147CE4020067062H000D03E402002CA305E802002CB305EC02004000E4020067062H0047E001E402A70717E402E402005FDE15E4020067D6192H004500FC020067122H0048F80280030067F26HFF0F00E00450840794090067F26HFF0F00970159FC02E2010067AA2800AF0659C802963400673E00C8021E1CC8020067F26HFF0F00870328C802C8020067F26HFF0F00DF05141CCC02CC2H02C802C8020067EE6HFF0F009703141CD4020067062H000D03D402004000CC020067062H00478804CC02004500C8020067D66HFF0F2H0067821F2H00678E190080031EDC02840300670200B30823E4028803F308208803FA1900678E4B2H0029BE36DC0200679A442H002CBB05F4020067D6032H0048C002CC02F8026994089C08004E04D0020067062H0047BC06D002004B00CC020067062H00479005CC020067FA4A2H0067DA2700F80269F407980800670200E00450F407E8080067022H002C8302D402002400CC020067062H0047A006CC02005F9A1DF4010067F21300B707141CCC020067FE322H002CC704E0020067D6372H0029FE27D0020067C2252H000F00F402E0045090099409005104FC02F802699408C0080067EE6HFF0F00AB08148401C8020067062H000D03C802FF03148401CC020067062H000D03CC0243148401D002002CBB07D402004500D0020067062H0047C007D002DB04141CD402D40239D002D002005FAE6HFF0FD002006792362H0067EA49008F07147CD002002CA305D402002CCB07D802004000D0020067EA6HFF0F2H0029F2241C0067A2332H004000CC020067062H006D00CC02006792262H002C9302D4020067EA6HFF0F008F07147CCC02002CA305D0020067EE6HFF0F2H0067BA1A0043148401F4020067062H000D03F402C304148401F8020067022H004500F4020067C2FA5HFF0F2H00299A16E0020067CE1D2H002CCB02EC020067FA112H005FE223E40200677A2H002C53E00200675E00AB08148401E4020067062H000D03E402002C2BE8020067022H004500E40243148401E8020067062H000D03E802C304148401EC020067062H000D03EC02004500E8020067062H0047D802E802E8022AE402E4020067AE6HFF0F2H004500DC020067AE6HFF0F00C705148401DC0200670200C705148401E0020067A66HFF0F2H004000D8020067062H004720D802B3065BD802D8020067DE6HFF0F2H0067FE322H002C17E40200678A0F2H0067AA472H0067E6FE5HFF0F2H002CC706CC020067AA222H006792452H004000F00200670A2H002CBF03F8020067F26HFF0F0087015BF002F00243148401F4020067062H000D03F402C304148401F802004500F4020067062H0047B405F402004000EC02870228EC02EC020067022H004624CC020067062H00478003CC02002C9703D002001FA641C802E004508407C808E00450C408CC08004500B002BF0620B002AA1400679E212H004000D0020067062H0047CC05D002004500CC020067062H0047E407CC02F306141CD0020067062H000D03D002004000C8020067062H0047F004C8029F035BC802C802C8021E1CC8020067062H000D03C802FB0659C802FA1000673E2H002C37DC02004000D402002CAB07D8020067AA6HFF0F00FF03148401C8020067062H000D03C802AB08148401CC020067122H002CC707D8020067D66HFF0F00FF03148401D4020067F26HFF0F00D704148401D0020067F26HFF0F2H0067A63300F704141CD0020067062H000D03D0020067EAF55HFF0F0043148401DC02C304148401E002004500DC020067CEF65HFF0F00970314940398030067062H000D039803F3061494039C0300671E008F03649C039803E00450D806B8090067022H00489803A4036429A404DC04002400A0030067AA16009C031EE802A0030067022H00488003A403A40327A00398030067D26HFF0F2H00299631E8020067F21E2H0029FAF75HFF0FE8020067EE0B2H0029E23EE4020067EE112H0011DA43C8020067E6172H002CA306E0020067863F2H0067D23700DB04141CD8020067E23E2H0029AA32D402006786342H0067D2112H0029B214E4020067F6F85HFF0F2H002C8B09E802004000E0020067062H0047D403E002DF065BE002E002DF0228E002E002C705148401E40243148401E802AB08148401EC0200670E0087075EEC02EC02005F920DEC0200671A00C304148401F002004500EC020067062H0047B405EC02EC023DA307EC020067DE6HFF0F2H00678AFC5HFF0F2H002C9B04D4020067FE332H002C8B07DC02004000D4020067062H0047A807D402004000CC020067062H0047E407CC02004500C802A30828C802C8020067422H002C0BDC02004000D4020067062H0047B402D402004500D0028F07147CD4020067062H000D03D402002CA305D8020067B26HFF0F0043148401C802FF03148401CC020067062H000D03CC0243148401D00200670E00BF0121C802C802005FAA30C80200670E008F07147CD402002CA305D8020067AA6HFF0F2H0067E6332H0029CE16D0020067FA132H0029A233E40200679A3E2H004500F0020067062H0047F403F002F02H02EC02EC020067022H004500E8020067062H00479006E802004500E4020067062H0047B406E402E7085BE402E402FB07148401E8020067062H000D03E802FF03148401EC020067062H000D03EC02FB07148401F0020067062H000D03F002FF03148401F4020067062H000D03F402AB08148401F80200670E0043148401F002C304148401F40200678E6HFF0F00C304148401FC020067062H000D03FC02004500F8020067062H0047E405F802002CC307FC02004000F40200670A2H005FAA0FF40200670A00F70232F402F4020067F26HFF0F2H0067DA102H0067D21B00E00450A808F008000100D8020067062H00478007D8020067D20900D704148401C802FF03148401CC02D704148401D0020067062H000D03D002F704141CD4020067062H000D03D402F7085BD402D402DB04141CD802D8022AD402D402005FF630D4020067CA0E2H002CF304E4020067FA0100AB08148401EC020067062H000D03EC02C304148401F0020067062H000D03F002004500EC020067062H0047E001EC02EC0235B701EC02006792012H002CAF08E8020067A60100FB085BD402D402D704148401D80200673A2H004000E8020067062H00475CE802004500E4020067062H00478805E402004500E0020067062H0047A407E002004500DC020067062H004744DC02DB065BDC02DC020067A20100D704148401DC020067062H000D03DC02D704148401E0020067062H000D03E002FB07148401E4020067062H000D03E402002C5BE802004500E4020067062H0047D805E402002CF706E802004000E0028F07147CE4020067D6012H002CAF05F00200672HFE5HFF0F2H004500E802AB08148401EC020067A2012H002CA305E4020067D6FE5HFF0F2H004000E0020067062H0047B003E002004000D8020067062H00479407D802DB075BD802D80200675E2H004000DC020067062H0047D406DC02004500D8020067062H004738D802004500D40200679EFE5HFF0F00FF03148401E002D704148401E4020067062H000D03E402AB08148401E80200671E2H005F9AF95HFF0FE8020067762H004000DC020067062H0047D801DC028F07147CE0020067866HFF0F00C304148401EC020067F2FE5HFF0F00AB08148401DC02FB07148401E002FB07148401E4020067062H000D03E402D704148401E802006792FD5HFF0F00C304148401F0020067062H000D03F002004500EC020067062H00479001EC02EC0204E802E8020067A26HFF0F2H002CA305E802002C8B03EC02004000E402E42H02E002E0020067022H002CAF01E40200678E6HFF0F2H006786122H005FB6ED5HFF0FD80200671600DF05141CDC020067062H000D03DC02DC023AD802D8020067E66HFF0F2H0067BA382H0029C208CC020067CE0F2H0029BAF85HFF0FE4020067CE012H0067EAF55HFF0F2H0029F230CC020067A6382H0011E21AC8020067DA0D00B406508C05D4070067C61700AB08148401E4020067062H000D03E402C304148401E8020067022H004500E4020067E26HFF0F00F80269DC07A408000100D8020067062H00479007D8020067A60300FF03148401D802D704148401DC020067020043148401E00200675A2H002CB304DC02004000D4020067062H0047D405D402CF0728D402D4020067D66HFF0F2H004500E0020067062H004724E002002CDB05E40200671A2H004000D8020067062H0047F002D802C70317D802D802005FEA34D80200671E2H004000DC020067062H00478002DC02002CC308E0020067D66HFF0F00B7080A2FE4020067BA6HFF0F2H0067DA132H0067DE082H0067C61A0043148401E4020067062H000D03E402C304148401E8020067062H000D03E802004500E4020067CAF65HFF0F2H002F00C802004000E80200671E00F30528E402E4028F07147CE8020067062H000D03E802002CA305EC02002C33F0020067DE6HFF0F00E8022AE402E402005FDEFD5HFF0FE4020067921000DF05141CD8020067062H000D03D80200678E3A2H00115EF4020067FAEC5HFF0F2H00299A35C8020067F2142H0029E2F25HFF0FF402006782EF5HFF0F00F802698C08C808E00450B407980900671200F80269B406C008006702006429BC02AC040067E66HFF0F2H002C8B0684030067022H002C8F048803002C8F048C0300461080030067062H0047980280030009FC02FC020C4E0CF402005FFE15F402006796110080031EC40284030067062H000D038403005F926HFF0F84030067CE0B00F704141CD8020067062H000D03D8020067A6FC5HFF0F2H002CF705E4020067EE022H002C8307E0020067D6F85HFF0F2H0067C6142H00118201C8020067E2262H0067AA022H002C8F08E8020067C60C2H0067E2152H002CB307E402006792FE5HFF0F2H002CF701E802006782EC5HFF0F2H005FC201D0020067DAF75HFF0F2H005FF238C8020067D2ED5HFF0F009703141CC8020067062H000D03C8020067AE332H0029E6FD5HFF0FE4020067CA6HFF0F2H0067E21200F80269DC079408005500C8020029BA28F4020067CE32000C4E0CD8020067062H0047EC03D802005F8E6HFF0FD8020067162H004874DC02E00450EC08F8080067E26HFF0F00E004508007F0080067EE6HFF0F2H0067B63300E00450A808E008005500C8020011D623E8020067AA042H0048DC02EC02F80269AC08BC08002400E8020067062H0047B402E802E00450B808800964299404A0040048E402F0020067022H002400E8020067062H0047EC07E802E00450B808800900670E00F80269A808BC08002400E80200679A2200E00450FC0884090067EE6HFF0F2H006805D8020048D802DC0200670200E00450DC08F8080067022H004500DC020067062H0047EC05DC02F80269A408AC080048CC02E402004500E002F80269A408B008F80269A008B408004500E4026429D4039C040067F6FE5HFF0F2H002992F55HFF0FEC020067D61000B707141CCC020067C2022H0067A6302H0067C2E75HFF0F2H0067AA0B2H0067960E2H0067D6272H0029D60BE402006786032H005FEEFD5HFF0FE402006766008F07147CE8020067062H000D03E802002CA305EC020067022H002C8306F002004000E802E80203E402E402004500E002004500DC020067062H00478803DC02C3025BDC02DC02FF03148401E00200670200AB08148401E40200670200C304148401E8020067062H000D03E802004500E4020067062H0047AC07E402BF0817E402E4020067966HFF0F2H0067D61C0098051BA405A00500483CB402E00450C408D0080067022H004500B4028F0359B4029A2700679AFA5HFF0F2H0029B2F95HFF0FD802006796232H002C9704D4020067B63400FB07148401C8020067062H000D03C802FF03148401CC0200670200C705148401D0020067062H000D03D002B703141CD4020067062H000D03D402004500D0020067062H0047D404D002BB0121D002D002005F86E55HFF0FD0020067D20300A304141CD0020067AAEA5HFF0F2H00489002C802005500C802002CBF07DC020067AAE95HFF0F00A304141CCC02CC024DC802C80200670A2H004000C8020067EE6HFF0F2H005F8AFA5HFF0FC80200670E008B085BCC02CC02B707141CD0020067E66HFF0F2H0067D6EC5HFF0F2H00292ACC02006752008F07147CE00200670E2H004000E0020067022H0067DA092H002CA305E402002CE307E8020067EA6HFF0F00F00529D805A008004500C8020067062H0047A807C802870528C802C80200670200C8021E1CC802D30659C802EE1000678EFB5HFF0F2H0067DE012H001196E85HFF0FF4020067FE022H00678A0E2H0067B2FA5HFF0F2H002CBB04E4020067C6082H0067F2F85HFF0F00FB07148401C8020067062H000D03C80243148401CC020067062H000D03CC02C304148401D002004500CC020067062H00479405CC028B0117CC02CC02005F8633CC020067EA222H002CCF03D00200679AE75HFF0F2H0067BAE85HFF0F2H002CCB05E4020067EA2C2H0067820500F80269DC07A408000100D8020067F26HFF0F00FB0332E002E002005FAA08E0020067BAFE5HFF0F2H0067862F2H0067A6242H000100B0020067F66HFF0F2H00489002B0020067F26HFF0F00F00529D805A008002C9F02D8020067DE2D2H002C9F06E4020067A20200C8021E1CC8020067062H000D03C8022759C80296F15HFF0F00670A0097035BC802C8020067E66HFF0F2H0067EEF05HFF0F2H0067A2EE5HFF0F2H0029C6E35HFF0FF4020067E6E85HFF0F2H001FA6FE5HFF0FF402001A00E802A3046BB308E802F3066BDB04E8020067122H00684DF402F4023FEB02F002002C9703F40200671E00B7036BF704E8020067022H006829EC02001A00F0020067DE6HFF0F2H002C9703FC020067C26HFF0F006834F40290030067F26HFF0F00F30614840388030067062H000D038803E004508807A40900488803900394050FF808F808004FB2028C030067B6EB5HFF0F008F07147CE002002CA305E402002CE702E802004000E0020067062H0047A801E0020067AE082H004CF62F80030067D6E75HFF0F2H00669E04F402E0045088078C09F80269FC07C4080067022H006D00FC020067EA6HFF0F2H005108F4020067E66HFF0F2H002C8F03F4020067F26HFF0F2H0067FE2B2H0067FE292H0067D22B008F07147CEC02002CA305F0020067222H002CF302FC020067562H004000EC020067062H0047C002EC02EC024DE802E802005FCE03E80200675E2H002CAB06F4020067E26HFF0F00E7065BE402E402D704148401E8020067062H000D03E802FF03148401EC020067062H000D03EC02002CC301F0028F07147CF4020067062H000D03F402002CA305F8020067A66HFF0F2H004000F402004000EC02002CD702F002004000E8020067062H0047B806E802FB045BE802E8020067FAFE5HFF0F2H0067EAFB5HFF0F00C304148401D8020067062H000D03D802004500D4020067062H004770D402D402009303D402005FCAEA5HFF0FD4020067222H006831CC0200671200AB08148401D4020067CE6HFF0F2H002C9703C8020067EA6HFF0F00D704148401D0020067EA6HFF0F2H0067C6F55HFF0F2H0057A6E95HFF0F8C030067DADF5HFF0F2H0057DE2CF4020067F61E2H002C7FD0020067CA022H00489002C802005500C802002C6FCC020067CAF15HFF0F2H002CB705D8020067B2F25HFF0F2H00487890030048800394036429BC04CC040013108C030067062H004784078C0364298002C004F80269D408DC08002C8B029403381E840398030067062H000D0398030013108C030067062H0047C8028C030067C2F35HFF0F00241E8403880364299C02C0040067B66HFF0F2H005FF2F45HFF0FC8020067B6F15HFF0F00F80269F407900800670200F80269D4069408002C8F01CC02002CE303D002001310C4020067062H0047C404C402001A00C402002CF308C802E00450B806E40800670A2H002C8F02C0020067CA6HFF0F2H002C9703D002001F86F45HFF0FC802A304141CCC020067EAF85HFF0F2H005FEE03D40200673E2H002C8309D8020067022H004500D4020067062H004734D402D70744D402D4020067DE6HFF0F2H002C9703C8020067022H006815CC02D704148401D0020067062H000D03D002FB07148401D4020067C66HFF0F2H0067A22A00B406508C05D407004CD21CF40200679A162H0029F201E8020067EEF55HFF0F006429C403FC03005500C8020029C2DD5HFF0FDC020067E2E65HFF0F00AB08148401C8020067062H000D03C802C304148401CC020067062H000D03CC02004500C8020067062H0047D001C8020067BADC5HFF0F00DB0328D002D002A7035BD002D002AB08148401D4020067062H000D03D40243148401D8020067062H000D03D802D704148401DC02AB08148401E0020067062H000D03E002C304148401E4020067062H000D03E402004500E0020067062H0047C401E002E00235E302E002970717E002E002005F9E2AE0020067FE242H002CD305D8020067EEF55HFF0F2H002CEF08E0020067C2F85HFF0F2H002F00C802002CB301D8020067062H0067BA27009703141CDC02DC022AD802D802005FDA2AD8020067C6F75HFF0F2H0067D2DD5HFF0F2H0067D2E15HFF0F00D30132E402E402005F86E65HFF0FE4020067FADF5HFF0F00EC0203E802E80200670200EB0128E802E802004620CC02002C9703D002001FFAED5HFF0FC80243148401EC020067062H000D03EC02C304148401F0020067022H004500EC020067CE6HFF0F2H002CCF04E4020067C2ED5HFF0F2H0029DE24E0020067CEE55HFF0F2H002F00C8021F28D802D80200670200AB08148401DC020067020043148401E002FB07148401E4020067062H000D03E402AB08148401E802C304148401EC020067062H000D03EC02004500E8020067062H00479404E802004500E4020067062H0047C801E402004500E0020067062H004770E002830821E002E002005FCE24E0020067E2F25HFF0F00DB04141CD0020067062H000D03D002D0023ECC02CC02005FBAEC5HFF0FCC020067E6FA5HFF0F2H0029B627D4020067C2032H0029DE6HFF0FCC020067D6192H006786F85HFF0F00AB08148401E0020067062H000D03E002C304148401E4020067062H000D03E402004500E0020067FEDF5HFF0F2H004500D402004500D0020067062H004708D002DF05141CD4020067062H000D03D402004000CC0297025BCC02CC02CC0253C802860700678EF85HFF0F2H0029F219E0020067EA022H0067FAD85HFF0F00E00450F407E4080048F401D002004500CC020067062H0047E803CC02F8026980089C0800670E009F0514CC02D402000C00D0020067E6FA5HFF0F00EB0214CC02D4020067162H000C00D0020067062H004750D002F8026980089C080067DA6HFF0F2H000C00D0020067062H0047D006D0026429E8038404F30314CC02D4020067D66HFF0F00AB08148401F4020067062H000D03F402C304148401F802004500F40200678AEF5HFF0F2H0067BA0200F80269AC08B00800674A2H0048DC02E802002C8B02EC02004000E40200677200E40227D402C402F802699C06B0080067E66HFF0F00DC022724E0020067D66HFF0F2H001A00E0020067F26HFF0F2H005A00E4020067062H0047EC03E402F80269AC08B408E80227E402C402004868E80200671200E40227DC02C40200674A00E00450F408800900670E2H004878EC020067422H0067BEED5HFF0F2H002C8B02EC02F80269DC07BC08001310E4020067062H00478007E4026429D00398040067AE6HFF0F00E4022738E002F802699806B0080067C66HFF0F2H0048E402F402001310E8020067CA6HFF0F00E00450F808FC080067F2FE5HFF0F0064298804A4040067E66HFF0F2H002CD708EC020067B2E45HFF0F2H0067AA122H004000E8020067F66HFF0F008F07147CE8020067062H000D03E802002CA305EC02002CEF02F0020067E26HFF0F2H00489002C802005500C802002C4BD4020067EA232H002CE305E0020067FE162H002CCB01E0020067E2032H0067F6EF5HFF0F006429C403FC03005500C802002CE701CC020067C2F15HFF0F00F306141CC8020067062H000D03C8020067962000B703141CD0020067062H000D03D002D0023ECC02CC02005FB2E85HFF0FCC020067AA042H002C9F04D8020067AA1E2H0029C6EE5HFF0FE4020067CEEB5HFF0F2H004500D0020067062H0047A803D0020067BA0200AB08148401D0020067062H000D03D002C304148401D4020067DE6HFF0F2H002CFF07D40200678EE05HFF0F00682H34E00200671A00B707141CE0020067062H000D03E002E00204DC02DC02005F92D95HFF0FDC0200674600D704148401CC020067062H000D03CC02AB08148401D0020067062H000D03D00243148401D40200671E00C705148401DC020067062H000D03DC02002C47E0020067022H004500DC020067AE6HFF0F00FB07148401D8020067DE6HFF0F2H006796EF5HFF0F2H0048FC02F8020067022H0067B6D95HFF0F2H006821FC020067EE6HFF0F2H0029C6F85HFF0FD8020067B6F85HFF0F2H0067B2FC5HFF0F2H002CEF07D8020067A2F95HFF0F2H0067D2EA5HFF0F00F8026990089C08004E04D0020067062H0047B807D002004B00CC020067E66HFF0F006429F40380040067E26HFF0F2H0029DA0BCC020067D2D85HFF0F2H002CD307E4020067A6DE5HFF0F00C30323E402E40200674A2H006F08DC02001A00E00200670200D80241CC02E402D40203E402E4020067E26HFF0F00E004509806E0080067022H005A00C802002CEB07CC02002C9F01D002002CEB05D402002CEB08D8020067CA6HFF0F2H001FC6EA5HFF0FE802002CFF02EC02002C9703F0020067F26HFF0F2H002CF308E8020067EE6HFF0F00DF05141CD4020067062H000D03D402004000CC020067062H00471CCC029703141CD0020067062H000D03D002D00204CC02CC02005FEAED5HFF0FCC020067F2E85HFF0F2H000100D8020067062H0047D407D80200679EE55HFF0F00E00450A806F0080067EA6HFF0F00B406508C05D407EF045BE002E0020067022H004618CC020067062H0047D006CC02002C9703D0020067022H001FEADC5HFF0FC802AB08148401C802D704148401CC02D704148401D002FF03148401D4020067062H000D03D402DF05141CD8020067062H000D03D802002CFF05DC02004000D402002CDF01D802004000D002F306141CD4020067062H000D03D402004000CC02004500C802FF0428C802C8029B085BC802C802C8021E1CC8020067062H000D03C802AF0459C802E2DD5HFF0F00679AE85HFF0F00A304141CCC020067062H000D03CC020067F6E35HFF0F2H002C8708DC0200679AF45HFF0F2H001310AC020067062H0047C807AC02E00450C008C4080067DA042H002C63B4020067E2062H002C9B05B4020067F60400E00450BC07C808002CB706B4020067C2060064298802E4030067EA0200F80269A406FC070067AA0600E00450C007C8080067C604006429A402E40300671A2H002CA302B4020067A2042H002CB702B4020067462H00680198020067BA012H002CD706B40200671E2H0048A802AC02F80269C006FC07002CB302B402002400AC02F80269F407F807004878B0020067B6062H002400AC020067062H0047D404AC020048A802AC0200486CB0020067DE042H002400AC02F80269F407F807E00450FC06C80800673E2H002400AC0200674E2H002C3FB802006782032H001310AC020067062H0047D001AC02E00450C008C408F802698807FC07002C8F07B4020067CA0400E00450E406C8080067B2052H001A0094020067F2FE5HFF0F2H002CEB06B402002400AC020067062H0047A807AC02F80269F407F8070067C201006429DC03E0030067BE0300E00450C407C808002C07B402002CAB03B80200670E2H0068459C0200681DA0020067C6032H001310AC020048A802AC026429E802E4030067E6022H002CD308B402002CE703B802001310AC020067062H0047D003AC02F80269F407F8070067E6022H001310AC02F80269F407F8070067AE6HFF0F00F80269E806FC07002CFB01B402002C9706B80200678EFD5HFF0F2H006819A8026429DC03E0036429F001E403002CE704B4020067FE032H002CFF06B402002C8B04B80200679A0100F802698C06FC07002C9307B4020067122H002C8F07B402002400AC020048A802AC0200678AFD5HFF0F2H002400AC02F80269F407F807004844B002002CF301B402002400AC020067C20200F80269B406FC07006782FD5HFF0F00F802698407FC070067BEFC5HFF0F2H002C0FB402002400AC020067062H0047A007AC020048A802AC02F80269AC06FC070067E6FC5HFF0F2H002400AC020067062H00479403AC02F80269F407F80764299002E4030067CE6HFF0F2H001310AC020067CE022H002CBB06B802001310AC020067062H00478C04AC026429DC03E0030067FAFB5HFF0F2H001310AC02F80269F407F807F80269E006FC07002C9B06B402002C4FB8020067662H001310AC020067062H00479C07AC020048A802AC02E00450A807C8080067AEFE5HFF0F2H001310AC02005604AC02005FA6E95HFF0FAC020067DE0200F80269EC06FC07002CE304B40200679E6HFF0F2H002400AC020067062H0047B805AC020048A802AC020067BEFB5HFF0F2H002C1BB402002CAB04B8020067C2FD5HFF0F2H002CE703B8020067BE6HFF0F2H002C9705B40200671E2H001310AC020067062H00479C02AC020048A802AC0200679E012H0048C401B0020067DAFA5HFF0F2H002CDB02B8020067C2FE5HFF0F2H00488C01B0020067262H002CE306B402002CCB08B802001310AC020067062H0047CC06AC02E00450C008C4080067F6FC5HFF0F2H006841A4020067FEFC5HFF0F2H002C73B4020067BEFB5HFF0F2H002CEF06B402006736006429DC03E0036429FC01E403002C8B02B402002400AC020067062H0047DC04AC020048A802AC020067BAFB5HFF0F2H002C8B05B802001310AC020048A802AC020048C001B002006782FC5HFF0F2H002400AC020067AEFA5HFF0F2H0068398C02006811900200679AFB5HFF0F006429DC03E0030067EAF95HFF0F00F80269E406FC070067F6FE5HFF0F00E00450C008C4080067EAFC5HFF0F2H002CC708B402006786FD5HFF0F2H002CC702B802001310AC020067D66HFF0F2H002CBB03B8020067C2FA5HFF0F2H002400AC020067062H00471CAC02E00450C008C4080067FEFB5HFF0F2H002CD302B402002400AC02F80269F407F80764298402E403002CF703B402002400AC020067062H0047E001AC020048A802AC020067F2F85HFF0F2H002C9B07B4020067EEF95HFF0F2H00679EDC5HFF0F2H00679AD15HFF0F2H002CDB01E802006786D45HFF0F00FB07148401C8020067062H000D03C80243148401CC020067062H000D03CC02FB07148401D0020067062H000D03D00243148401D402002CA705D8020067022H004500D4020067162H005FEEC85HFF0FC802006726009703141CCC02CC024DC802C8020067EE6HFF0F2H004500D002004500CC020067062H004708CC02004500C8020067DE6HFF0F2H0067E2EB5HFF0F2H005FEAEE5HFF0FCC0200673A00C304148401D402004500D0020067062H00476CD002D0023ECC02CC020067E26HFF0F00FF03148401C8020067062H000D03C802DB04141CCC020067062H000D03CC02AB08148401D0020067CA6HFF0F2H00679A052H002CE301F40200679EDD5HFF0F2H004500C802006702009B025BC802C802C8021E1CC802CF0559C80296CD5HFF0F0067CEE25HFF0F00E004508409A009006702006429B804C004000C0088030067062H004768880300678AC85HFF0F0093015BD002D002FB07148401D4020067062H000D03D402FB07148401D802FF03148401DC0243148401E002C304148401E4020067062H000D03E402004500E00243148401E4020067062H000D03E402C304148401E802004500E4020067062H0047D401E402E42H02E002E002002CE308E402004000DC02AB0544DC02DC02005FFEE95HFF0FDC02006792DB5HFF0F2H002CF308F402E00450B8069009002C9703FC02001FEADB5HFF0FF4020067CA06006429A802FC03002C9703CC02006746006429DC0380040067322H002400CC020067062H0047F007CC02E00450C008E4080048C802D002002C6BD4020067022H002400CC020067062H0047C407CC02005FEEDC5HFF0FC4020067622H0048C402D002002C57D4020067C66HFF0F2H004E08C8020067062H00479406C802004B00C4020067062H0047F006C4020048D401C40200672E006429F403F80300678A6HFF0F2H006849C0026429F403F803F80269C0069408002CF308CC02004E08C8020067062H0047C001C802004B00C4020067D66HFF0F00F802699C0794080067EAFE5HFF0F2H0067EADB5HFF0F2H002C9B01D0020067DEFD5HFF0F2H00679ED85HFF0F2H004500D8020067062H0047BC01D802B308141CDC0200670A2H005FFAF05HFF0FD80200670A00DC023ED802D8020067F26HFF0F2H0067CE0F006429AC04980400673200C30323F802F8020067F26HFF0F00D0022BE402F80200672600F80269B008CC08004500FC020067062H00478403FC02FC0227F802E002E40241CC02F802D40203F802F8020067D26HFF0F2H0067FEDB5HFF0F00F80269D806C8080067D66HFF0F2H0029E2CB5HFF0FE0020067F6E85HFF0F00EF035EE802E8020067022H005FF6CE5HFF0FE80200670A00FB055BE802E8020067EA6HFF0F2H0067DAFA5HFF0F2H0067F2EB5HFF0F2H0067DA0F2H0067E6DE5HFF0F00EF055BDC02DC02FB07148401E0020067062H000D03E002D704148401E4020067062H000D03E402002C8F09E80200670A0043148401E4020067122H002CA708EC0200671E00E4023EE002E00200670E00C304148401E802004500E4020067EE6HFF0F2H005FB6EA5HFF0FE00200672E2H004000E4020067062H00470CE402B70428E402E402004500E0020067BE6HFF0F2H004500DC020067062H0047D006DC02CF0128DC02DC020067866HFF0F2H0067B2E95HFF0F2H00489002C802005500C8020029960DC8020067D6D95HFF0F2H0067D20B2H0067F20E2H00670200F704141CCC02006786E95HFF0F2H002CD303E4020067D2CF5HFF0F2H0067DEE35HFF0F00AB08148401D80200672600DF0328D402D402002CBF05D80200673E2H004500DC02DC0239D802D802005FC2DC5HFF0FD8020067BA01008F065BD402D4020067DE6HFF0F00C304148401DC020067062H000D03DC02004500D80200670200D80203D402D4020067DE6HFF0F00C304148401E0020067C66HFF0F2H004000D0020067062H00478002D002F3075BD002D002FF03148401D4020067062H000D03D402AB08148401D8020067062H000D03D802AB08148401DC020067062H000D03DC028F07147CE0020067062H000D03E002002CA305E402002CC701E802004000E0020067062H0047D407E002004500DC020067062H004758DC02004500D802AB08148401DC02C304148401E0020067062H000D03E002004500DC020067062H00478807DC02DC2H02D802D80243148401DC020067EEFE5HFF0F2H0067E2D95HFF0F0043148401D4020067062H000D03D402C304148401D8020067062H000D03D802004500D402006782FE5HFF0F00A304141CCC020067062H000D03CC0200678A102H0067AA0A00BB0217F402F402005FDAD55HFF0FF4020067B2F85HFF0F006429EC03B0040067062H0067A2E35HFF0F00E0045090099809000C00FC020067F26HFF0F2H0067CED55HFF0F2H0029E60ED4020067A6DA5HFF0F2H006782EB5HFF0F006429C403FC03000100C8020067F26HFF0F008F07147CCC020067062H000D03CC02002CA305D002002C8305D402004000CC020067EAE55HFF0F0043148401E8020067062H000D03E802C304148401EC020067062H000D03EC02004500E802E80203E402E4026732E402E4020067022H005FC6CA5HFF0FE4020067B6DE5HFF0F2H002C8709E8020067A2E45HFF0F00AB08148401C8020067062H000D03C802C304148401CC020067022H004500C802006796FC5HFF0F0043148401E402C304148401E802004500E402E40239E002E002005FCA08E0020067B6FE5HFF0F2H006835B40200682DB80200680DBC020067022H00298AF95HFF0F840200674200F802698C06FC0700671E2H0048AC02B0020067022H000100B0020067062H00479402B002001A00B0020067C66HFF0F006429E003E803002C8F03B802002400B0020067062H0047D807B00200683DAC020067CA6HFF0F2H006792FA5HFF0F00E00450A8089808F80269F406DC07006786012H002C9305940200675A2H00400090020067062H0047840390028F03449002900200489002840200678E010004600090020067DA6HFF0F00E00450A808A0080067022H0048FC01900200678E012H0026A706900200678EF35HFF0F2H001A009002000DEB0494020067062H000D039402004E0494020067CA6HFF0F006429E802C0030067E26HFF0F2H0040008C020067662H00400090020067062H0047980790028F0344900290020067AE6HFF0F2H00488C02940200670A2H00488C02940200674E2H002C930898020067D66HFF0F2H00450090020067062H0047E8049002004890026C002C9304900200678E6HFF0F006429DC02C4030067CA6HFF0F2H002C9F07980200400090028F0344900290020067B2FE5HFF0F00F80269B806E0070067CA6HFF0F006429DC02C403E00450A408AC080067DE6HFF0F2H002C830498020067AAFE5HFF0F2H00679EBC5HFF0F2H0067DAE25HFF0F00DF05141CD0020067062H000D03D002D02H02CC02CC02B707141CD00200670A2H005FB6E85HFF0FCC0200670A00D0023ACC02CC020067F26HFF0F2H0067CAE05HFF0F2H002C7B340067622H000DD706700067062H000D0370000DB302740067B6032H005F9AF15HFF0F8C0200679604009705148001B40163148001B8010067062H000D03B8018F07148001BC01000D8706C0010067062H000D03C001D30814C001C0010067062H000D03C001000D8706C401006796012H002CDF0728002C772C002CAB013000679A6HFF0F2H002CAB0238000DE7043C000D9307400067062H000D0340000DF301440067062H000D0344000D8B02480067062H000D0348000DD3024C0067062H000D034C000DF703500067062H000D0350000D8F0754000DC70858000D0F5C0067062H000D035C000DB702600067062H000D0360000DEB06640067062H000D0364000DA302680067062H000D0368000DEF066C00679EFE5HFF0F009B0514C401C4010067062H000D03C401000DF707C8010067062H000D03C801000D9B03CC010067062H000D03CC01000D6BD001000D57D401000DBB08D8010067062H000D03D801000D8302DC010067062H000D03DC01000D9306E0010067062H000D03E001000DC306E4010067062H000D03E401000DA701E801000DD701EC010067062H000D03EC01000DA303F0010067062H000D03F001000DCF06F4010067062H000D03F401001A00F80100678A010073147C8C010067062H000D038C01FF06147C90019B06147C94010067062H000D039401E306147C98010067062H000D039801FB01147C9C01E304147CA0010067062H000D03A001B706147CA4010067062H000D03A4011B147CA8010067462H0034242H002CB3082000674E2H000D9B0778000DC3057C0067062H000D037C000DBF0680010067062H000D038001000D3B84010067062H000D038401000D8F0188010067FAFE5HFF0F2H006825FC0100671E0007147CAC010067062H000D03AC01002C8F03B00100678AFC5HFF0F2H002C8303240067B6FC5HFF0F2H002CCF088002002CCF088402002CCF088802000DEB048C020067E6FB5HFF0F2H0067B6C25HFF0F0043148401DC02C304148401E0020067062H000D03E002004500DC020067062H00479C05DC02006782F25HFF0F006429C403FC03005500C8020029BADC5HFF0FD80200678EE35HFF0F00C304148401F8020067062H000D03F802004500F4020067C2D45HFF0F0043148401F4020067E66HFF0F2H002C13E0020067BA012H002CFF08E002006796052H005FDAC35HFF0FE40200672600C304148401EC020067062H000D03EC02004500E80200670200E8024DE402E4020067DE6HFF0F00AB08148401E8020067DE6HFF0F2H0067D6F35HFF0F2H00298EE45HFF0FE0020067A2E05HFF0F2H006796BC5HFF0F2H002CFB02F4020067E2F55HFF0F2H0029D6C85HFF0FD80200679ECC5HFF0F2H002CD304E0020067DE6HFF0F2H0011CAB85HFF0FC80200678ABC5HFF0F008F07147CE4020067062H000D03E402002CA305E802002CA702EC02004000E402E4022AE002E002005FB6F15HFF0FE0020067CEBD5HFF0F00EF015BC802C802C8021E1CC8020067062H000D03C802870459C802A2EC5HFF0F0067CAF25HFF0F00D7055BC802C802C8021E1CC8020067062H000D03C802AF0259C802CAD15HFF0F0067AED65HFF0F2H002996F25HFF0FE0020067FAD15HFF0F2H002CB303D802006796E15HFF0F00E00450A808E0080067022H000100C802006792E35HFF0F2H005FBACB5HFF0FDC020067AEB55HFF0F00AF0744D802D802005FE6FE5HFF0FD8020067FABF5HFF0F2H002CCB06E402006786C05HFF0F2H002C03D8020067DAB45HFF0F00F306141CCC020067C2F85HFF0F2H002C23E4020067FEF45HFF0F000C4E08C8020067062H004770C802F80269B4069C0800480CD40200672A2H004804C4020C4E08C0020067062H0047D006C002004868C80200670A00E004508007D8080067E26HFF0F00E00450A006E4080067C26HFF0F000C4E08D0020067022H005FF2D55HFF0FC00200679ABF5HFF0F2H002CA301E8020067D6BE5HFF0F2H0067BECB5HFF0F2H002CE705E4020067F6CC5HFF0F2H0048B402C8020067562H006809CC02D704148401D0020067062H000D03D002AB08148401D4020067062H000D03D402C304148401D8020067062H000D03D802004500D402D40235E707D40200670A2H002C9703C8020067C66HFF0F2H002CCB04D8020067022H004000D002D70332D002D002005F96C05HFF0FD00200672A00E004508407E408000C00C802E00450CC08E008E00450F806E408000C00C8020067062H0047E004C802E00450C408E008000100C8020067BA6HFF0F2H0067C6F65HFF0F00DB04141CC802006786C85HFF0F00AB08148401D402C304148401D8020067062H000D03D802004500D4020067F2D85HFF0F2H002CCF02C802006782D05HFF0F2H00669AD15HFF0F80036429B004B8040067020094050FEC08EC080067EE6HFF0F2H00487080030067EA6HFF0F00B406508C05D407AB08148401D8020067062H000D03D802C304148401DC020067062H000D03DC02004500D8020067062H00479801D802004000D0020067062H0047D006D00243148401D402C304148401D80200670A2H005FC201D0020067162H004500D4020067062H0047E006D402D40239D002D0020067E66HFF0F2H0067A6FB5HFF0F2H0029C6C05HFF0FE0020067E6C75HFF0F2H000100D8020067A6BC5HFF0F00F80269E005A4080067F26HFF0F008F03648403FC02006782D05HFF0F00B707141CD8020067062H000D03D802004000D0020067062H0047B005D002002CAF03D40200671A2H002C8301D002004000C802A7045BC802C802C8021E1CC8028F0559C802B6BA5HFF0F00670A2H004000CC020067E26HFF0F2H0067E6FC5HFF0F2H002C5FE0020067B2EC5HFF0F2H0029D6FB5HFF0FD8020067EECD5HFF0F009703141CD8020067A6D75HFF0F2H0067EEE85HFF0F00DC021EC402E0020067062H000D03E002E00227D402C4020067E6C65HFF0F2H00292HDA5HFF0FCC020067A6B85HFF0F2H005FC6D25HFF0FDC01006786B55HFF0F2H0029E2E85HFF0FD0020067FAEA5HFF0F007A86107B4AA1EF3F0E3B60E1F745E83F00FDBC4072FCBD3F55D1CFBA8908E13FC2D1ED4F1E1CD33FA875FE89F129D03F1E24ACA79650DD3FE532A8DC6D45EC3F959E187C78822D6776F6FB9900658F53123B658237A0E386487CEA906E1247FF3DA99E0D119560F3272991C91A009D30852A0033012H0010A4A1151E33012H00BA18435CFF32012H00FCB8EC0DB9037C6B2H00D9B2436H00F0BF437H00C0438H006D163H00013H00083H00013H00093H00093H009D55210B0A3H000A3H00604806160B3H000B3H00A6E3F04C0C3H000C3H004612D3680D3H000D3H00CAD2026F0E3H000E3H00A836672D0F3H000F3H0020010931103H00103H00013H00113H00123H005B3H00133H00133H00013H00143H00163H005C3H00173H001B3H00013H001C3H001D3H005B3H001E3H001F3H00013H00203H00213H00563H00223H00223H00013H00233H00233H00563H00243H00257H00263H00273H00573H00283H002A3H00583H002B3H002C3H00013H0020069B4FAA06010007737A012H00678A012H006786012H006782012H00680D2H000D032H002C0F2H003890072H0038B40700DC0504AC012H3C04F404E803E0023CC402C002800761AC06A403BC051C5CAC06D0074288059C01C80138B805900400674E00086C2H1000671E2H0033001007360414004500100067062H0067222H004810040067F66HFF0F00E00450A80698060067DE6HFF0F2H004100100067CE6HFF0F00F80269D805DC058001196068044A0BF66HFF0F0067062H006A3H00670A2H002C030C0067EA6HFF0F0007230410032010D26HFF0F00410C1000670200086C2H100048100C0067BE6HFF0F2H0013D94A2CFF32012H0065B98914F903796B2H005911C80B3H00013H00083H00013H00093H00093H002E30176E0A3H000A3H00967DED6E0B3H000B3H007796A4760C3H000C3H00E200E6180D3H000D3H00D645990D0E3H000E3H00013H000F3H00113H00BC3H00123H00183H00013H00193H00193H00BC3H001A3H001A3H00013H0093C4300EC408010012617A012H0067422H00673E2H00673A2H00680D2H000D032H002C072H003880072H0038B80700A40312D407D4069C035DF805F404F0073BDC02EC05B0075DC806EC0778379C038C0700670E2H002F000C004E0C1400671E2H0033000C00670200F80269CC05DC050033001400480418E00450A006B4060067DE6HFF0F2H0006000C840650B002AC02009EBE3F550133012H00BCCB9F29FF32012H002078F80E59007D6B2H00CDAC436H0069C0740D3H0037DC6BAFF4C108E92B5B630845740A4H00D1ACAE7EF2B078302A740A3H00C65F5A134CAA593633507C1A3H00013H00083H00013H00093H00093H000EB4FD3A0A3H000A3H00CC8FA7080B3H000B3H00A95FCC790C3H000C3H00EB59DF610D3H000D3H00B00A6E530E3H000E4H0055A70A0F3H000F3H00BE6C8D16103H00103H00B9F6DE1A113H00113H007D716265123H00143H00013H00153H00163H0084012H00173H00173H00013H00183H001A3H0084012H001B3H001E3H00013H001F3H00203H0079012H00213H00233H00013H00243H00253H007A012H00263H00273H00013H00283H00293H007A012H002A3H002A3H00013H002B3H002B3H007A012H002C3H002F3H00013H00303H00333H007F012H00343H00343H00013H00353H00353H0084012H0083D7CB7208020300042H0100027C7A012H00676E2H00676A2H0067662H0068152H000D072H002C132H003890072H0038A80700203BA402C402685DB802E006B0031CC806D404E80130D8038C07B4010ED806FC028C0326D805DC013837A4028C0280061BA40694061C08E0036C00672A2H006A3H0067FE6HFF0F2H0029F66HFF0F2H00670E2H00332H000F143H0067EE6HFF0F2H00676A0098051BA405A005840650B002AC020033042H0033080400453H0067162H00333H0067062H000D070007143H00670A2H00543H0067E66HFF0F00035900120067062H0067FE6HFF0F2H0067A26HFF0F2H0067FE6HFF0F2H00333H0067062H000D07000B143H0067022H0029926HFF0F2H0067E26HFF0F2H006A3H0067D26HFF0F2H00D7214B40FF32010003AB87C41184017D6B2H00ED6E74093H003C5D04B046EDE3629F436H00F0BF74063H005582499D132674063H0027EC25FB5062E51A3H00013H00083H00013H00093H00093H00C3658C690A3H000A3H00247588230B3H000B3H00D1CE047C0C3H000C3H008070FB5B0D3H000D3H007A13EE5D0E3H000E3H000CB6A9120F3H000F3H00013H00103H00117H00123H00193H00013H001A3H001A7H001B3H001D3H0072012H001E3H001E3H006C012H001F3H00213H00013H00223H00233H006C012H00243H00263H00013H00273H00273H006B012H00283H00293H00013H002A3H002A3H006C012H002B3H002B3H0072012H002C3H00323H00013H00333H00347H00353H00353H006A012H00363H00373H00013H00383H00393H006A012H003A3H003C3H00013H00A64E2821CB0603012H00012H00837A012H0067AA012H0067A6012H0067A2012H00680D2H000D072H002C132H00388C072H0038A80700B8033ECC06EC06FC0342E801AC01D40627F404D801A003569004B004FC044E0C8406B80253A404D4020067722H002C0B0C000F000C0033080C0067062H000D070C000F000C0033000C0067062H000D070CE00450A006A806002C03140040000C005F7E0C0067362H00676E2H0033040C0067062H000D070C07590CBE6HFF0F00671A2H0033040C0067062H000D070C07282H0C0054040C0067D66HFF0F2H0067CE6HFF0F2H0067926HFF0F2H001A00089C0237BC04C82H046000080033000C0067062H000D070CF80269D405DC05002C0F140067022H0040000C0067062H0047C8040C005FF6FE5HFF0F0C0067AA6HFF0F2H0067FE6HFF0F00840650B002B802840650B002AC0200AE82F8534E017F6B2H0009FB740A3H00698253AFAB2102F4B9C074073H008BB40D9EB7FD01438H0043FCA9F1D24D6250BF74083H0052B3CAEB962E19C7740F3H003ADBF47AC2658EFCDBF08748F54D963B1E3H00013H00083H00013H00093H00093H00F6E7110D0A3H000A3H006655926F0B3H000B3H0039A345440C3H000C3H00F8CA87520D3H000D4H003708780E3H000E3H00BD428B260F3H000F3H008B02801E103H00103H00EEC9814E113H00113H00BE91733B123H00143H00013H00153H00173H008D012H00183H00193H00013H001A3H001C3H008D012H001D3H001F3H00013H00203H00217H00223H00223H00013H00233H00243H0076012H00253H002D7H002E3H002E3H0078012H002F3H00303H00013H00313H00327H00333H00333H0068012H00343H00353H00013H00363H00363H0068012H00373H00373H0076012H00383H00393H00013H003A3H003C3H0076012H003D3H003D7H003E3H00403H00013H0045545F1463090200090001877A012H00679E012H00679A012H006796012H00681D2H000D032H002C1B2H003888072H0038B80700AC072D9006DC03CC0350F004A005B8040D8C04A801A40749E8078004B00337E402EC06503ED8023C800552E402FC07BC051FEC03B003F40762C001FC0600675A2H000D071C00670A000F701C220067162H005A001C0067062H0047F8031C0C022H1C0067E66HFF0F2H00678E012H0067FE6HFF0F2H0048101C000F001C005FF66HFF0F140067C66HFF0F0098051BA405BC05006801180067262H001A00100068052H143F031000672A2H002C0B04000D17080067022H001A000C0067DE6HFF0F000C4E08140067062H0047F805140029BA6HFF0F1400672A2H004000080067062H0047AC0608000D070C005A000C0067062H0047E0050C94050FF405F405000D131400679A6HFF0F2H00672HFE5HFF0F00840650B002AC0298051BA405BC050067FE6HFF0F2H00BA3F4665FF32012H00597CDD7E59017B6B2H009D5D436H00F0BF432H00C03HFFDFC1070E3H00013H00083H00013H00093H00093H00ECE437080A3H000A3H0060F591370B3H000B3H0014FD7F220C3H000C3H00BBA2836F0D3H000D3H00EF9332580E3H000E3H00D6597A330F3H000F3H0005AAB54C103H00103H00E945024D113H00113H0045481635123H001A3H00013H001B3H001B3H00813H001C3H001D3H00013H001E3H00243H00813H001D51E82C1B030100116B7A012H006782012H00677E2H00677A2H00680D2H000D032H002C0B2H003888072H0038B00700BC0553C8048803C8062BBC03BC03B40227DC02A8028C0611B00214FC0726F405D803C0062B9001F806E80741F40760AC07509807A803C40667E803E40300673E006429B401B8010067022H0029060400670A2H000F0004006A3H00330004F80269CC05D405004500040067062H0047D0060403282H04900629D406D4060067DA6HFF0F2H0067C66HFF0F00075E0004005FC66HFF0F040067F26HFF0F2H007F5AE01DFF32012H00996B0C01FE037A6B2H003992436H00F0BF0E0C3H00013H00083H00013H00093H00093H001789FC1B0A3H000A3H0034867C680B3H000B3H008391E23C0C3H000C3H006155C33C0D3H000D3H0004A49C5F0E3H000E3H0054926D140F3H00143H00013H00153H00173H00BF3H00183H00193H00013H001A3H001B3H00BF3H001C3H001C3H00013H0008747313E409020012000F637A012H0067362H0067322H00672E2H00680D2H000D032H002C072H003894072H0038B00700644ED405D003A4045360E007E807529C04E006B40402B404A00384042614D406B0074DEC02C4070033000C0067062H000D030CF80269D005DC050033041400480018900629D806EC06035B2H1C004E0C140067062H004710140006000CB406508C059805840650B002AC020035759550FF32012H004D0F63684900806B2H00756F74063H00B1B6E5C0C731434H00F069F8C0436H00D0BF436H0059C0740D3H00CB98BDB8C73606F81F8318535074073H00CC0D898517CBBA74093H008784DFFA2D9AB40FA195183H00013H00083H00013H00093H00093H00643F2E130A3H000A3H00C1FDAF700B3H000B3H00A36FC64B0C3H000C3H0021369D5D0D3H000D3H00C07903710E3H000E3H00A55D075B0F3H000F3H008BE49642103H00123H00013H00133H00153H00473H00163H00177H00183H00193H00473H001A3H001B3H00013H001C3H001C3H00473H001D3H001D3H00483H001E3H001F3H00013H00203H00213H00483H00223H00233H00013H00243H00243H00483H00253H00257H00263H00263H004B3H00273H00283H00013H00293H00293H004B3H002A3H002C3H00013H00856C126E1B04010005737A012H00673A2H0067362H0067322H0068112H000D0F2H002C1F2H00388C072H0038A00700BC022BC40294017C5CC404D806144D980700F405489801DC018C032EF8078806C8035D8C049003880156CC077C000D1B2H0067062H000D0F0003143H005A2H0013123H002C0F08002C070C0046102H003300040067062H000D0F04F80269CC05D405004500040067062H0047800104005F260400670A006429B401B801000F00040067F66HFF0F2H002C0B08000C00040067062H0047B0020400679A6HFF0F2H000D17040067E66HFF0F00FC0619F407F00700BCA43115FF32012H0049080E0822017A6B2H002153436H00F0BF2A0A3H00013H00083H00013H00093H00093H00FF65130B0A3H000A3H00488B9E790B3H000B3H00E029994D0C3H000C3H003FF173570D3H000D3H00B98FD77A0E3H000E3H00AD967E200F3H000F3H00BDE4C31B103H00113H00013H00123H00153H00503H00EF5F5B07DE03005C7A012H0067422H00673E2H00673A2H00680D2H000D032H002C072H003888072H0038B00700E4012D9006240422E801FC06D80338C402A40780032EAC05CC01A80167EC01B40394045C1CE40788021CCC034000670600840650B002AC02032300040067020004020004000F000400FA358032FF32012H003A2ADD39A9017D6B2H00B92E438H00436H00F03F436H0070C0436H00F0BF52123H00013H00083H00013H00093H00093H0082B5CC4E0A3H000A3H00C97C01740B3H000B3H00E0833B2A0C3H000C3H00AB59D55C0D3H000D3H00E4BC73720E3H000E3H00B95576550F3H000F3H00F75F9556103H00103H0072D58A00113H00113H00938AA02B123H00127H00133H00133H009F3H00143H00167H00173H00183H00013H00193H001B7H001C3H001E3H00013H001F3H00253H00A03H00263H00263H00013H002271971E260A01000B6D7A012H0067422H00673E2H00673A2H0068112H000D032H002C132H003898072H0038B40700E806129402FC03D40539E4068802DC0342D801840630038C02E00288020BF005FC01C4041F8006A407E801349C06800698033BA404A004B4060EE001A003002C030400190008002C0F0C002C0710001F0E08F80269D005D4058001192H600067F66HFF0F2H001112080067F66HFF0F2H004818040067022H0067EE6HFF0F000B0704180033001C6429B401D401E00450AC06BC060040002H1C032H180067DA6HFF0F00FC0619F407F00700198C9942FF32012H00354D9E1493007B6B2H0055A974043H003CBD192F74073H00B8E9308B20015E570C3H00013H00083H00013H00093H00093H00E971AE540A3H000A3H00926246700B3H000B3H0073632C1A0C3H000C3H0088A1AE100D3H000D3H002496A7640E3H00113H00013H00123H00123H00B6012H00133H00143H00013H00153H00157H00163H00163H00B6012H00173H001A3H00013H0055A63D702F2H03003800280037617A012H0067322H00672E2H00672A2H0068152H000D0B2H002C0F2H003880072H0038A00700FC0363E807E002A00339980378C0020B94068403685F5CE002E0042CD804F8070033042H0067062H000D0B2H0033080407142H040067062H000D0B04002C030800403H0067062H0047C8052H00542H0098051BA405A005008C3F8A0EFF32012H00082271625901826B2H0075FB436H002AC0436H0010C0436H0030C0436H00F0BF436H0014C074133H0023D074EC9B65338473E5BBDC6B15C36413959B436H0022C0436H0028C0436H0020C028243H00013H00083H00013H00093H00093H007E890B280A3H000A3H00A19F71000B3H000B3H003277661D0C3H000C3H002F5B8C0C0D3H000D3H006135DF1F0E3H000E3H000D92A2470F3H00103H00013H00113H00133H0047012H00143H001D7H001E3H001E3H0049012H001F3H00203H00013H00213H00213H0049012H00223H00223H0044012H00233H00243H0047012H00253H00253H0046012H00263H00273H00013H00283H00283H0046012H00293H002A3H00013H002B3H002C3H0046012H002D3H002F3H00013H00303H00317H00323H00333H00013H00343H00347H00353H00363H00013H00373H00397H003A3H003A3H0046012H003B3H003C3H00013H003D3H003E3H0046012H003F3H003F3H0047012H00403H00413H00013H00423H00433H0047012H00443H00453H0048012H00463H00473H00013H00483H004D3H0048012H004E3H004E3H0044012H00CBEC506AC20B03000C0016000E957A012H0067AE012H0067AA012H0067A6012H0068112H000D072H002C272H003888072H0038AC0700E0011E04CC03BC0127E002C8029C031E80036CB0013C9C0184038C063AA804089C075CA405CC0700677600FC0619F407F007003304140033081800673E2H002C1B20002C1F240067D6012H002C0324002C0B280067122H002C232000678E012H002C131C0067F26HFF0F2H004E101C0067062H00473C1C004E0018000600040048001C0067BE6HFF0F2H003304100067062H000D0710003308140067062H000D0714004800180067BE6HFF0F2H003300040067062H000D0704002C17080033040C0067062H000D070C003308100067062H000D07106429B401C801002C0F18002C071C004E2H100067062H00478401100005000C00679A6HFF0F2H004E10140067062H0047C00114000500100067B6FE5HFF0F2H003304180033081C0067062H000D071CE004509806B8060067B6FE5HFF0F2H000500140067E26HFF0F2H004E10180067F26HFF0F2H002F0004009CD32D0DFF3201000374DF78413F017D6B2H00116074083H0096C7858A47209EE374093H00DE8F5D6F70694F4C62436H00F0BFC68HFF1E1B3H00013H00083H00013H00093H00093H0030220A380A3H000A3H00827326730B3H000B3H006A37B5210C3H000C3H00B555AB6A0D3H000D3H00F76515060E3H000E3H00B52F1C420F3H000F3H0095B68975103H00103H00B806021D113H00113H00ABB3EC59123H00177H00183H00193H00A83H001A3H001C7H001D3H001E3H00013H001F3H001F3H00A93H00203H00213H00013H00223H00273H00A93H00283H00293H00013H002A3H002A3H00A93H002B3H002C3H00AA3H002D3H002E3H00013H002F3H002F3H00A93H00303H00313H00013H00323H00323H00A93H00333H00343H00013H00353H00383H00A93H00393H003B3H00013H00BD34571E5111020017000E827A012H0067422H00673E2H00673A2H00680D2H000D032H002C132H003884072H0038B00700F80319B005C805980330B405D806B0034D9407D404F8073BA0011C306CF00198038C062ED001CC05B00331FC04E807A40667DC0678E0053AE401C406002C0B08001A000C001A00109C0237BC04D02H04600010002C0B1468342830002C0F1C001F0214001106140067762H000D03240067020007142H240067062H000D03246429C001DC0100672E003C03083C0B5B2H3C004E1030004E002C0067062H004780072C004B0024201E102H24030824E00450BC06A0060067B26HFF0F2H0033002C0067062H000D032C003304300067062H000D0330F80269CC0580066429BC01EC01201E103C0067AE6HFF0F0098051BA405A00500480C14800119606C0063517D58FF32012H00B3D2176AE300876B2H00356D74063H0057D464675ED274073H0021A6A25C30594B74073H0048B98FF0757D8574053H00D380E353FB740D3H00FCFDC299142F61E9CC6AD7524374133H0081869FF5F6CE4FAACE2C5EC281A93ACD74739C439A5H9901C0434H00F069F8C074133H00DC5DE23223859A75A347D9387E67D55528897174073H003B086C46227C17436H33D3BF74093H00FA9391002F4442152374073H00EB788A5B00B4B6436H0059C0FA2C3H00013H00083H00013H00093H00093H003654B43C0A3H000A3H00A546C13A0B3H000B4H00EAD77D0C3H000C3H007A6B481F0D3H000D3H002F2C0B630E3H000E3H00B325C83D0F3H000F3H00013H00103H00103H006C3H00113H00123H00013H00133H00143H006C3H00153H00153H006D3H00163H00167H00173H00183H006D3H00193H001A3H006E3H001B3H001C3H00013H001D3H001F3H006E3H00203H00203H00013H00213H00213H006E3H00223H00223H00753H00233H00253H00013H00263H00277H00283H00293H00753H002A3H002C3H00013H002D3H002D7H002E3H002F3H006F3H00303H00327H00333H00363H00733H00373H00373H00723H00383H00393H00013H003A3H003A3H00723H003B3H003C3H00013H003D3H003E3H00733H003F3H00407H00413H00413H00733H00423H00433H00013H00443H00453H00743H00463H00483H00013H00493H00493H00723H004A3H004B3H00013H004C3H004C3H00723H004D3H004E3H00013H004F3H00503H00723H00513H00513H00743H00A2B7092CE20600987A012H0067362H0067322H00672E2H0068112H000D132H002C3B2H003880072H0038A00700202BB8029007201DB806D4055862CC01F8018401105460E40261348805B8071E74D406000D0F000B143H0067062H000D132H005A3H000D330427142H04002C1B08000C0004000D0F040B142H04005A00040067062H0047D0030400022H042B70049E0100670600840650B002AC020067222H006A000C000D070C0067062H000D130C002C23100067022H000C000C0067E26HFF0F2H000D07040067062H000D1304002C1708000C0004840650B002B002002C370C002C1F100067120013122H0800672A2H005A00080067F26HFF0F2H004610040067062H0047B40304000D2F080067062H000D130803142H080067DA6HFF0F2H002C3710002C1F14004610080067062H0047A8032H082D04EEFE5HFF0F00672E2H000D2F040067062H000D130403142H040067062H000D1304005A00040067062H004788070413122H0400672HFE5HFF0F2H0067C6FE5HFF0F2H004ED0D27BFF32012H000A49A86EFC01896B2H00E550436H00F0BF74073H00EA23D0E04E45CF436H00C0C174043H00FD22FE4674063H00C99E7BE4270B74043H005310E5BD436H0020C0436H004CC0436H0060C074093H00BFAC635D93FB617E2C74043H00A4852A6B436H0050C0432H00E03HFFEFC1438H0074044H00D1E43774083H009C5D89B42ADD81787A433H00013H00083H00013H00093H00093H00EB229E720A3H000A3H003B60255F0B3H000B3H00D812977C0C3H000C3H00976C3C790D3H000D3H00DF587D760E3H000E3H002E1EBF1F0F3H00103H00013H00113H00117H00123H00133H00013H00143H00143H0026012H00153H00163H00013H00173H00173H0022012H00183H00193H00013H001A3H001C3H0023012H001D3H001F3H0025012H00203H00203H0029012H00213H00213H0025012H00223H00233H0029012H00243H00257H00263H00263H002F012H00273H00283H00013H00293H00293H002F012H002A3H002B3H00013H002C3H002F3H002F012H00303H00343H0033012H00353H00353H002F012H00363H00373H00013H00383H003A3H002F012H003B3H003B3H0033012H003C3H003D3H00013H003E3H003E3H0033012H003F3H00403H00013H00413H00423H0033012H00433H00443H002F012H00453H00463H0033012H00473H00473H00013H00483H00487H00493H00493H002E012H004A3H004B3H00013H004C3H004C3H002E012H004D3H004E3H00013H004F3H004F3H002E012H00503H00513H00013H00523H00537H00543H00583H0033012H00593H00593H002F012H005A3H005B3H00013H005C3H00623H002F012H00633H00633H0030012H00643H00653H00013H00663H00663H0030012H00673H00683H00013H00693H00693H0032012H006A3H006B3H00013H006C3H006F3H0032012H00703H00703H0033012H00713H00713H0032012H00723H00733H00013H00743H00743H0033012H00753H00763H00013H00773H00783H0033012H00793H00793H002F012H007A3H007B3H00013H007C3H007D3H002F012H007E3H007F3H00013H00803H00813H002F012H002C8A1C46160905000A000D001500100021C87A012H0067562H0067522H00674E2H0068112H000D072H002C432H00388C072H0038B40700A00626EC03CC05900152D004D403E00138BC016C7C118402C805E401298001E40784025C9C06DC0700671E2H006A3H002C2F0C00480C080067CE01002F28080C6429C001BC0100672E00131400040067062H000D07042F23042H083D1F08006702002F23042H0C4A1F0E0067062H0067C26HFF0F2H0067CA6HFF0F0037200892010067F26HFF0F2H002C33200067022H004E0C180067062H0047FC0618000500140067062H0047880114003308180067022H000D071C006716001714001C0045001800674A002B14002000677E003F142H1C0067062H000D071C0B360420004E081C00677A003B1400180067062H000D0718004500140067062H0047F80414003308180067B66HFF0F0004181B1C00672HFE5HFF0F2H0033081C0067B26HFF0F2H0033000C002C23100045000C0067062H0047A4020C003304100067062H000D0710003300140067062H000D0714002C3718006796012H0045002H1C082H100067662H0033081400678A6HFF0F2H000500180067062H0047E4012H18082H0C00332H10E004509806AC0600670A2H00330C180067866HFF0F2H00480C18002400100067062H0047D40410000D27100067062H000D0710131400140067062H000D07142F232H1437212H14000C00100067062H000F0010003308100067062H000D07100F1400140067062H000D0714004500100067FAFE5HFF0F2H004500140067062H0047880314035B0818004000100067062H0047EC0710003308140067FAFE5HFF0F2H007916B041FF32012H00AEA3476B1C05BB6B2H00C51D436H0030C0436H004CC0435H008048C0436H0037C0436H003CC0436H003FC0435H008041C0436H002EC0436H002AC0436H0044C0436H003EC0435H008047C0436H0049C0435H008049C0436H0035C0435H008042C0436H0026C0435H008043C0436H0008C0435H008044C0436H004AC0435H00804CC0436H0010C0436H0036C0436H003AC0436H0046C0436H0045C0436H002CC0436H0050C0436H00F0BF436H0020C0432H00E03HFFEFC1436H0040C0436H0047C0436H001CC0436H0038C0436H0043C0436H004FC0436H0018C0436H0028C0438H00436H0041C0436H0048C0436H0042C0436H0031C0435H008045C0436H0034C0436H0024C0435H00804EC0435H00804DC0436H0033C0436H0032C0435H008040C0436H004EC0436H003BC0435H00804AC0436H004DC0436H004BC0436H003DC0436H0039C0435H008046C0437H00C0436H0014C0435H00804FC0435H00804BC0436H0022C0D8BC012H00013H00083H00013H00093H00093H001406E6520A3H000A3H0030E11D6D0B3H000B3H0042C865760C3H000C3H00A72255500D3H000D3H00567658520E3H000E3H004917E11D0F3H000F3H0044B9F670103H00113H00013H00123H00133H00CE3H00143H00163H00013H00173H00173H00E03H00183H00193H00013H001A3H001B7H001C3H001D3H00013H001E3H001F3H00F03H00203H00203H00013H00213H00223H00E23H00233H00273H00013H00283H00293H00F23H002A3H003D3H00013H003E3H003E3H00EE3H003F3H003F7H00403H00413H00EE3H00423H00453H00013H00463H00473H00F43H00483H004B3H00013H004C3H004C3H00EA3H004D3H004E3H00013H004F3H00507H00513H00533H00013H00543H00543H00E63H00553H00563H00013H00573H00573H00E63H00583H00753H00013H00763H00763H0008012H00773H00783H00013H00793H00797H007A3H007B3H0008012H007C3H007F3H00013H00803H00807H00813H00823H00EC3H00833H008D3H00013H008E3H008E3H00E83H008F3H00903H00013H00913H00927H00933H00993H00013H009A3H009C3H00CA3H009D3H009E3H00D03H009F3H009F3H00EF3H00A03H00A13H00013H00A23H00A27H00A33H00A43H00EF3H00A53H00A73H00013H00A83H00A83H00E43H00A93H00AA3H00013H00AB3H00AC7H00AD3H00AD3H00FE3H00AE3H00B83H00013H00B93H00B93H00EF3H00BA3H00BF3H00013H00C03H00C03H00E33H00C13H00C23H00013H00C33H00C47H00C53H00C73H00013H00C83H00C93H00E23H00CA3H00D23H00013H00D33H00D33H00FE3H00D43H00D53H00013H00D63H00D67H00D73H00D83H00FE3H00D93H00E13H00013H00E23H00E23H00F93H00E33H00E47H00E53H00E53H00F13H00E63H00E73H00013H00E83H00E87H00E93H00E93H00F13H00EA3H00EB3H00013H00EC3H00EC3H00F13H00ED3H00FC3H00013H00FD3H00FE7H00FF3H00FF3H00F04H00012H002H012H00013H0002012H0003016H0004012H0004012H00013H0005012H0005012H00CF3H0006012H0006016H0007012H0008012H00CF3H0009012H0017012H00013H0018012H0018012H00DF3H0019012H001A012H00013H001B012H001C016H001D012H002B012H00013H002C012H002C012H002H012H002D012H002E012H00013H002F012H0030012H002H012H0031012H0032016H0033012H0034012H00013H0035012H0035012H00D13H0036012H0037012H00013H0038012H0038016H0039012H0039012H00D13H003A012H003B012H00013H003C012H003C012H00D13H003D012H0042012H00013H0043012H0043016H0044012H0044012H0004012H0045012H0046012H00013H0047012H0047012H0004012H0048012H0051012H00013H0052012H0052012H00F93H0053012H0054012H00013H0055012H0055012H00F93H0056012H0059012H00013H005A012H005A012H000A012H005B012H005C016H005D012H005D012H00F33H005E012H005F012H00013H0060012H0060012H00F33H0061012H0065012H00013H0066012H0067012H00D63H0068012H0068012H00013H0069012H0069012H000B012H006A012H006B012H00013H006C012H006D016H006E012H0078012H00013H0079012H0079012H00FF3H007A012H007B012H00013H007C012H007C016H007D012H007E012H00FF3H007F012H0086012H00013H0087012H0087012H00CC3H0088012H0089012H00013H008A012H008A012H00CC3H008B012H0093012H00013H0094012H0094016H0095012H0096012H00D63H0097012H0098016H0099012H009D012H00013H009E012H009E012H00D43H009F012H00A8012H00013H00A9012H00AA016H00AB012H00AC012H00013H00AD012H00AD016H00AE012H00AF012H000E012H00B0012H00B3012H00013H00B4012H00B4012H00E53H00B5012H00B5016H00B6012H00B7012H00E53H00B8012H00C1012H00013H00C2012H00C2012H00D93H00C3012H00C9012H00013H00CA012H00CB012H00D33H00CC012H00CF012H00013H00D0012H00D0012H0003012H00D1012H00E6012H00013H00E7012H00E7012H00F73H00E8012H00E8016H00E9012H00E9012H00F73H00EA012H00EB012H00013H00EC012H00EC012H00F73H00ED012H00F0012H00013H00F1012H00F1012H00DC3H00F2012H00F3012H00013H00F4012H00F4012H00DC3H00F5013H00022H00013H0001022H0001022H00EA3H002H022H0003022H00013H0004022H0005022H00EA3H0006022H000B022H00013H000C022H000C022H00D23H000D022H000E022H00013H000F022H000F026H0010022H0012022H00D23H0013022H0013022H002H012H0014022H0015022H00013H0016022H0017026H0018022H001B022H00013H001C022H001D022H0003012H001E022H0036022H00013H0037022H0037022H000E012H0038022H0039022H00013H003A022H003B022H000F012H003C022H003C026H003D022H003E022H00CE3H003F022H004E022H00013H004F022H0050022H00DF3H0051022H0051022H0009012H0052022H0060022H00013H0061022H0061022H00D63H0062022H006F022H00013H0070022H0070022H00D83H0071022H0072022H00013H0073022H0074026H0075022H0076022H00013H0077022H0077022H000C012H0078022H0079026H007A022H007B022H0005012H007C022H007E022H00013H007F022H007F022H00F33H0080022H0081022H00013H0082022H0083026H0084022H0086022H00013H0087022H0087022H0009012H0088022H0089022H00013H008A022H008B026H008C022H00A5022H00013H00A6022H00A6022H00D93H00A7022H00A8022H00013H00A9022H00A9026H00AA022H00AB022H00D93H00AC022H00AD022H00013H00AE022H00AE022H00DB3H00AF022H00B0022H00013H00B1022H00B2026H00B3022H00BA022H00013H00BB022H00BB022H000E012H00BC022H00BC026H00BD022H00BD022H000E012H00BE022H00BF022H00013H00C0022H00C2022H000E012H00C3022H00C8022H00013H00C9022H00C9022H00E13H00CA022H00CB022H00013H00CC022H00CC026H00CD022H00CD022H00E13H00CE022H00CF022H00013H00D0022H00D0022H00E13H00D1022H00D5022H00013H00D6022H00D6022H00F43H00D7022H00D8026H00D9022H00D9022H0006012H00DA022H00DB022H00013H00DC022H00DD022H0006012H00DE022H00E1022H00013H00E2022H00E2022H00CB3H00E3022H00E4026H00E5022H00E5022H00DF3H00E6022H00E9022H00013H00EA022H00EB022H00E73H00EC022H00F1022H00013H00F2022H00F3022H00E83H00F4022H00F4022H00013H00F5022H00F6022H00EC3H00F7022H00F7022H00E03H00F8022H00F9022H00013H00FA022H00FA022H00E03H00FB022H002H032H00013H0004032H0005032H00D03H0006032H0006032H00F83H0007032H0008032H00013H0009032H0009032H00F83H000A032H000D032H00013H000E032H000F032H00F83H0010032H0017032H00013H0018032H0018032H00FB3H0019032H001E032H00013H001F032H001F032H00E93H0020032H0021032H00013H0022032H0023036H0024032H0028032H00013H0029032H0029032H00FB3H002A032H002B032H00013H002C032H002C036H002D032H002E032H00FB3H002F032H002F032H00D83H0030032H0031032H00013H0032032H0032032H00D83H0033032H003A032H00013H003B032H003B036H003C032H003D032H00FD3H003E032H004A032H00013H004B032H004C032H0004012H004D032H0059032H00013H005A032H005A032H0003012H005B032H005C036H005D032H005E032H00013H005F032H005F032H00D03H0060032H0066032H00013H0067032H0068036H0069032H006B032H00013H006C032H006C032H00CA3H006D032H006E036H006F032H0070032H00013H0071032H0071032H00DC3H0072032H0073036H0074032H0074032H00F63H0075032H0076032H00013H0077032H0077036H0078032H0079032H00F63H007A032H0080032H00013H0081032H0081033H00012H0082032H0082036H0083032H0084033H00012H0085032H0099032H00013H009A032H009B032H00E73H009C032H00A9032H00013H00AA032H00AB032H00FD3H00AC032H00AD032H0009012H00AE032H00AE032H00DE3H00AF032H00B0032H00013H00B1032H00B2036H00B3032H00BA032H00013H00BB032H00BB032H000C012H00BC032H00BD032H00013H00BE032H00BF032H000C012H00C0032H00C0032H00013H00C1032H00C1032H00CD3H00C2032H00C3032H00013H00C4032H00C4036H00C5032H00C6032H00CD3H00C7032H00CD032H00013H00CE032H00CF032H00D33H00D0032H00D9032H00013H00DA032H00DB032H000B012H00DC032H00E2032H00013H00E3032H00E4032H00F23H00E5032H00E5032H0007012H00E6032H00E7032H00013H00E8032H00E8036H00E9032H00E9032H0007012H00EA032H00EB032H00013H00EC032H00ED032H0007012H00EE032H00EE032H00D53H00EF032H00F0032H00013H00F1032H00F1036H00F2032H00F2032H00D53H00F3032H00F4032H00013H00F5032H00F5032H00D53H00F6033H00042H00013H0001042H0001042H00CE3H0002042H001B042H00013H001C042H001C042H00E93H001D042H001E042H00013H001F042H001F042H00E93H0020042H0023042H00013H0024042H0024042H0002012H0025042H0026042H00013H0027042H0027046H0028042H0028042H0002012H0029042H002A042H00013H002B042H002B042H0002012H002C042H0036042H00013H0037042H0037046H0038042H0038042H000E012H0039042H003A042H00013H003B042H003B042H000E012H003C042H003D042H00013H003E042H003F042H000E012H0040042H0041042H00F03H0042042H0043042H00013H0044042H0044042H00E23H0045042H004F042H00013H0050042H0051042H000B012H0052042H0052042H00013H0053042H0053042H00E73H0054042H0055046H0056042H0065042H00013H0066042H0067042H00D43H0068042H006A042H00013H006B042H006B042H00CF3H006C042H0074042H00013H0075042H0075042H00E43H0076042H0077042H00013H0078042H0079042H00E43H007A042H007B042H00013H007C042H007C046H007D042H007F042H00ED3H0080042H0080042H00E33H0081042H0082042H00013H0083042H0083042H00E33H0084042H0085042H00013H0086042H0086042H0006012H0087042H0088042H00013H0089042H008A046H008B042H008C042H00CC3H008D042H0097042H00013H0098042H0098042H00E63H0099042H009A042H00013H009B042H009C046H009D042H00A6042H00013H00A7042H00A7046H00A8042H00A9042H000E012H00AA042H00B7042H00013H00B8042H00B8042H00FA3H00B9042H00B9046H00BA042H00BB042H00FA3H00BC042H00BD042H00013H00BE042H00BF042H00E83H00C0042H00C1042H00013H00C2042H00C2042H00DD3H00C3042H00C4042H00013H00C5042H00C5046H00C6042H00C6042H00DD3H00C7042H00C8042H00013H00C9042H00C9042H00DD3H00CA042H00CF042H00013H00D0042H00D0042H00EC3H00D1042H00D4042H00013H00D5042H00D7042H00DE3H00D8042H00D9042H00013H00DA042H00DB042H00D33H00DC042H00EC042H00013H00ED042H00EE042H00ED3H00EF042H00EF042H00CB3H00F0042H00F1042H00013H00F2042H00F2042H00CB3H00F3042H00FC042H00013H00FD042H00FD042H00DB3H00FE042H00FF042H00014H00053H00052H00DB3H0001052H002H052H00013H0006052H0006052H00F53H0007052H0008052H00013H0009052H0009056H000A052H000A052H00F53H000B052H000C052H00013H000D052H000E052H00F53H000F052H000F052H0005012H0010052H0011052H00013H0012052H0012052H0005012H0013052H0014052H00013H0015052H0015052H00CD3H0016052H001F052H00013H0020052H0021052H00F23H0022052H0022052H00D43H0023052H0024052H00013H0025052H0026056H0027052H0033052H00013H0034052H0035056H0036052H0037052H00013H0038052H0038052H000A012H0039052H003A052H00013H003B052H003B052H000A012H003C052H0044052H00013H0045052H0046056H0047052H004C052H00013H004D052H004D052H00D73H004E052H004F052H00013H0050052H0050056H0051052H0051052H00D73H0052052H0053052H00013H0054052H0055052H00D73H003AEF797D151307001A001F001B001C001D001E00109C7F012H006786042H006782042H0067FE032H0068152H000D032H002C8B022H00388C072H0038B007009404348404FC0494043AA001C005C40250D007146C12C404A802B0060244B406302EE806DC02E0063068140067CA032H006A2H005B1410400067A21100E00450B806CC060067FE0D006429D001F001BF011410400067062H000D0340002C8702440067EE162H00481C340067D2102H004624280067B20900F80269E00588065B1410400067C62800F80269E80588060067FE1F2H004820306429C801E801006786192H0046242800679A1900E00450C006B406003304280067062H000D03280033142C0067062H000D032CF80269E405FC0500679E222H0033042800679E1200E00450B406CC066429D401EC010067A21C2H004818380067961100F80269F405E4050067FA1300E00450B806D4060067A2090043141040002C03441B142448004624280067062H0047E00228F80269F405E80500678A0F004F142448004624280067062H00478401286429DC01C80100679209009F011410400067062H000D0340002CBB01440067C20D2H004814380048183C0067820B00131424480067062H000D0348004624280067062H0047D406286429DC01CC010067DEFE5HFF0F2H003304280067CA0E2H0048281C003304280067CA1A2H003304280033142C0067062H000D032C6429C801E4016429CC01E80100481C386429D401F0010067821A2H00481C3400679E062H00481C380067921F006429CC01EC010067D6242H0033042800330C2C0067062H000D032C004818300067E22100231410400067062H000D0340002C3B44D701142448004624280067062H0047C40328004828180067BA132H002C5B44D3011424480067B622006429B401C8010067CA18006429DC01D401003304280067062H000D03280033142C6429D001E40100482034004814380067CA2100F7011410400067062H000D0340002C8702440067FE122H00330C2C0067062H000D032CE00450B006C8060067F60C00F80269E40588060067A2240077142448004624280067A614008B0114244800678216006F1410400067062H000D0340002C0F44AF011424480067522H00481434E00450B006D006E00450B406D4066F1410400067062H000D0340002C8702440067A21E2H004624280067062H0047F405286429DC01D401003304280067062H000D03280033142C00481C30E00450B806CC06E00450AC06D0060067FE052H004624280067062H0047C80628E00450C006B0060067E60800E00450AC06CC060067E2FB5HFF0F0087021410400067062H000D0340002CFB01440067EE1D2H003304280033082C0067F6FA5HFF0F008F011424480067EA1B2H003304280033102C0067062H000D032CF80269E805FC05006782112H004814346429CC01EC01F80269E80588068B011410400067062H000D0340002CBF0144331424480067D2FE5HFF0F006429CC01E40100678E152H003304280033142C0067062H000D032CF80269EC05FC05E00450AC06CC060067C61E009F01141040002C43440067B603005B1410400067062H000D0340002C434493011424480067062H000D0348004624280067062H0047A80728E00450C006B8060067E6FE5HFF0F006429C001D401003300240067062H000D0324003304280067062H000D03280033082C0067062H000D032CF80269E005FC0500679E1B2H002C03440067862100771410400067062H000D0340002C5B440067F21900E00450B406D406FB01141040002C9F01449B0114244800678A1B00F80269EC05840600670200E00450AC06D4060067AE1C2H003304280067062H000D03280033102C0067062H000D032CF80269E805FC05E00450B806CC060067DE132H00481C38F80269EC058806FB011410400067062H000D0340002CFB01440067CA09006429DC01D401003304280067062H000D032800330C2C0067062H000D032C00481C3000482034E00450AC06D006F80269E40588060067DA0F00F80269E805FC05F80269EC058006006796F95HFF0F00DF011424480067062H000D034800462428006796192H002C9B01440067F21E2H00482038E00450AC06D4068B011410400067062H000D0340002C5F447B1424480067062H000D0348004624280067062H0047A80328004828180067E60300E00450AC06CC060067BE142H002C3B44071424480067062H000D0348004624280067062H00478C0228004828180067AA1B00E00450C006AC06003304280067062H000D03280033102C0067CA100087011424480067062H000D0348004624280067062H0047B407286429DC01D4010067CEFD5HFF0F0043141040002CBF01440067EE1E00271424480067062H000D0348004624280067062H0047C405286429DC01CC010033042800678603009F011410400067B201006429CC01F001F7011410400067062H000D0340002C1F440067B21300F80269F405EC050067E2072H003304280067062H000D03280033102C0067062H000D032C6429D401E4010067BA0500E00450B006D4066F1410400067062H000D0340002C1F4437142448004624280048281C003304280067062H000D03280033142C0067D2FA5HFF0F2H0048143C00679E11004B1424480067062H000D034800462428F80269F405E805003304280067062H000D03280033082C0067062H000D032C6429CC01E401006786F55HFF0F2H002C8B0144231424480067AA062H002CB301440067BA6HFF0F2H00481C34004820380067B20C00E00450B806C8060067FA0F2H004624280048281C0067A211006429D001EC010067C60A2H003304280067062H000D032800330C2C004814300067DA1C2H002C9F014400677E00E00450B006CC060067D26HFF0F2H002C7F3C004E0C34B406508C05B405E00450B006D0060067C6F35HFF0F00F80269E40580060067F61B004B141040002C6F44DB0114244800462428F80269F405E8050067BE0E2H003304280067062H000D03280033082CE00450AC06C8060067CA6HFF0F2H003304280067AE0C2H004624280067062H0047D80428F80269F405E4050067D6F45HFF0F2H0033102CF80269E005FC050067821700BF0114244800678A102H00330C2C0067FA0800E00450B806D0060067D6062H004624280067062H0047E80228F80269F405E8050067E21500E00450AC06D006006786F65HFF0F2H003304280067062H000D03280033102C6429C801E401E00450B006CC0600678E162H003304280067062H000D03280033102C6429C801E401E00450B006CC06F80269E80584060067960D00F80269E00588069B01141040002C0F44671424480067062H000D0348004624280067062H0047BC0628E00450C006B0060067B66HFF0F00CF011424480067062H000D0348004624280067062H0047800328F80269F405EC05003304280067CAFE5HFF0F2H0033142C0067062H000D032C6429D001E401E00450B806CC066429C801EC0100679EFB5HFF0F0083011424480067062H000D0348004624280067AA0E2H00482814003304280067062H000D03280033082C0067DE19007B1410400067062H000D0340002C8B01448702142448004624280067CE6HFF0F009F011410400067062H000D0340002C9B01440067D2F85HFF0F00F80269F405EC050033042800330C2C0067B6F85HFF0F0083021424480067CAFD5HFF0F2H003304280033102C0067062H000D032C004818300067D6FB5HFF0F2H004814340067AAFC5HFF0F00E00450AC06CC0600679AF25HFF0F2H003304280067062H000D03280033102C0067062H000D032C6429CC01E4010067B2112H00330C2C00678E0400F80269EC058406E00450AC06D4060067E60D00F80269E80580060067CAF65HFF0F2H003318340067062H000D033420030C380067C6FB5HFF0F2H002C8B0144FB0114244800678A0E2H003304280067062H000D032800330C2C0067062H000D032CF80269EC05FC050067FAF25HFF0F2H003304280067062H000D03280033102C0067062H000D032CF80269E405FC050067F601003B1424480067D2042H004624280067062H0047FC0428E00450C006AC060067860E2H003304280067062H000D03280033102C0067062H000D032C6429D401E401E00450AC06CC060067A2162H00481C3C0067E6132H00462428F80269F405E005006786F35HFF0F006429D401E801E00450AC06D006E00450B006D4060067EA122H003304280067062H000D03280033082C6429D001E401E00450B806CC06E00450AC06D006F80269E40588066F1410400067062H000D0340002CB301440067EA0500E00450B806D006F80269E00588068702141040002C3B440067860A007B1410400067D6F55HFF0F2H00330C2C0067920E2H0048143CBF011410400067062H000D0340002C0F440067E6F65HFF0F2H00330C2C0048143000678A0E005B1410400067062H000D0340002C9B01440067820900E00450B406CC066429D401EC010067DEFA5HFF0F2H003304280067062H000D03280033082C0067062H000D032C00481C30E00450B806CC06E00450AC06D0060067AA0300E00450B006D4060067F6102H0033042800330C2C0067A6152H0048183C0067FAEC5HFF0F006429DC01C8010033042800330C2C6429D401E4010067F2F45HFF0F00F80269E00588061F1410400067062H000D0340002C5F44031424480067DAF85HFF0F006429CC01EC010067FA1100771410400067062H000D0340002CFB01440067AA12006429D001EC01006782012H00481430004818346429D001EC016429D401F0010067D26HFF0F2H003318281403002C002C7F30004000280067062H004738280033182C180304300067D20B2H0048183400481C38F80269EC0588060067B2FA5HFF0F2H0048143400678E6HFF0F001F1410400067062H000D0340002C6F440F1424480067062H000D0348004624280067062H0047E804280048281C0067EE01006429D401F00123141040002C5B440067B6EB5HFF0F00E3011424480067062H000D03480046242800679EED5HFF0F2H004818340067B2EC5HFF0F00E00450B006D0066429D001F00177141040002C9F01440067AA102H004624280067062H00479406286429DC01C801006796052H004624280067D2FD5HFF0F00E00450B406C8060067DAFB5HFF0F2H003304280067BE0B006429D401E8010067CA0D002B1424480067AA0E00F80269EC058806FB011410400067A6EC5HFF0F005F1424480067062H000D0348004624286429DC01D4010033042800330C2C00481C3000482034F80269E00584066429CC01F00100679AFE5HFF0F2H0048183C9B011410400067FE1100F3011424480067062H000D0348004624280067062H0047A80228004828140067A2FA5HFF0F0087021410400067DE022H003304280067062H000D032800330C2CF80269E405FC05F80269E80580066429D401EC010067A2E85HFF0F2H004624280067062H0047DC0428F80269F405E405006792EA5HFF0F2H004820380067BA07008B011410400067062H000D0340002C6F440067E2072H0033042800672HFA5HFF0F006429DC01C8010067B605006429C801F001F7011410400067062H000D0340002C0F44AB011424480067A66HFF0F001F1424480067062H000D0348004624280067062H00479C0628E00450C006B406003304280033082C6429CC01E401F80269E80580060067CEF45HFF0F2H002C9B01440B142448004624280067062H0047A80428F80269F405E005003304280067062H000D03280033142C0067062H000D032CE00450B806C80600679EEC5HFF0F2H004818380067861000771410400067DAEF5HFF0F2H0033082CF80269E805FC05006792E65HFF0F00F80269F405E805003304280067062H000D03280033102CE00450B006C806E00450B406CC06E00450B806D006006796F95HFF0F006429CC01F001BF01141040002C1F440067FEF55HFF0F00F80269E40588060067562H004624280067062H00478C06286429DC01D0010067960E006429D401E401F80269E005800600670A2H002C5B440067F6FC5HFF0F00E00450B006D00600481C3C0067E6EB5HFF0F00A301141040002C8B01440067AEE95HFF0F00E00450B006D00600481C3C9B01141040002C8702440067F6F35HFF0F004B1410400067062H000D0340002C0344B701142448004624280067062H0047C807286429DC01D0010067A6F65HFF0F00F80269E8058006E00450B806D006E00450AC06D406FB01141040002C3B4453142448004624280067062H0047BC06280048281800679A042H003304280067A2E85HFF0F00F80269EC058806006786FC5HFF0F00E00450AC06D0060067AAF85HFF0F2H0033042800330C2C0067062H000D032C6429D401E401F80269E00580066429CC01EC010067FEE35HFF0F006429B801CC01F80269D405E8050067DEEA5HFF0F00EB011424480067BAFA5HFF0F2H004814346429CC01EC01E00450B406D4060067EAED5HFF0F2H003304280033102C0067062H000D032C6429C801E401006796F05HFF0F00E00450B006CC066429D001EC01E00450B806D40600672HF65HFF0F00A3011410400067BEFC5HFF0F00C30114244800678EF55HFF0F00A3011410400067062H000D0340002CBB014400678A092H0033142C004818300067AE0C2H003304280067062H000D03280033102C00678A0700731424480067062H000D0348004624280067EAE35HFF0F2H0048143C4B1410400067062H000D0340002C5F445B1424480067BA0A2H004828180067EEFA5HFF0F2H003304280067062H000D03280033082C0067AA082H00462428006786072H004828180067BAFE5HFF0F00F80269E40584066429D001F0010067E6E55HFF0F2H003304280033082C004820306429C801E80100679AF85HFF0F00FF011424480067D2032H003304280067062H000D032800330C2CE00450B806C806E00450AC06CC060067B2FC5HFF0F008B011410400067E2E85HFF0F009B011410400067062H000D0340002C1F44C7011424480067062H000D0348004624280067F2E15HFF0F00431410400067062H000D0340002C5F449F011424480067062H000D0348004624286429DC01CC01003304280067062H000D03280033082C0067062H000D032CE00450AC06C80600481834E00450B406D0060067EEE15HFF0F2H00462428E00450C006AC06003304280067062H000D03280033082C0067062H000D032CF80269EC05FC05E00450AC06CC06E00450B006D0060067DEE75HFF0F2H0048143C00679EE35HFF0F2H003304280067062H000D03280033142C0067062H000D032C004814300067B2F55HFF0F2H003304280067062H000D03280033142C006782EC5HFF0F00171424480067062H000D0348004624280067062H00479804280048281C0067DEF35HFF0F004B1410400067062H000D0340002CBF0144E7011424480067062H000D034800462428E00450C006B806003304280033142C0067062H000D032C00481C306429D401E8016429C801EC01006792F95HFF0F00F80269F405EC050067FEFB5HFF0F2H002C7F340040002C0067062H0047A8072C003318300067062H000D03301C03083400679E03003F1424480067F2DE5HFF0F2H004814300067EAF45HFF0F2H004624280067062H00479007286429DC01CC0100672HEA5HFF0F006429CC01E8010067AEE65HFF0F00E00450AC06C806E00450B006CC06E00450B406D0066429D401F0010067AAF15HFF0F2H004624280067B2E05HFF0F006429D401F00123141040002CFB0144006792FA5HFF0F00F80269F405E0050067022H003304280033142C004820300067A2EE5HFF0F006429D001E801F80269EC0584060067462H0033142C0067062H000D032CF80269E005FC0500678AFA5HFF0F00E00450B006CC0600670A00431424480067DAE95HFF0F006429D001EC01F80269EC058806006786F85HFF0F2H004624280067062H0047D00728E00450C006B8060067FEF05HFF0F00F80269E00588060067B6E15HFF0F00E00450B406D006F80269EC0588060067AEE25HFF0F00631424480067062H000D0348004624280067FAEC5HFF0F00F80269E8058006006786F55HFF0F2H002C4344A701142448004624280067DA0500EF011424480067062H000D034800462428F80269F405E0050067E6ED5HFF0F001F1410400067062H000D0340002CBF01440067BAF25HFF0F00F7011410400067AAE85HFF0F2H003304280067062H000D03280033142C0067062H000D032C00481830E00450B406CC06F80269EC0584060048143C0067CEF55HFF0F007B1410400067062H000D0340002CBB01440067DEDD5HFF0F2H00481C306429D401E801E00450AC06D0060067F2F55HFF0F00F80269E80584066429D401F0010067EEE25HFF0F00F80269E00584066429CC01F0010067F2F95HFF0F2H002C7F38004000300067B6EC5HFF0F2H0048183400679EF05HFF0F2H0033142C0067F6FC5HFF0F2H00481C34004820380067D2E65HFF0F00E00450C006B8060067B6E85HFF0F006429CC01EC01F80269E80588060067C2FE5HFF0F2H003304280067D26HFF0F001F141040002C03442F142448004624286429DC01D001006782EB5HFF0F2H004624280067F6E25HFF0F00E00450B006D40600678EF95HFF0F00431410400067062H000D0340002C6F44CB011424480067062H000D0348004624280067062H0047F804280048281C00678ADD5HFF0F00F80269E80588060067CAE05HFF0F2H004624280067062H0047F404280048281400673E00BB01142448004624280067BEF75HFF0F006429CC01E40100678ADA5HFF0F0087021410400067B6E65HFF0F2H003304280067062H000D03280033102CE00450B406C8066429D401E801004814380067EAED5HFF0F2H003304280067062H000D03280033102C0067062H000D032CE00450B806C80600672HEE5HFF0F2H00481C3C7B1410400067B6FC5HFF0F00F7011424480067062H000D034800462428F80269F405EC05003304280067062H000D03280033082CE00450B406C80600482034F80269E00584066429CC01F0010067BAFC5HFF0F00B3011424480067062H000D0348004624280067062H0047D802286429DC01C8010067DEF65HFF0F00E00450B406D406A3011410400067062H000D0340002C43446B1424480067062H000D03480046242800679AF95HFF0F00571424480067062H000D0348004624286429DC01C80100679ADE5HFF0F2H004624280067062H0047F4012800482818003304280033082CE00450AC06C806F80269E4058006E00450B406D0060048203C0067CAD75HFF0F004714244800679AD85HFF0F00BF011410400067062H000D0340002CB301440067FEF95HFF0F00F80269E4058406006796FD5HFF0F2H003304280067062H000D03280033082C0067062H000D032CE00450B006C8060067E6D95HFF0F00F80269E8058406E00450B806D4060067E2E65HFF0F2H002CBB01440067CADC5HFF0F2H00482820006792FD5HFF0F0097011424480067062H000D03480046242800482820003304280067EEE55HFF0F2H004818340067C6F95HFF0F006429D001E8010067CAE95HFF0F00E00450B806C8060067E6DB5HFF0F2H002CB3014400672HDA5HFF0F00E00450B006C806F80269E80580066429D401EC010048143C006782D85HFF0F00F80269E8058806231410400067062H000D0340002C9F01446F1424480067062H000D0348004624280067E2E05HFF0F2H0087891054FF32012H00C8CC7B0323027E6B2H00818B740B3H0094654277F6AD58C408F88C74093H000F60F9B05D402B2F4674093H00E8B9EC74A1367E576374093H0041928BE7A9C1C0F32474083H001AEBD9E68B8C1AA70E193H00013H00083H00013H00093H00093H0045F6DE470A3H000A3H00B4FD6F680B3H000B3H00348059370C3H000C3H00D8D9AF020D3H000D3H00129BB1210E3H000E3H003E6EA70C0F3H000F3H006A0CE70E103H00113H00013H00123H00143H0061012H00153H00163H00013H00173H00173H0061012H00183H00183H00013H00193H00193H0061012H001A3H001B3H00013H001C3H001D3H0061012H001E3H001F3H00013H00203H00223H0060012H00233H00243H00013H00253H00253H0060012H00263H00273H005F012H00283H00283H00013H00293H00297H002A3H002C3H005F012H002D3H002E3H0060012H001652674D260900757A012H00679A012H006796012H006792012H0068152H000D172H002C1B2H003888072H0038B40700D4053AC403B007C80104289402880308A403F80588061CE802EC05F00656CC06AC04DC0603B007D802E00247F402E00700675E2H006A3H004814200067022H002400180067062H0047C407180067562H000D13180B142H180067062H000D17186429BC01D0010067D26HFF0F006429BC01C40180011960680F12001000480C18104E0C100067062H0047E8041000661E100040000C0067E26HFF0F2H001A0008002C030C07122H0C6429B801C8010067E66HFF0F2H004CAA6HFF0F100067BE6HFF0F2H002722A966FF32012H00621B9354FD037A6B2H00157A436H00F0BF5F103H00013H00083H00013H00093H00093H00472H35120A3H000A3H005FB3602E0B3H000B3H00B201E9760C3H000C3H00487D8D670D3H000D4H006EB2210E3H000E3H00F2C6542A0F3H000F3H0037AB392A103H00103H00E957195E113H00113H00B8ED3966123H00133H00013H00143H00143H00B63H00153H001A3H00013H001B3H001B3H00B63H001C3H001D3H00013H001E3H00253H00B63H007C34FA04090802000F00106C7A012H00674E2H00674A2H0067462H0068152H000D032H002C072H003894072H0038A00700DC020E9806D007CC0708AC03B003FC035CB006EC04C80642D403FC07F80530B00584038406489401AC07C405398405F003F8073A008003D4016C0C980200670A00FC0619F407F007B406508C0598050033000C0067062H000D030C00330410E004509806AC06E004509C06B006004000100067062H0047D40410003304140067022H0037001800670200035B2H18E00450A006B406004E0C140006000C00AFE8E428FF32012H00A6522E62D600876B2H0009EF438H00436H0051C074063H00A283B815ACDE435H008050C074043H006031F7FF74063H00D44522FD60DD74043H0072D3EDCC435H004050C074093H002627011792CAFF8637435H00C050C074043H004F98DDFE74093H00230C45B4AF083B01D674043H0074E5ADEF74033H006879A609113H00013H00083H00013H00093H00093H008211D17B0A3H000A3H009DDFAB660B3H000B3H0023F1CD310C3H000C3H00655F2H170D3H000D3H00CE1D051A0E3H000E3H0021B4F24C0F3H00103H00013H00113H00133H0038012H00143H00163H0039012H00173H00183H00013H00193H001B3H003A012H001C3H001D3H00013H001E3H00243H003B012H00253H00263H00013H00273H00283H003B012H00293H00293H00013H0001AC2F2B332H03001A00210022707A012H0067362H0067322H00672E2H00680D2H000D072H002C2F2H003894072H0038A407009C0556A002AC07C0052B9405D403F803379401AC06C0012960D404D00161409C06FC0708B0063C001A3H003300041F143H043F332H003300040F143H043F1B2H003300040067062H000D070427143H043F132H003300040067062H000D070407143H043F2B00036B0B00376B172H00333H043F232H003308040067062H000D072H043F2F008001196058840650B002AC0200EDB8FD20FF32012H003C52CA6566017F6B2H0019AD436H0008C0438H0029002901437H00C0436H00F0BFBA183H00013H00083H00013H00093H00093H00797A526F0A3H000A3H0089239D110B3H000B3H00FA6CAA120C3H000C3H009792D8650D3H000D3H0013CDEB110E3H000E3H00070161670F3H000F3H00A0C38A37103H00103H00479B8363113H00113H00013H00123H00137H00143H00163H00383H00173H00173H003D3H00183H00197H001A3H001D3H00343H001E3H00203H003D3H00213H00233H00383H00243H00277H00283H00283H00013H00293H00293H00343H002A3H00317H00323H00333H003C3H00343H00357H00363H00363H00383H00173B1B01BA070100047D7A012H00676A2H0067662H0067622H00680D2H000D032H002C1B2H003880072H0038A80700C40427DC03F403683740D805C003348003EC0790053BF806AC03D8061EE005C807B4062AEC0428E40237F8039003DC0449C005940500672A2H00112E0400676200132300040720045E0067322H00674A2H002C0B04800119605C0320001A006736001359001E0067F26HFF0F00106C0014072014CA6HFF0F0067DA6HFF0F001759001200674E2H00670A2H002C0B04800119605C002C0F04000F0004840650B002AC020067EA6HFF0F2H002C0F14800119606C0067AE6HFF0F2H002C03040067062H001F8A6HFF0F0400330008E004509806A406004500080067022H002C130C0067E66HFF0F2H0067F6FE5HFF0F2H00B6EB746DFF32012H007218D93DC6017A6B2H0059A3436H00E0BF11093H00013H00083H00013H00093H00093H00A5BD8E1A0A3H000A3H00F9F40F180B3H000B3H008ADF37450C3H000C3H0039E916610D3H000D3H00AF4A1C410E3H000E3H00A2748B530F3H00103H00303H00113H00113H00013H004C6C013FC90300587A012H0067362H0067322H00672E2H00680D2H000D032H002C072H003894072H0038B80700E0015FF0028402D00204C001E401AC042B9001AC065C22B401B806D40422B403D40290071DE8028007036E0004800119605CFC0619F407F0070028BC6E170033012H00436E5332FF32012H007C2C7A51A8017A6B2H002D6C435H00E06FC078113H00013H00083H00013H00093H00093H00796795270A3H000A3H006BDD15210B3H000B4H00DAA07E0C3H000C3H006A59620E0D3H000D3H00CBD523670E3H000E3H00CC0B0E670F3H000F3H00E979A965103H00103H00F0C8EC62113H00173H00013H00183H00183H00903H00193H001A3H00013H001B3H001B7H001C3H001C3H00903H001D3H001E3H00013H001F3H00203H00903H00213H00213H00013H00C12EAC4389060401003H01022H00687A012H00673E2H00673A2H0067362H0068112H000D032H002C072H003894072H0038B80700C80663C4028405B8013BD80318AC0227BC02B005800550DC07E003980253F0066488012EB405A802F8075D28B406BC063BFC07980100330004003304080033080C0067062H000D030C00330C10E004509806AC060040000C0067062H0047DC050C002C0310004E0C080067062H0047200800060004F00529D805DC05840650B002AC0200F4D7A57EF6017D6B2H008141438H00436H0020C0436H0038C0436H0030C03F183H00013H00083H00013H00093H00093H00DD8B832C0A3H000A3H002E2C541A0B3H000B3H00684B58050C3H000C3H008510C9770D3H000D3H00862ACA290E3H000E3H00960162380F3H000F3H006D54791C103H00113H00013H00123H00133H00923H00143H00143H00013H00153H00167H00173H00183H00923H00193H00197H001A3H001A3H00923H001B3H001C3H00013H001D3H001D3H00923H001E3H001F7H00203H00213H00013H00223H00223H00923H00233H00243H00013H00253H00253H00923H00263H00267H00273H002B3H00923H0059E6A0030B0703000A00100013727A012H00677A2H0067762H0067722H0068152H000D032H002C132H003890072H0038B80700C80411BC0724C00353FC03C406BC013BB401104C08F801F0031C56B003C006F0041DC807AC05D4055FD004E00200673E0098051BA405A0050048040C00671600F80269D005D405002C030C0067022H004500080067E66HFF0F2H002C07100045000C0067062H0047DC060C00480410002C0F1400670A2H006801040067CA6HFF0F2H004500100067062H0047B80610E004509C06AC06002C0B180045001400670200143H08006702008001192H600091497E4DFF32012H007E3605543001796B2H007167770E3H00013H00083H00013H00093H00093H00EF237C390A3H000A3H007D2718260B3H000B3H00EB34D1530C3H000C3H008BD9D7030D3H000D3H007BDF6E1B0E3H000E3H005FDC47600F3H000F3H00B721EA38103H00103H00122H464A113H00113H0019A47C0F123H00193H00013H001A3H001A3H00B03H001B3H001C3H00013H001D3H001E3H00B04H0007AB19D1040200160015657A012H00674A2H0067462H0067422H0068112H000D032H002C072H003888072H0038B007000C22980118880430D402A803A80348005CBC0748F805D404E0012CD806E006E0042A8801BC01BC0247F406CC0698074978D407CC012AC807D4010067062H006A3H003300040067062H000D0304003304080048000C0067022H004E2H080067062H0047DC020800060004F00529D805DC05001F92C64B0033012H00CAEBC677FF32012H00F3B7A6548E02796B2H00898FCA123H00013H00083H00013H00093H00093H0029E2BF140A3H000A3H003D9687530B3H000B3H0082C15B3A0C3H000C3H0089D98E5B0D3H000D3H00C4C0BC100E3H000E3H00E403F2260F3H000F3H00A589A83C103H00103H00C2354F69113H00113H00E0597D3E123H00133H00013H00143H00153H00863H00163H00173H00013H00183H001A3H00863H001B3H00233H00013H00243H00243H00863H00253H00263H00013H00273H00293H00863H00B155180E090702013H00707A012H00676E2H00676A2H0067662H0068112H000D032H002C072H003880072H0038B00700D40562EC07B405C807529002C801F807049007B007F0042E5CEC01C02H03C401B804DC02568403CC058404629403800294065CF0059004FC011CA002900100672A00840650B002AC0200450010003300140067062H000D0314F80269D005E40500672A2H000600080033040C00670A2H003300080067F26HFF0F2H003300100067062H000D0310004800140067C26HFF0F2H004E08140067062H0047980114004E000C0067C66HFF0F2H002F000800F54681682701796B2H00D53FE30A3H00013H00083H00013H00093H00093H0085A4501A0A3H000A3H00788F330D0B3H000B3H008CED9B680C3H000C3H009EB609660D3H000D3H00B3663F7D0E3H000E3H00D973B5310F3H000F3H0070DCE776103H00103H00A6CE6A0F113H00133H00013H00A90E55211D030100155A7A012H00673E2H00673A2H0067362H0068192H000D032H002C072H003880072H0038B407008C06538C07A005E804509C07D003D0015CD80608B80327D406AC02CC072BEC03AC03E407128C0170D4073BF005C005E8044EFC01DC0400680104800119605CFC0619F407F007007AEC7D14FF32012H008C38B52FE4027C6B2H00BD65290174073H0073B8C14C2BEA4229009B113H00013H00083H00013H00093H00093H005D1CB7090A3H000A3H0088A762060B3H000B3H00C4C050200C3H000C3H00FFFED2290D3H000D3H0027F021710E3H000E3H00559DF82B0F3H000F3H00F28CB45F103H00103H005057FD7A113H00113H00013H00123H00137H00143H00163H00633H00173H00173H00013H00183H00197H001A3H001B3H00643H001C3H001E3H00013H001F3H001F3H00633H006640BD425F0700667A012H00676A2H0067662H0067622H0068152H000D0F2H002C132H003890072H0038A8070094070E70BC05A0053E6C8803D4022AF404180441E405F804E807399006F003505DE802B005E00156CC02B805F8031ED004B00100672A2H002C0B14000F001400670E2H005712080067F66HFF0F00FC0619F407F007002C0308000F0008042D10EA6HFF0F0067DA6HFF0F2H000D0708F80269CC05D80594050FF405F405004FD66HFF0F0800D04EE21CFF32012H00585D4769C2087B6B2H002111432H00E03HFFEFC1436H0040C002143H00013H00083H00013H00093H00093H0058656A390A3H000A3H00834B1B6E0B3H000B3H009E8BAA030C3H000C3H009F6A1C2C0D3H000D3H00252HEC750E3H000E3H004B5A7E650F3H000F3H0053265225103H00103H00769FB04B113H00113H00C2F22540123H00163H00013H00173H001A3H00C23H001B3H001B7H001C3H001C3H00C23H001D3H00283H00013H00293H002A7H002B3H002B3H00C33H002C3H002D3H00013H002E3H00373H00C33H00383H00383H00013H00BA4F7323F70F040010000F001400137F7A012H0067422H00673E2H00673A2H0068152H000D032H002C0B2H003890072H0038B40700B40622D002A806C4024E98018C02D00756A403F807E40334A8029402E401088803E806D80419A006EC03EC061EA004FC03D00463C001B8018C072AEC01B006003300206429B401D801F80269D405F405E00450A406C406E00450A806C8060046102H2403042414032H241C032H24002C0328004000200067062H0047CC04206429D401B801003304200067062H000D032000330824003300280067062H000D0328F80269D005F80500330C30002C0334F80269E4058406004E0C300067062H006D0030000500286429CC01E0010040002400330C280048042C183D0730004E0C280005002008032H20000F0020FC0619F407F00700F3F90502FF32012H000525151BC201796B2H00B9AFAA0C3H00013H00083H00013H00093H00093H004DA1260C0A3H000A3H00ABFB4C7F0B3H000B3H00A91DA1390C3H000C3H0084F38A460D3H000D3H0090CFEF420E3H000E3H00C269C02D0F3H00133H00013H00143H00143H0052012H00153H00163H00013H00173H00183H0052012H00193H00193H00013H006A065B65F4040200240025607A012H0067362H0067322H00672E2H0068112H000D032H002C072H003890072H0038B40700C0074DD402A805CC0563D806B404900167C805A80794061ED804B004C00634E00588011431D404C80400330004003304080067062H000D0308E004509806A406004E2H080067062H0047D0020800060004F00529D805DC05006A3H005918A728FF32012H0011F13D4183037A6B2H0009CD436H00F0BF82133H00013H00083H00013H00093H00093H0068A25A430A3H000A3H007D667A120B3H000B3H0021137E330C3H000C3H0006FE0A050D3H000D3H00C0DF05430E3H000E3H007629203B0F3H000F3H00A5C66F27103H00103H00291E5149113H00113H00ADEC5A26123H00123H00F5204217133H00193H00013H001A3H00203H00B93H00213H00223H00013H00233H00233H00B93H00243H00253H00013H00263H00263H00B93H00273H00283H00013H00293H00293H00B93H003B8AAE61D00902000F0010707A012H00674E2H00674A2H0067462H0068112H000D032H002C072H003894072H0038B00700F00102AC058C02F0014810D806D8052CA80150F8040EA001D00684053C8407184462B402BC076C1FA006D001800161F805A401D0024DBC0278EC056CF8059C010067060098051BA405A0050033000C0067062H000D030C0033041000671E00900629D806EC06035B2H1C00671A2H0040001000330414E004509C06B0060067E66HFF0F00F80269CC05E0050067122H004E0C140067062H0047E807140006000C004808180067D26HFF0F2H002F000C00D8CAAE19FF32012H0002CFBB51C9017D6B2H004D71436H00F0BF436H0070C0C68HFF438H003C123H00013H00083H00013H00093H00093H0055300C030A3H000A3H0001F77F790B3H000B3H0082CCE6630C3H000C3H003FA55F5C0D3H000D3H00F31368130E3H000E3H00A37AB8300F3H000F3H0055171C62103H00103H00A4F2462A113H00113H00013H00123H00163H00983H00173H00183H00013H00193H001D3H00983H001E3H00203H00013H00213H00247H00253H00273H00973H00283H00293H00013H002A3H002C7H00D1FF14220C0A01000B737A012H00677E2H00677A2H0067762H0068152H000D032H002C132H003880072H0038B00700A4070BFC04BC03A80361D801DC05AC0334E003A401C00463A403B402D0050BA007EC039404039401FC01C4060848EC03A8011DB006C80600673E00E00450AC06BC0600671E002H0704180067022H0033001C0067062H000D031C6429B401D4010067DE6HFF0F2H0040001C006702001C032H186429CC01B80100672E2H006A3H002C0F04002C03080067062H001F1A0868341824002C0B100067F26HFF0F2H004804088001192H600067F66HFF0F2H0011A26HFF0F080067F66HFF0F2H00F7906F79FF32012H00260A9241D8017B6B2H00118574093H00A293B813624B0E8E0374093H005BDCC79920602180A506113H00013H00083H00013H00093H00093H008A25A9620A3H000A3H002BC8FA6F0B3H000B3H0052F76F130C3H000C3H00417C7B7A0D3H000D3H00829C844F0E3H000E3H00F5749B280F3H000F3H00F011D561103H00103H00E6AF580F113H00113H003E94C14B123H00123H000DD1171B133H00143H00013H00153H00183H004E012H00193H001B3H00013H001C3H001C3H004E012H001D3H001E3H00013H001F3H00233H004E012H0032AD5B24BF040100236A7A012H00675E2H00675A2H0067562H00680D2H000D0B2H002C0F2H00388C072H0038A00700FC070DE001A801D0042EE801785C67C0014C9C031DA403F005F00147880664FC043CD801FC0784066CC4028C042052FC05E40484052B445CB40561EC03940400671600FC0619F407F007B406508C0590050048000C0067262H00650004003300040067062H000D0B04005A00040067062H0047A0070407122H040067D66HFF0F2H0040000403122H040067D26HFF0F2H00CD6EB613FF32012H007521943A0F028A6B2H008520435H00804FC0436H00F0BF74043H0024858023436H0010C0436H0050C074093H0040117661106EF6BD7074083H00E9DE7C8B377E3C7F74063H00C116C61782BC74043H002B28680E74083H005704A90E0FF022B774093H006F7CF721E70FDD6A30436H0030C074063H00F495DF0ED186438H0074043H00F69FF30C74043H00F28B46B674073H002EB7248432392335383H00013H00083H00013H00093H00093H0034384E770A3H000A3H006A62D83D0B3H000B3H001FA93C630C3H000C3H00B152FB7E0D3H000D3H00C2419A2C0E3H000E3H00CA8900470F3H00103H00013H00113H00123H0018012H00133H00153H0019012H00163H001B7H001C3H001D3H001B012H001E3H00243H00013H00253H00287H00293H00293H001A012H002A3H002B3H00013H002C3H002E3H001B012H002F3H00317H00323H00323H0018012H00333H00343H00013H00353H00363H0018012H00373H00393H001B012H003A3H003F7H00403H00413H00013H00423H00423H0018012H00433H00443H00013H00453H00467H00473H00473H0019012H00483H004C3H00013H004D3H004D3H001A012H004E3H004F3H00013H00503H00503H001A012H00513H00527H00533H00573H00013H00583H00583H001D012H00593H005A3H00013H005B3H005D3H001D012H005E3H005F3H00013H00603H00633H001D012H00643H00663H00013H00673H00697H006A3H006A3H0017012H006B3H006C7H006D3H006D3H0015012H006E3H006F3H00013H00703H00713H0015012H00723H00733H0016012H00743H00743H0015012H00753H00763H00013H00773H00773H0016012H00783H00793H00013H007A3H007B3H0016012H007C3H007C3H00013H007D3H007D7H007E3H007F3H0017012H00803H00803H00013H007B8426565718030018000E0020C77A012H0067AE032H0067AA032H0067A6032H0068152H000D0B2H002C472H003894072H0038B40700E0023E8006900588052H488401F00448D403E407B00110B4078405880234EC06B001A80230B40380070067F60200E00450AC06BC06032814280067BE0100683430382F212H200067C6012H002C0F40002C0F44002C0F48002C0F4C002C0F5000674E00F80269E405FC05144E181C283F3B00243F2300203F0B001C2H3F2H006792022H003300180067BA012H002C0F2400674E2H002C0F3C0067B66HFF0F2H0040002H1C3F37180033081C3F1400200B1400240067222H002C0F54002C0F58002C0F5C004648180067062H0047C80518000D2B1C0067F2FE5HFF0F00231400283B14002C00678A6HFF0F2H002C0F28002C0F2C002C0F30002C0F34002C0F3800679E6HFF0F00E004509C06B8060067BAFE5HFF0F2H0046101C0067062H0047C8011C002C0F200067FAFE5HFF0F2H000C001C0067062H004784071C000D271C0067062H000D0B1C17142H1C0067062H000D0B1CF80269E405EC05002C07240067DAFE5HFF0F2H0033041C0067AE6HFF0F2H00330408F80269D005D805000D43101B142H100067062H000D0B1068341C2C13362H14004500100067062H0047D4051013072H1007282H1068341C2C0046102H083F33006429B401BC01000F00080011EEFD5HFF0F080067B26HFF0F2H001FF66HFF0F08035B2H0C002C13100067F26HFF0F001F1400080067062H000D0B0868341C2400670A2H00092H08006722000C033H083F1F2H00670200331400080067062H000D0B080048040C0067DA6HFF0F00F80269D405D005002C070868341C240067AA6HFF0F0098051BA405A005004B07D07B0033012H00B99B6361FF32012H0067CD8E5DA7007B6B2H0041FA2900740F3H00D1E22953845839270ACF316B8F2CB2A60D3H00013H00083H00013H00093H00093H00C826BE640A3H000A3H00085730690B3H000B3H00EFA2C8570C3H000C3H00EAB5E3480D3H000D3H00B6EC3E3C0E3H000E3H0033D5FF3D0F3H000F3H0013DDAB12103H00103H009D4C8930113H00123H00013H00133H00137H00143H00143H00013H00153H00187H00D0761E1D0B020100035F7A012H0067562H0067522H00674E2H00680D2H000D0B2H002C0F2H003884072H0038A40700F8072E549803E407343CB002D8072D8C01F005F80108DC068404A0013130FC03BC0403B4069C02F0041ED002E80288042BF804CC020067162H006A2H00800119605800543H002C072H0067F26HFF0F2H002C032H0067EE6HFF0F2H002360F769AE02806B2H00D5E6740F3H001021A0BACAC19AC4DB0463189DB912740E3H00738019BD01C7EBEE0FC63FE082FF72436H00F0BF740B3H00D50AEFB2CD63B589F9F524740D3H00A899A4CAE49F9E92DAF737D0B3290105343H00013H00083H00013H00093H00093H00FA2B9D600A3H000A3H00EC944E160B3H000B3H005E9F5F170C3H000C3H009681FA5E0D3H000D3H006A57974D0E3H000E3H00D2E7525C0F3H000F3H005D2DCA24103H00103H00900E2918113H00113H00013H00123H00143H00133H00153H00183H00273H00193H001C3H00153H001D3H001D3H00013H001E3H001F3H00133H00203H00243H002C3H00253H00267H00273H00293H00243H002A3H002A3H00143H002B3H00303H00153H00313H00313H00133H00323H00353H00143H00363H00363H00013H00373H00373H000E3H00383H00383H000F3H00393H00393H00103H003A3H003A3H00113H003B3H003C3H00123H003D3H003D3H00013H003E3H003E3H000A3H003F3H003F3H000B3H00403H00403H000C3H00413H00423H000D3H00433H00443H00123H00453H00483H00163H00493H00497H004A3H004D3H00163H004E3H004F3H00013H00503H00533H00163H00543H00553H00013H00563H00573H00163H00583H00583H001A3H00593H005A7H005B3H005D3H00013H005E3H005F3H00163H00603H00613H00123H00623H00623H002A3H00633H00653H00013H00663H00663H002C3H00673H00673H00013H00683H006A3H00143H006B3H006C3H00013H004812897DB71200B37A012H0067EE012H0067EA012H0067E6012H0068152H000D132H002C1F2H003894072H0038A40700940310E404E80394032A74D402BC07679C04A803F4074E8803E002DC2H04B8018C01C40715E80708800130A40340F8023BCC02D8040067AE012H002H0430005F7A300067722H00673E00101E08140029AA02140067F26HFF0F2H003E04382C19E407E4070067022H0067DE012H000F0014002A043000674A000F5B10146834203018392H14005FE66HFF0F14006786022H002C1B14800119606C101E08140B2014B66HFF0F0067F6012H0067F6012H0067B66HFF0F2H003A04380067020088072FC803C803005F9201380067EA6HFF0F2H0067B26HFF0F00043A00342C19E007E007005FDE6HFF0F340067D26HFF0F2H006A2H002H04001C042A0020002H0424002A04282H04002C00671A2H003830080439000C0039041004390014003904180067D26HFF0F2H005FBAFE5HFF0F2C00676E2H0068012H1C3F1718001A001C0067062H0067F6FE5HFF0F001C3F07180067320094050FF005F005000D03100067062H000D1310F80269D405E00500673200046000080067E26HFF0F2H000D133C0067162H004E0C3C0067EA6HFF0F2H00240010002C0F100067BA6HFF0F006429B401F401E004509C06DC060067E26HFF0F2H001A00180067966HFF0F00042A002C0067C2FD5HFF0F000F2810146429C801C4010067022H006786FE5HFF0F2H0067122H0067E2FD5HFF0F00043E0034001B2H34006786FE5HFF0F00E00450A406AC060067C2FD5HFF0F2H0042558429FF32012H008590652DBC00856B2H00312C437H004074093H009DDE599506B8BFB0B574093H00A697E382851EB87FC1436H0032C0436H00F0BF74063H00DF80467C1469C68HFF436H0014C0436H00144074033H007536FF74073H004899F6B6C0DB09740B3H006F10684DACCAA3EBAA37F80E153H00013H00083H00013H00093H00093H004A28B8180A3H000A3H00B8291E770B3H000B3H00A2789B220C3H000C3H00772E8D140D3H000D3H00C008376D0E3H000E3H00D0FBC5200F3H00103H00013H00113H00187H00193H001E3H00013H001F3H00203H0058012H00213H00217H00223H00223H0058012H00233H00243H00013H00253H00277H00283H00283H0058012H00293H002A3H00013H002B3H002C3H0058012H002D3H002F3H00013H00303H00343H0058012H00353H00387H00417F613DE90C007F7A012H00674E2H00674A2H0067462H0068112H000D072H002C032H003890072H0038B00700D405639C02A803F8041DA001E804D00729E401DC01F8013A609C02940231A407E006FC032E4CA00400671600840650B002AC02002C1F080067022H002C1B0C001F8A0104002C272H002C13040067E66HFF0F2H0067022H00480004000F000400480014000D07180067062H000D071817142H1800673E2H000D2B240B142H240067062H000D0724002C2328002C032C0067022H004E0C240067062H0047C404240005001800092H14F80269E005CC050067022H00671E2H000D2F1C0067022H001A00200067022H0045001C002C0F200067AA6HFF0F2H00118E6HFF0F0400672HFE5HFF0F0002D263FE171B00FB6B2H0065E9432H00804804E4DAC1740D3H00AAE3CA191A84A3BF6420E2575C74093H00E7F4ECD700E4641746740F3H00ECEDFFDED18482F554297F3D1D3ED1740D3H00AFDC5343B1CD6054771B21654D433H007FF49DEFC1740E3H0030C16A73FECCBC63E9B32CB6F46D432H0080622860E4C174133H006AA302ADEDA66D4E3F221B5C04416571C07581432H00C0DDB937E8C174073H0021D651C12E1344433H00F87CA2BFC1432H004008026DD2C1740D3H008879007E0AB1A4243D435E2ABA432H0040ACC4C3EEC174063H005D82A7DA7D4874133H00079454E0DF30E575DA939A5C73B0F854A79AB174113H002A639866E084998CF9C63A0767AB06EBE374073H0093D04E214A0FE874043H00D2AB1DBB432H0060C20806E5C174193H004E973330DC18F433BAA30B6AD992456E01D10CAD2A621CD91A432H00C0E5BFCAD0C174073H005F4CB8504EED9774073H002EF72FAEDAF764432H00C09F5B17E3C174093H00F1E629562DB2C7049A74093H009E2762F15AF31C8DD5432H00E0F59E68E1C1432H00A0465EA7E7C1432H002071B5F9EDC1432H0020079A3AEBC174063H00BF2CD545238074063H00F90E51C9A32B433H008F54EDEAC1740E3H008380AB9C04DC6CA76D62DA7DF3FD433H008EF7D7E7C1433H00765432B0C1432H0080282D2FC3C1740B3H00B53AB8CDD05E7B73F68318433H00F3E6F0C0C174143H00E859C846CF74CB7C2BC43CE5E77EBAAA04B8CC82432H00409149A5E1C1433H00681608E8C1432H00C0F79A2BE1C1432H00C0EAF618EDC174063H00F4156D8CBD9C432H008048DD97E4C174083H00167F42538B623BEF432H0020077492EFC174073H00CE1794DBBB12A974123H001186302A0E3B7A87CEFB002C25A5C508A9A1740A3H00DFCC1BC2960F9287E595432H0040D06FEAEEC174103H00256A54141D1FCAE172C543A5E4F0BFDC74073H00D5DA080EAE701A74053H00ACADD462F8740F3H00798EB0607923562DCE312752D26C36432H0040FF2454EDC174083H007829ABDBA0854BFE432H00E0B0A19AEEC1433H00DC9CC5EFC1432H0020A0D2A8EFC1432H00C070D656D9C1433H00362660DAC174133H00F0813F2F2EAE4C397A31B603495270C6C5C65C432H004092992HE1C1432H008001A7BCEFC1433H00797FFAECC1740A3H00CF7CA5810FEA0D035C38740A3H00959A68FB4A4CAA943C89740E3H00AB488D1F4C88E3DA23DA6A9D87F7432H0040680482D3C174073H001D4255F04B9A4774093H0054F54E2DE92E491636432H00808AF1E1D1C1433H0063BF4DC4C174073H00CDB290F3D64B13432H0080485867DBC1432H00A010E69DEAC1432H00E0748472E5C1432H00A00BE2C5EAC1740A3H0044A5E4059F45AB0A966D74063H00223B708F3AA1433H006C69D7EEC174073H0034559802BEFE34435H00408FC0432H00E0F581AFEEC1432H00A08FFEFDEFC1432H002076EBFFEFC1433H0098A22082C1432H00805DE96BC5C1432H00806D3810C2C174073H00BF2C9DDA0B9BC7432H00402847FFEFC174083H000E57906D1C782B81432H00C0FAE066E8C1432H00C07128CFE4C1432H00C0931FEADBC174153H00C6EF2BA9AE22FD34B120ACD349932269BC312EA501432H00A03C73DBECC1432H0040B6C0DBD9C174093H00CBE8BECCD6EFB80670432H0020D03EEEE0C1432H0020BA8BB0E0C1436H00F0BF437H00C0432H0040F5D836EDC1432H0020D03C14EBC1432H0040EAB3F7D2C1740A3H0060B1E217B5D6AC32531474093H005EE7EDAD2EDC7B409574083H007FECE52066F125F4740F3H0017E4C52H8E1A6A59203B63938FAD9E432H0080482485EEC174063H003E4711B95BF0434H00B0EAF1C074093H0030C19DD0FD84EF476E432H00A0207D3CE5C1432H002072DA70EDC1433H0014742092C1432H00A0CC8A95E8C1432H00403B8556D1C1740A3H0019AE12F4794EB4577C91740B3H000FBC22937EA1706A4BBA4774073H00DAD39F56556CD5432H0060320EB3EFC1432H0040C048D1D9C1435H00B6ABC0436H00104009F53H00013H00083H00013H00093H00093H002204B5040A3H000A3H00928AFC4A0B3H000B3H00C0386A230C3H000C3H006C40BA4B0D3H000D3H001C7A7F040E3H000E3H004DF85E620F3H000F3H009236D571103H00103H002759A20A113H00113H00013H00123H00123H00B0012H00133H00133H00BC012H00143H00157H00163H00163H00013H00173H00173H00BC012H00183H00193H00013H001A3H001C3H00BC012H001D3H001D3H00AB012H001E3H001F3H00013H00203H00213H00AB012H00223H00223H00A7012H00233H00253H00013H00263H00263H00053H00273H00283H00013H00293H002B3H00053H002C3H00303H00013H00313H00333H00053H00343H00373H00013H00383H00383H00A8012H00393H00393H00AC012H003A3H003B3H00013H003C3H003C3H00AC012H003D3H003E3H00013H003F3H00413H00AC012H00423H00433H00013H00443H00457H00463H00463H00013H00473H00473H009F012H00483H00493H00013H004A3H004A3H009F012H004B3H004D3H00013H004E3H004E7H004F3H004F3H00C0012H00503H00513H00013H00523H00523H00C0012H00533H005E7H005F3H00603H00013H00613H00613H0096012H00623H00633H00013H00643H00653H0096012H00663H00663H007A3H00673H00683H00013H00693H00693H007A3H006A3H006B3H00013H006C3H006C3H007A3H006D3H006E3H00013H006F3H006F3H007A3H00703H00713H00013H00723H00733H007A3H00743H00753H00013H00763H00787H00793H007B3H00013H007C3H007F7H00803H00813H0097012H00823H00823H007A3H00833H00843H00013H00853H00853H007A3H00863H00873H00013H00883H00883H007A3H00893H00893H00013H008A3H008B3H007E3H008C3H00937H00943H00973H00013H00983H00A27H00A33H00A43H00013H00A53H00AB3H00063H00AC3H00B07H00B13H00B13H0097012H00B23H00B33H00013H00B43H00B53H0097012H00B63H00BA7H00BB3H00BD3H00013H00BE3H00BF3H008B3H00C03H00C33H00013H00C43H00CB7H00CC3H00CD3H00013H00CE3H00D47H00D53H00D63H00013H00D73H00DE7H00DF3H00E03H00013H00E13H00E13H006B3H00E23H00E33H00013H00E43H00E43H006B3H00E53H00E63H00013H00E73H00E73H007A3H00E83H00E93H00013H00EA3H00EB3H007A3H00EC3H00EE3H00013H00EF3H00EF3H008B3H00F03H00F13H00013H00F23H00F23H008B3H00F33H00F63H00013H00F73H00FC7H00FD3H00FD3H00063H00FE3H00FE7H00FF3H002H012H00063H0002012H0007012H00013H0008012H0008012H008A3H0009012H000A012H00013H000B012H000C012H008A3H000D012H000E012H0099012H000F012H000F012H009B012H0010012H0011012H00013H0012012H0014012H009B012H0015012H0015016H0016012H0017012H009D012H0018012H0019012H00013H001A012H0022016H0023012H0025012H0097012H0026012H0026012H00063H0027012H0028012H00013H0029012H002A012H00063H002B012H002B012H009D012H002C012H002D012H00013H002E012H002F012H009E012H0030012H0031012H00013H0032012H0032012H009E012H0033012H0034012H00013H0035012H0037012H009F012H0038012H003D016H003E012H003E012H008A3H003F012H0040012H00013H0041012H0042012H008A3H0043012H0044012H0097012H0045012H0046016H0047012H0049012H0097012H004A012H004B012H00013H004C012H004D012H0097012H004E012H0050012H00013H0051012H0052016H0053012H0054012H00013H0055012H005F016H0060012H0061012H0096012H0062012H0063012H00013H0064012H006C016H006D012H006E012H008A3H006F012H0078012H00013H0079012H007E016H007F012H0081012H0097012H0082012H0082012H0099012H0083012H0084012H00013H0085012H0087012H0099012H0088012H0092016H0093012H0093012H009F012H0094012H0098012H00013H0099012H0099012H00A8012H009A012H009B012H00013H009C012H009D012H00A8012H009E012H009E016H009F012H009F012H00A8012H00A0012H00A4012H00013H00A5012H00A6012H00B5012H00A7012H00A7012H00B9012H00A8012H00A9012H00013H00AA012H00AC012H00B9012H00AD012H00AE012H00013H00AF012H00AF012H00BB012H00B0012H00B1012H00013H00B2012H00B5012H00BB012H00B6012H00B7012H00013H00B8012H00B8012H00BB012H00B9012H00BA012H00013H00BB012H00BF012H00BB012H00C0012H00C1016H00C2012H00C5012H00BB012H00C6012H00C6016H00C7012H00C7012H00BB012H00C8012H00C9012H00013H00CA012H00CC012H00BB012H00CD012H00CD012H00BC012H00CE012H00CF016H00D0012H00D0012H00A5012H00D1012H00D2012H00013H00D3012H00D4012H00A5012H00D5012H00D7016H00D8012H00D8012H00A1012H00D9012H00DA012H00013H00DB012H00DF012H00A1012H00E0012H00E0016H00E1012H00E6012H00A3012H00E7012H00E8012H00013H00E9012H00E9012H00A3012H00EA012H00EB012H00013H00EC012H00EE012H00A3012H00EF012H00F1012H00A5012H00F2012H00F2012H00A6012H00F3012H00F4012H00013H00F5012H00F5012H00A6012H00F6012H00F6012H00A7012H00F7012H00F8012H00013H00F9012H00FA012H00A7012H00FB012H00FE016H00FF013H00022H00A5012H0001022H0001022H00A1012H002H022H002H022H00A3012H0003022H0004022H00013H0005022H0005022H00A3012H0006022H0007026H0008022H0009022H00013H000A022H000A022H00A7012H000B022H000E026H000F022H000F022H00AF012H0010022H0010022H00BF012H0011022H0012022H00013H0013022H001F022H00BF012H0020022H0021022H00013H0022022H0024022H00BF012H0025022H0026022H00013H0027022H002A022H00BF012H002B022H002B026H002C022H002F022H00BF012H0030022H0031026H0032022H0032022H00BF012H0033022H0036022H009F012H0037022H0037022H00AF012H0038022H0039022H00013H003A022H003B022H00AF012H003C022H003C022H00BF012H003D022H003D022H009F012H003E022H003E022H00013H003F022H003F026H0040022H0043022H00013H0044022H0044022H00053H0045022H0045022H00AC012H0046022H0046022H00013H0047022H004A022H00B0012H004B022H004B026H004C022H004E022H00B0012H004F022H005B022H00013H005C022H005C022H00023H005D022H005E026H005F022H0061022H00013H0062022H0067022H00023H0068022H0068022H00BB012H0069022H006C022H00013H005F2349428D4E00B37C012H0067B6122H0067B2122H0067AE122H006891012H000D772H002C8B042H003890072H0038B40700502D9C07AC0150349C04FC05FC0142E00674CC02489002AC07C0022C8401D404E00267C407C005B0031C24A802F00541A404EC070067F61100F00529D805B80700620CF001002C8F03F8010067F66HFF0F2H000DDF01F001BB0314F001F0010067062H000D77F0011B14F001F001D70212F001F0010067DE6HFF0F004B14DC01E0010067062H000D77E001CC012DE001DA10006782012H0067CE0B2H000D43040067062H000D7704005A00040067062H0047C02H04AB02212H04005FDE10040067E2102H0029CE10CC010067B2112H000D8301040067062H000D77049B02142H040067022H0067820B2H000DC703040067062H000D77040067D20400F00529D805B807BB0314E001E0010067062H000D77E0011B14E001E0010067062H000D77E001D70212E001E00100670E2H00620CE001000DDF01E0010067D66HFF0F2H002CDB01E8010067EE6HFF0F2H0067B66HFF0F004714C801CC010067062H000D77CC010067F60D2H000DC301F0010067062H000D77F001002CA701F401000C00F0010067062H0047AC02F0010067AE0F2H002CF301D40100678E072H002CBF029402002CE3039802006786092H002CB303C401002C9302C8010067FE072H006809A401002C8304A801002CD303AC01000DE301B0010067062H000D77B001F70214B001B0010067062H000D77B001005A00B0010067EA0700F703142H2C0067062H000D772C000DBF03300067062H000D7730D703142H300067062H000D7730000DBF03340067062H000D7734CF02142H3400673A00E00450F406E40600678A052H002C8B016C002CB701700067F20600E00450FC06E00664299402F40100679A042H002C9F03F001002CBB02F401002C8F02F80100678205006429CC01EC02006782082H000DBF03380067062H000D7738CF03142H380067062H000D7738D00519B401A001000D3F5463142H540067222H002C83028C01006792022H002C538401002CFB0188010067EE6HFF0F2H0068799C01006839A00100679EFE5HFF0F2H004854440067FA062H000D3F600067D606000815486800683D6C006865700067022H006805740067B6072H002CAF01B001002C9B01B4010067EE062H002C8303D0010067C2FD5HFF0F2H006869580067C2012H0068491000684514006815180068191C00680120006859240067EA032H002C33A801002C3BAC010067BE6HFF0F2H002CD30284020067AA0100C30314B401B4010067062H000D77B401000DF303B8010067B6042H002CE703A802002CCB03AC0200678E042H002C2FA4020067EE6HFF0F2H000D3F600067062H000D77606F142H600045005C0067062H0047FC015CF80269A406AC060067A2012H0068358001006871840100683188010068418C01006825900100679A062H002CAB01E8010067C2042H000DDF01080067BE012H002C8703A4010067F2FE5HFF0F2H002CEB02C00100679AFC5HFF0F2H002C739001002CE70294010067E6052H00681D5C0067DE032H002CE3027C0067CA042H002C9703E4010067BE6HFF0F2H002C93018802002CB3028C02002CEB0190020067DAFB5HFF0F2H00485864006792012H000C00280067062H0047E40228000DBF03280067062H000D77282B142H280067062H000D7728000DBF032C0067EAFB5HFF0F2H000D3F640067062H000D77646B142H640067062H000D7764004500600067062H00472C606429940284020067F6FB5HFF0F000415C80168002CC3026C002CC70170002CFF0174002C8B02780067EAFE5HFF0F0037122H08002C8F0110004000080068750C00678EFD5HFF0F00E00450F406D406F80269A406A8060067DAFD5HFF0F2H000D3F680067062H000D7768CB01142H680067062H000D7768004500640067B2FB5HFF0F006429EC02F8020048AC01C801004610BC010067062H0047D405BC01000DFF02C001E00450BC07DC07004800C801002CEF03CC010009C801C80100674E2H000E00540067F6022H002CEF029C01002CDF03A001002CFF03A401002C7BA801002C67AC01006796012H002CBF01FC01002CB70380020067B2FC5HFF0F00CB0212BC01BC01F80269CC0590070067AE012H000DEF01280067062H000D772800682D2C0067DAFD5HFF0F000C4E0CC0010067062H0047B007C001071208C8014B14C401D0010067062H000D77D001004000C8010067062H0047CC04C801CF0114C801CC010029D6F75HFF0FCC010067EE022H002CEB03D801002CDB03DC01002C17E0010067F6FC5HFF0F2H002C5BB0020067E6FD5HFF0F00B702142H640067062H000D7764004500600067F2FC5HFF0F2H000DDF01BC010067FAFE5HFF0F2H002C9701B0010067C6FA5HFF0F2H004500B4010067DEF95HFF0F2H000500B8010067062H0047E802B801DB0236B801B8010067E66HFF0F2H00682960006851640067462H002C9B03C8010067B20100E00450F006F406006786FA5HFF0F2H002CF30274002C2778002CDF027C002CAF0280010067D2F95HFF0F2H002CA301CC01006796FA5HFF0F2H002CFB02EC010067FAF85HFF0F2H002C7798010067EAFD5HFF0F2H000D5FB4010067BEFA5HFF0F2H00389002680067CAF85HFF0F2H002C8B038401002CF7018801002C1F8C01002CA30290010067022H002CD70194010067CE6HFF0F2H002CA30380010067DE6HFF0F00BB01142H600045005C0067062H0047BC055C00485860000D3F640067AAFE5HFF0F2H00680D54006855580067F2FE5HFF0F2H00684D540067AAF95HFF0F2H002C7F9C02002C9303A0020067F6F95HFF0F2H002CAF03B801002CC702BC010067C6FA5HFF0F2H0009C401C401004E0CBC0100679EFE5HFF0F2H005A00B8010067062H0047AC01B8016429D401F002F80269F4068C07006796FC5HFF0F2H002C039C01002CFB03A00100678EFA5HFF0F2H0068117800685D7C0067DAF95HFF0F2H002CB30198010067E26HFF0F2H00686D940100686198010067FAF75HFF0F2H0067A6052H0029B60504006796062H000DDF01E0010067062H000D77E001BB0314E001E0010067062H000D77E0011B14E001E001D70212E001E001002CE701E80100620CE001006D00E001000DFF02E4010067062H000D77E401006821E8010C4E08E401004820EC01AB0314E001F0010067062H000D77F0016429EC02A8036429E002AC03004610EC010067062H0047EC02EC014B14DC01F0010067062H000D77F001F80269E406C0076429A003AC03F802698807C807000D970280020067062H000D778002005A0080020067062H0047B405800287011480028002000D9F018402F802698007D4070045008402CF031284028402002CA7038C02002C870490020046108402E00450E407A008880208F801F801004500F401002C4FF801AB0314E001FC010067062H000D77FC01FC0108F401F401F40153F001C2020067EE0400B406508C05FC06002C13E401000D9702E801005A00E8010067062H00479806E801870114E801E8010067022H002CD301EC010048D001F00100678E012H005A00D0010067062H0047B404D001E00450B007EC07642980038C036429F0029003000D9F01E001006786012H002C8704EC01004610E00100670200F802699C07B007E40108D801D8010067022H004500D4010067062H0047C404D401000DFF02D8010067062H000D77D801E00450BC07F407F80269CC05AC0700672HFE5HFF0F000C4E0CD801000DC301E001006702004B14DC01E4010067062H000D77E401000C00E0014B14DC01E0010067062H000D77E0019F0220E0018EF15HFF0F00673E2H002C0BF40164298803AC03002CA702FC01F802698807CC07800208E001E0010067BA6HFF0F00F802698007B007004500E0010067062H00479004E001CF0312E001E001002CA703E8010067E2FE5HFF0F00E00450B407E8070067BAFE5HFF0F2H0067DEF05HFF0F2H002C572H000D830104005F9AFC5HFF0F040067C2012H0067DA012H004500F4010067062H0047C806F401F4012DF001AA01006776006429A003AC030048BC01FC010067322H004500840200670200CF03128402840200675200A70314E001F00100489801F4010067DA6HFF0F00870114800280020067062H000D778002000D9F0184020067162H000D970280020067062H000D778002005A0080020067DA6HFF0F2H0048B40188020067B66HFF0F2H002C870490020046108402E00450E407A008880208F801F8010067826HFF0F2H002CA7038C020067E66HFF0F2H006726002314C801CC010067DEEF5HFF0F00870214C801CC01006726004B14DC01E0010067062H000D77E0010F20E00196FB5HFF0F0067CEFE5HFF0F2H0067BAF05HFF0F2H0067D66HFF0F00FC0619F407F0070067BAEF5HFF0F2H00299EFE5HFF0FCC01006796F05HFF0F2H0029A6F45HFF0F0400678AF05HFF0F2H006792012H002F00E001000DDF01E001BB0314E001E001006702001B14E001E00100670A2H002C8F03E80100620CE001D70212E001E0010067F26HFF0F2H000D97022H0067062H000D772H005A3H0067062H0047B002008701143H0067062H000D772H0029CAFD5HFF0F2H0067162H0067EAFE5HFF0F2H00679EEE5HFF0F2H00620C2H002CE701080067F66HFF0F2H000DDF012H0067062H000D7700BB03143H006702001B142H00D702123H0067DA6HFF0F2H002F3H0067B6ED5HFF0F2H000D9B02040067062H000D77040067D6FE5HFF0F000201A06D1715007A6B2H0091E9C6E7AEFE5HFFD34H009F9B660F8C02005E7A012H0067362H0067322H00672E2H0068152H000D032H002C072H003898072H0038AC0700202BB001F806B0024D94018C06980615DC06C401A00708DC02D002AC0749C006A407AC07039C02C0060068012H0026032H000D032H002603049C0237BC04C004004E3H0067062H0047B80700F00529D805D805",5),"(.)(.)",function(kH,lH)if lH=="H"then T=k(kH);return"";else local Hy=(B(k(kH..lH,16)));if not(T)then return Hy;else local It=C(Hy,T);T=nil;return It;end;end;end);sm=0X2;local P,A,a=nil,nil,(nil);do while sm<=0x2 do if not(sm<=0)then if sm==0X1 then a=4503599627370496;sm=0X3;else do P=Xm;end;sm=0X0;continue;end;else do A=function(Rk,Qk,Wk)local jk=(0X1);local Gk=(nil);repeat if not(jk<=0X1)then do if jk==0X2 then Gk=Wk-Qk+1;jk=0x0;continue;else do if not Wk then Wk=#Rk;end;end;jk=0X2;continue;end;end;else if jk~=0 then if not Qk then Qk=0X1;end;jk=3;else if Gk>7997 then return z(Rk,Qk,Wk);else do return E(Rk,Qk,Wk);end;end;do jk=0X00004;end;end;end;until jk>0x00003;end;end;sm=1;continue;end;end;end;local j,p=Y-1,(0x20000000000000);local y,b=type,({[0X0]=1,0x2,0X4,8,0X00010,0X00020,fm,128,256,512,1024,2048,0X0001000,8192,16384,0X8000,0X10000,131072,262144,0x00080000,1048576,2097152,4194304,8388608,0X1000000,33554432,67108864,134217728,268435456,536870912,1073741824,D,Y,[0X23]=0X0800000000,[42]=4398046511104,[Lm]=0X0002000000000000});local q=bit32.band;do sm=11;end;local s,Z,m,Q,W,S,F,Nm,w,Jm,hm,um,km,Om,ym,lm=nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,(nil);while sm<=0X0F do if sm<=0X007 then do if not(sm<=3)then do if not(sm<=0x5)then if sm~=6 then um=m();do sm=2;end;else do Q={[0X09]='\065\]\cS]\{\D\091\045',[4]='\p\078o\F\]\070r\W',[4]=0.7937627524709195,[9]="ZF#\V\R",[0X5]=6,[6]=Tm,[0X4]=0X01,[dm]=0,[9]=1,[0X3]=4,[4]=4,[0X9]=1,[0x2]=0X007,[0X00006]=0X00};end;sm=9;continue;end;else if sm==0X4 then w=coroutine.yield;sm=5;continue;else do Jm=function()local qa,Da=o(am,d,U);do U=Da;end;do return qa;end;end;end;sm=0X0;end;end;end;else if sm<=0X1 then do if sm~=0x0 then do ym={};end;sm=0XE;else do hm=function()local Xb=(0);local zb=0X0;while true do local Xk=(v(d,U,U));U=U+1;do zb=zb+((Xk>0X7f and Xk-0X80 or Xk)*b[Xb]);end;if not(Xk<0x000080)then else return zb;end;Xb=Xb+0X07;end;end;end;sm=7;end;end;else if sm~=2 then Nm=function()local CV,dV=nil,(nil);for nz=0,0X0001 do if nz~=0 then U=dV;continue;else CV,dV=o(Ym,d,U);continue;end;end;do return CV;end;end;sm=4;else km=function(BG)local VG,jG=nil,nil;for cO=0X0,1 do if cO~=0 then jG="";else VG=F();continue;end;end;local zG=1;repeat if zG~=0 then for H9=0X00001,VG,7997 do local m9,F9=nil,nil;for uW=0,0X4 do if not(uW<=1)then if not(uW<=2)then if uW~=0X3 then jG=jG..B(A(F9));do continue;end;else for AU=0x1,#F9 do local mU=1;while mU~=2 do if mU==0 then um=(BG*um+209)%256;do mU=0x2;end;continue;else F9[AU]=r(F9[AU],um);mU=0X0;end;end;end;continue;end;else F9={v(d,U+H9-0X00001,U+m9-1)};end;else if uW==0x0 then m9=H9+0x1F3D-1;else if not(m9>VG)then else m9=VG;end;end;end;end;end;zG=0;else U=U+VG;break;end;until(false);return jG;end;sm=13;do continue;end;end;end;end;end;else if sm<=11 then do if sm<=9 then if sm~=8 then W=Dm;sm=0X00c;continue;else Z=Um;sm=0XF;end;else if sm~=0x0000A then s=bit32.bnot;sm=0X8;else F=function()local ci,pi=o("<I4",d,U);do U=pi;end;return ci;end;do sm=3;end;continue;end;end;end;elseif sm<=13 then if sm~=0x00C then Om=function()local ZO=nil;for BU=0x0,0X02 do if BU<=0 then ZO=hm();else if BU==1 then if ZO>=a then return ZO-p;end;do continue;end;else return ZO;end;end;end;end;sm=0X001;else S=function(KY,hY,zY)local LY=((KY/b[hY])%b[zY]);LY=LY-LY%1;do return LY;end;end;sm=0XA;end;else if sm==14 then do lm={[2]=ym};end;do sm=16;end;else m=function()local fS=(1);local DS=nil;while(true)do if not(fS<=0)then if fS~=1 then return DS;else DS=v(d,U,U);do fS=0X0;end;end;else U=U+0x001;fS=0X2;do continue;end;end;end;end;sm=6;end;end;end;end;local Bm=(em);local t,Cm=pm,(em);local vm=(em);local L=function(...)return(...)[...];end;do sm=0x02;end;local Rm,Mm=nil,(nil);repeat if sm<=0X0000 then function Rm(Bq,Iq,Lq)local Cq=Iq[3];local Aq=Iq[7];local aq,gq=Iq[0X0006],Iq[5];local kq,rq=Iq[8],(Iq[0X2]);local yq=Iq[0X4];local Mq=(P({},{__mode='v'}));local Fq,zq=Iq[9],nil;zq=function(...)local Oh,Hh,Ph=1,{},0;local dh=X();local ph=({[1]=Hh,[2]=Iq});local wh=((dh==f and Lq or dh));local ch,ah=cm(...);do ch=ch-1;end;do for qE=0X000,ch do do if Cq>qE then do Hh[qE]=ah[qE+0X00001];end;else break;end;end;end;end;if not gq then ah=nil;else if not(yq)then else Hh[Cq]={n=ch>=Cq and ch-Cq+1 or 0X00,A(ah,Cq+0X01,ch+1)};end;end;do if wh~=dh then(G)(zq,wh);end;end;local lh,Fh,Nh,Dh=c(function()while"\118\120!"do local Qq=(kq[Oh]);local nq=Qq[1];Oh=Oh+0X1;if nq>=57 then do if not(nq<0X55)then if nq>=0X63 then if nq<0x00006A then if nq<102 then if nq>=100 then if nq==0X000065 then do repeat local lO,LO=Mq,(Hh);local XO={};for AR,gR in W,lO do do for DX,hX in W,gR do do if hX[1]==LO and hX[0x2]>=0 then local cV=hX[0X0002];do if not(not XO[cV])then else XO[cV]={LO[cV]};end;end;hX[0X01]=XO[cV];do(hX)[2]=1;end;end;end;end;end;end;until"\117\L0\P\057\/4\053";end;local XY=(Qq[0X3]);do Ph=XY+1;end;do return true,XY,2;end;else do Hh[Qq[3]][Hh[Qq[0X2]]]=Qq[6];end;end;else local zB=rq[Qq[2]];local sB,bB=zB[0X1],nil;local BB=(#sB);if BB>0X0 then bB={};for Hr=1,BB do local Wr=(sB[Hr]);if Wr[0X1]==0 then bB[Hr-1]={Hh,Wr[2]};else(bB)[Hr-1]=Bq[Wr[0X2]];end;end;V(Mq,bB);end;do Hh[Qq[3]]=J[Qq[5]](bB);end;end;else if not(nq<0x68)then if nq==0X00069 then if Qq[0X5]~=94 then local NI,FI=Qq[3],ch-Cq;if not(FI<0X0)then else FI=-1;end;for fz=NI,NI+FI do Hh[fz]=ah[Cq+(fz-NI)+0x01];end;do Ph=NI+FI;end;else Oh=Oh-1;do kq[Oh]={[2]=(Qq[0X2]-0X000B3),[0X3]=(Qq[0x03]-179),[0X0001]=72};end;end;else local Dz=(rq[Qq[0x2]]);local Tz=nil;local Wz=Dz[0X00001];local Mz=#Wz;do if Mz>0x0 then Tz={};do for AD=0X001,Mz do local PD=Wz[AD];do if PD[0X1]~=0X0 then Tz[AD-1]=Bq[PD[2]];else(Tz)[AD-1]={Hh,PD[0X2]};end;end;end;end;V(Mq,Tz);end;end;Hh[Qq[0X3]]=Rm(Tz,Dz,wh);end;else if nq==0X67 then do Oh=Qq[0X2];end;else local Qj=(Qq[3]);local Lj=K(function(...)w();for Mu in...do w(true,Mu);end;end);(Lj)(Hh[Qj],Hh[Qj+0X1],Hh[Qj+0x2]);Ph=Qj;Hh[Qj]=Lj;Oh=Qq[2];end;end;end;else do if nq>=0X6e then if nq>=0X0070 then do if nq~=113 then do if not(Hh[Qq[0X2]]<Qq[0X6])then do Oh=Qq[3];end;end;end;else if Qq[5]~=0X00Ee then(Hh)[Qq[3]]=ah[Cq+0X001];else do Oh=Oh-1;end;kq[Oh]={[0x00003]=(Qq[3]-147),[0x1]=105,[2]=(Qq[0X2]-147)};end;end;end;elseif nq~=0X0006F then do(Hh)[Qq[0x3]]=Hh[Qq[0X2]]^Qq[6];end;else Hh[Qq[3]]=lm[Qq[0X2]];end;else if not(nq>=0X6c)then if nq~=0X0006B then repeat local OA,SA=Mq,Hh;local LA={};for ux,wx in W,OA do for Gj,Mj in W,wx do do if Mj[0X1]==SA and Mj[2]>=0 then local KO=(Mj[2]);if not LA[KO]then LA[KO]={SA[KO]};end;Mj[0X1]=LA[KO];Mj[2]=0x1;end;end;end;end;until-517685386;return;else(Hh[Qq[3]])[Qq[7]]=Qq[6];end;else do if nq~=0x00006D then(Hh)[Qq[3]]=Hh[Qq[2]]%Hh[Qq[0X005]];else(Hh)[Qq[3]]=nil;end;end;end;end;end;end;else if nq<0x5C then if nq<88 then if nq<0X56 then repeat local q7,k7,e7=Mq,Hh,({});for GB,EB in W,q7 do do for i8,t8 in W,EB do if t8[1]==k7 and t8[0X0002]>=0X0 then local fU=t8[2];if not e7[fU]then e7[fU]={k7[fU]};end;t8[1]=e7[fU];do(t8)[2]=1;end;end;end;end;end;until-0X067343824;return true,Qq[3],0X0001;else do if nq~=0x57 then(Hh)[Qq[0X3]]=ph[Qq[0X2]];else local wi=Qq[0X3];local Ai,yi,Zi=Hh[wi]();if Ai then Hh[wi+0x1]=yi;(Hh)[wi+0x2]=Zi;Oh=Qq[0X2];end;end;end;end;else do if nq<0x5a then do if nq~=89 then(Hh)[Qq[3]]=Qq[7]>=Hh[Qq[0X5]];elseif Hh[Qq[2]]~=Qq[6]then else Oh=Qq[3];end;end;else do if nq~=0x5b then Ph=Qq[3];do(Hh)[Ph]=Hh[Ph]();end;else Hh[Qq[3]]=Hh[Qq[0X2]]-Qq[6];end;end;end;end;end;else if not(nq>=95)then if not(nq>=93)then if not(not(Hh[Qq[0x002]]<=Hh[Qq[0X00005]]))then else Oh=Qq[3];end;else if nq==0X5e then(Hh)[Qq[3]]=Hh[Qq[2]]<=Qq[0x00006];else(Hh)[Qq[0X03]]=Hh[Qq[2]]/Hh[Qq[5]];end;end;elseif not(nq<0x61)then if nq==98 then local pO,AO=Qq[3],(Qq[2]);Ph=pO+AO-1;repeat local Yg,kg=Mq,Hh;local Wg={};for We,Le in W,Yg do do for Dd,Rd in W,Le do if Rd[0X1]==kg and Rd[0X02]>=0 then local G9=(Rd[2]);if not(not Wg[G9])then else Wg[G9]={kg[G9]};end;Rd[0X01]=Wg[G9];(Rd)[2]=1;end;end;end;end;until true;return true,pO,AO;else(Hh)[Qq[0X003]]=g(Hh[Qq[2]],Hh[Qq[5]]);end;else if nq==96 then local jG=((Qq[5]-1)*0x000032);local nG=(Qq[0X3]);local NG=Hh[nG];for dp=1,Ph-nG do do NG[jG+dp]=Hh[nG+dp];end;end;else if not(not Hh[Qq[0X003]])then else Oh=Qq[0X02];end;end;end;end;end;else if nq<71 then if not(nq>=0X000040)then do if nq>=60 then if nq>=62 then if nq==0x00003f then(Hh[Qq[0X0003]])[Qq[0x7]]=Hh[Qq[0X5]];else(Hh)[Qq[0X3]]=Hh[Qq[2]]>Hh[Qq[0X5]];end;else if nq==61 then Hh[Qq[3]]=Qq[7]-Hh[Qq[0x5]];else Hh[Qq[0X003]]=Hh[Qq[2]]^Hh[Qq[5]];end;end;else if not(nq>=0X0003A)then do(Hh)[Qq[3]]=Hh[Qq[2]]==Hh[Qq[5]];end;else do if nq==59 then local D5=(Hh[Qq[2]]/Hh[Qq[5]]);Hh[Qq[3]]=D5-D5%0x1;else Hh[Qq[0X3]]=Hh[Qq[0X2]]<Hh[Qq[5]];end;end;end;end;end;else if not(nq>=0X43)then if nq<0X000041 then local Jy=Qq[3];(Hh)[Jy]=Hh[Jy](Hh[Jy+0X1],Hh[Jy+0X2]);Ph=Jy;else if nq==66 then Hh[Qq[3]]=true;else do(Hh)[Qq[3]]=Hh[Qq[2]]*Hh[Qq[5]];end;end;end;else if nq<0X000045 then if nq==0X44 then do(Hh)[Qq[3]]=Hh[Qq[2]]~=Qq[0X06];end;else(Hh)[Qq[3]]=Qq[7]==Qq[0X0006];end;else if nq==0X000046 then local zA=Qq[3];do Ph=zA+Qq[0X2]-1;end;(Hh)[zA]=Hh[zA](A(Hh,zA+0X1,Ph));Ph=zA;else local Zw=Qq[3];Hh[Zw]=Hh[Zw](Hh[Zw+1]);do Ph=Zw;end;end;end;end;end;else if not(nq>=78)then do if nq>=0X4a then if not(nq>=76)then do if nq~=0x04B then if not(Qq[0X7]<Hh[Qq[5]])then Oh=Qq[3];end;else local wG=(Qq[3]);Hh[wG](A(Hh,wG+1,Ph));Ph=wG-1;end;end;else if nq==0X4d then Hh[Qq[3]]=Hh[Qq[0X2]]~=Hh[Qq[5]];else local h0=(Qq[3]);local p0,D0=Hh[h0]();if p0 then do(Hh)[h0+1]=D0;end;do Oh=Qq[2];end;end;end;end;else do if not(nq>=72)then for Mw=Qq[3],Qq[0x02]do do Hh[Mw]=nil;end;end;else do if nq==73 then Hh[Qq[3]]=Z(Hh[Qq[0X02]],Hh[Qq[5]]);else do(Hh)[Qq[0X3]]=Hh[Qq[2]];end;end;end;end;end;end;end;else if nq>=0X051 then if nq>=0X53 then if nq==0X000054 then local Bb=(Bq[Qq[2]]);Bb[1][Bb[2]]=Hh[Qq[0X00003]];else if Hh[Qq[2]]~=Hh[Qq[5]]then else do Oh=Qq[3];end;end;end;else if nq~=0X52 then(lm)[Qq[2]]=Hh[Qq[0X3]];else do if Hh[Qq[0X2]]<=Hh[Qq[5]]then Oh=Qq[0x3];end;end;end;end;else if nq<79 then local VY=Qq[3];local lY=(Qq[0X2]);if lY==0 then else do Ph=VY+lY-0x1;end;end;local JY,MY=nil,nil;local XY=(Qq[0X05]);if lY==0X0001 then do JY,MY=cm(Hh[VY]());end;else JY,MY=cm(Hh[VY](A(Hh,VY+1,Ph)));end;if XY==0X001 then Ph=VY-0X1;else if XY==0 then JY=JY+VY-1;do Ph=JY;end;else JY=VY+XY-0x0002;do Ph=JY+0X1;end;end;local t1=(0);for VA=VY,JY do t1=t1+0X1;(Hh)[VA]=MY[t1];end;end;else if nq==0X50 then if Qq[5]==205 then Oh=Oh-0X1;(kq)[Oh]={[3]=(Qq[3]-0x000A3),[1]=47,[2]=(Qq[0X02]-163)};elseif Qq[5]==193 then do Oh=Oh-1;end;(kq)[Oh]={[0X3]=(Qq[3]-0X4b),[0X1]=0X6A,[0X2]=(Qq[0X002]-0X4B)};elseif Qq[0x005]~=0X000098 then repeat local jX,kX=Mq,(Hh);local OX=({});for dY,cY in W,jX do do for mL,uL in W,cY do if not(uL[1]==kX and uL[2]>=0)then else local gg=uL[0x2];do if not OX[gg]then(OX)[gg]={kX[gg]};end;end;uL[1]=OX[gg];(uL)[2]=1;end;end;end;end;until true;local r0=(Qq[0X3]);return false,r0,r0+Qq[2]-2;else Oh=Oh-0X1;(kq)[Oh]={[0x2]=(Qq[0x2]-198),[0X3]=(Qq[0X3]-0X000C6),[1]=0X48};end;else local n0=Qq[3];local f0=(K(function(...)w();do for mm,im in...do w(true,mm,im);end;end;end));f0(Hh[n0],Hh[n0+1],Hh[n0+2]);do Ph=n0;end;Hh[n0]=f0;Oh=Qq[2];end;end;end;end;end;end;end;else do if nq>=28 then if not(nq>=42)then if nq<0x23 then if not(nq<31)then if nq<0x21 then if nq~=32 then local St=(Qq[0X3]);local tt,Pt,ft=Hh[St],Hh[St+0x1],(Hh[St+0X2]);Hh[St]=K(function()for Tu=tt,Pt,ft do(w)(true,Tu);end;end);do Oh=Qq[2];end;else if Hh[Qq[0X2]]~=Qq[6]then Oh=Qq[3];end;end;else if nq~=34 then do Hh[Qq[3]]=Hh[Qq[2]]==Qq[0X6];end;else(Hh)[Qq[3]]=t(Hh[Qq[0X2]],Hh[Qq[0X5]]);end;end;else if nq>=29 then if nq==30 then Hh[Qq[3]]=Hh[Qq[2]][Hh[Qq[5]]];else(Hh)[Qq[3]]=s(Hh[Qq[2]]);end;else if Hh[Qq[0X00002]]<Hh[Qq[5]]then Oh=Qq[0X3];end;end;end;else if not(nq>=38)then if not(nq>=0X24)then(Hh)[Qq[3]]=Hh[Qq[0X00002]]%Qq[0X6];else if nq==37 then do(Hh)[Qq[0X03]]=Hh[Qq[0x2]]<Qq[6];end;else local Az=(Qq[3]);Hh[Az](Hh[Az+0X01],Hh[Az+0x02]);do Ph=Az-1;end;end;end;else if nq<40 then if nq==39 then do Hh[Qq[0x3]][Hh[Qq[0x00002]]]=Hh[Qq[5]];end;else(wh)[Qq[7]]=Hh[Qq[3]];end;else if nq==41 then if Qq[5]==0X000bc then Oh=Oh-1;kq[Oh]={[0X0001]=0X2f,[2]=(Qq[0X00002]-182),[0x3]=(Qq[3]-0X000B6)};elseif Qq[0x5]==0X19 then Oh=Oh-1;kq[Oh]={[3]=(Qq[0X03]-45),[0X00001]=72,[0X2]=(Qq[2]-45)};elseif Qq[0X5]==0Xc4 then do Oh=Oh-1;end;do(kq)[Oh]={[1]=55,[2]=(Qq[0X002]-212),[3]=(Qq[3]-212)};end;else if Hh[Qq[0X3]]then Oh=Qq[2];end;end;else Hh[Qq[3]]=Hh[Qq[2]]+Qq[0X6];end;end;end;end;else if not(nq<49)then if nq<0X35 then if not(nq>=0x33)then if nq~=0X000032 then local NF=(Qq[0X003]);local SF,uF=Hh[NF]();do if not(SF)then else for nz=0x1,Qq[5]do Hh[NF+nz]=uF[nz];end;Oh=Qq[0X2];end;end;else(Hh)[Qq[3]]=Hh[Qq[2]]>Qq[6];end;else if nq~=52 then local y5=(Bq[Qq[0X0002]]);Hh[Qq[3]]=y5[1][y5[0X2]];else do if Qq[5]~=26 then local Gh=Qq[3];for zB=Gh,Gh+(Qq[2]-0X1)do Hh[zB]=ah[Cq+(zB-Gh)+0x0001];end;else Oh=Oh-0X001;(kq)[Oh]={[3]=(Qq[3]-6),[0X0002]=(Qq[2]-0X6),[1]=0x19};end;end;end;end;else if nq>=55 then if nq==56 then do(Hh)[Qq[0X3]]={A({},1,Qq[2])};end;else do if Qq[0X5]==0x000047 then Oh=Oh-0x1;kq[Oh]={[1]=105,[0X2]=(Qq[0x2]-143),[3]=(Qq[0x03]-0X8f)};else Hh[Qq[0X3]]=-Hh[Qq[0X2]];end;end;end;else if nq==54 then do Hh[Qq[3]]=Hh[Qq[2]]/Qq[0X6];end;else Hh[Qq[3]]=Qq[7]+Hh[Qq[0X5]];end;end;end;else if not(nq<0x2D)then if nq>=47 then if nq==0X30 then local VC=Qq[0x3];local XC=(K(function(...)w();for EN,tN,fN,dN,AN,MN,GN,aN,eN,YN in...do(w)(true,{EN,tN,fN,dN,AN,MN,GN,aN,eN,YN});end;end));(XC)(Hh[VC],Hh[VC+0X1],Hh[VC+2]);Ph=VC;do(Hh)[VC]=XC;end;Oh=Qq[0X0002];else if Qq[0X5]==226 then do Oh=Oh-1;end;(kq)[Oh]={[0X3]=(Qq[0x3]-100),[0X02]=(Qq[2]-100),[1]=27};elseif Qq[5]==219 then Oh=Oh-1;(kq)[Oh]={[2]=(Qq[0X02]-0Xf0),[3]=(Qq[0x3]-240),[1]=0X34};else repeat local sr,dr=Mq,Hh;local er={};for Z0,q0 in W,sr do do for zl,rl in W,q0 do do if rl[1]==dr and rl[2]>=0 then local Wd=rl[0X2];if not(not er[Wd])then else er[Wd]={dr[Wd]};end;rl[0x1]=er[Wd];rl[2]=0X0001;end;end;end;end;end;until true;return false,Qq[3],Ph;end;end;else if nq~=46 then if Hh[Qq[0X2]]==Hh[Qq[0X0005]]then else Oh=Qq[3];end;else do if not(Hh[Qq[2]]<Hh[Qq[0X5]])then do Oh=Qq[3];end;end;end;end;end;else if not(nq<43)then if nq~=0X2c then do(Hh)[Qq[0X3]]=r(Hh[Qq[0X00002]],Hh[Qq[5]]);end;else do(Hh)[Qq[0X3]]=Qq[7];end;end;else Hh[Qq[3]]=Hh[Qq[2]]<=Hh[Qq[5]];end;end;end;end;elseif nq<0X0E then if nq<7 then do if nq<3 then if nq>=1 then do if nq~=0X2 then Ph=Qq[0X3];Hh[Ph]();Ph=Ph-1;else do Hh[Qq[3]]=Hh[Qq[0X2]]-Hh[Qq[0X5]];end;end;end;else Hh[Qq[0X3]]=Qq[7]~=Hh[Qq[5]];end;else if not(nq<0X5)then do if nq==6 then repeat local Mb,qb=Mq,Hh;local ab={};do for vM,RM in W,Mb do for QR,OR in W,RM do if not(OR[1]==qb and OR[2]>=0)then else local gO=(OR[0X2]);do if not(not ab[gO])then else ab[gO]={qb[gO]};end;end;(OR)[0X1]=ab[gO];do(OR)[2]=1;end;end;end;end;end;until true;return true,Qq[3],0X000;else local nY=(Qq[3]);Hh[nY]=Hh[nY](A(Hh,nY+1,Ph));do Ph=nY;end;end;end;else if nq==4 then(Hh)[Qq[3]]=Hh[Qq[2]]>=Hh[Qq[5]];else(Hh)[Qq[0X3]]=Hh[Qq[0x2]]+Hh[Qq[5]];end;end;end;end;else if not(nq<10)then if nq<12 then if nq~=0X0000b then(Hh)[Qq[3]]=Qq[0X007]+Qq[6];else do ph[Qq[2]]=Hh[Qq[0X03]];end;end;else if nq~=13 then local IF=Qq[0X3];(Hh[IF])(Hh[IF+1]);Ph=IF-0x1;else Hh[Qq[3]]=wh[Qq[7]];end;end;else if not(nq>=8)then Hh[Qq[3]]=Hh[Qq[2]]*Qq[6];else do if nq==9 then local e6=Qq[0x002];Hh[Qq[3]]=Hh[e6]..Hh[e6+0X001];else local q_=(Qq[2]);local B_=Hh[q_];for hS=q_+0X1,Qq[0X5]do B_=B_..Hh[hS];end;(Hh)[Qq[0X3]]=B_;end;end;end;end;end;else if nq<21 then if not(nq<17)then if not(nq<19)then do if nq~=20 then local Vd=Qq[3];Ph=Vd+Qq[0X00002]-1;(Hh[Vd])(A(Hh,Vd+1,Ph));Ph=Vd-0X1;else(Hh)[Qq[0X3]]=Hh[Qq[2]][Qq[0x06]];end;end;else if nq==18 then local jX=Hh[Qq[0x02]];local LX=(Qq[3]);(Hh)[LX+0X1]=jX;Hh[LX]=jX[Qq[0x6]];else local kD=(Qq[3]);local tD,aD=Hh[kD]();if not(tD)then else Oh=Qq[0x00002];do Hh[kD+0X3]=aD;end;end;end;end;else if nq>=0X0f then do if nq==16 then Hh[Qq[3]]=q(Hh[Qq[2]],Hh[Qq[0X05]]);else if Qq[5]==0XA5 then do Oh=Oh-1;end;do(kq)[Oh]={[0X03]=(Qq[0X00003]-185),[2]=(Qq[0X002]-185),[0X1]=109};end;else repeat local Lp=({});local ap,Cp=Mq,Hh;do for au,Gu in W,ap do for Wy,ky in W,Gu do do if ky[0X1]==Cp and ky[2]>=0x000 then local D4=ky[0X00002];do if not(not Lp[D4])then else(Lp)[D4]={Cp[D4]};end;end;ky[1]=Lp[D4];ky[0X2]=0x1;end;end;end;end;end;until true;local zu=Qq[3];return false,zu,zu;end;end;end;else if Qq[5]==0x000077 then Oh=Oh-0X001;kq[Oh]={[1]=71,[0x3]=(Qq[0x3]-220),[2]=(Qq[0X02]-0xDc)};else repeat local Qm,gm,Sm=Mq,Hh,Qq[3];local mm=({});for VC,hC in W,Qm do do for mp,Dp in W,hC do if Dp[1]==gm and Dp[0X2]>=Sm then local Q4=(Dp[0X2]);if not(not mm[Q4])then else(mm)[Q4]={gm[Q4]};end;(Dp)[1]=mm[Q4];(Dp)[0X002]=1;end;end;end;end;until true;end;end;end;else if nq<24 then do if not(nq>=0X16)then local pq=(Qq[0X5]-0X1)*0X32;local Jq=(Qq[0X0003]);local Yq=(Hh[Jq]);for cZ=0X1,Qq[2]do(Yq)[pq+cZ]=Hh[Jq+cZ];end;else if nq~=0X17 then Hh[Qq[0X3]]=Qq[7]^Hh[Qq[0x005]];else Hh[Qq[0x00003]]=Hh[Qq[2]]>=Qq[0x6];end;end;end;else do if nq<0X0001a then do if nq~=0X0019 then do(Hh)[Qq[3]]=Qq[0X7]*Hh[Qq[0X05]];end;else if Qq[5]==223 then Oh=Oh-0X01;kq[Oh]={[0X3]=(Qq[3]-0XFC),[0X1]=106,[2]=(Qq[0x2]-0X000FC)};elseif Qq[5]==180 then do Oh=Oh-0X001;end;(kq)[Oh]={[1]=71,[0X2]=(Qq[2]-0X19),[3]=(Qq[0X3]-0X19)};elseif Qq[5]==11 then do Oh=Oh-1;end;do kq[Oh]={[1]=0X1b,[0X02]=(Qq[2]-235),[0X0003]=(Qq[3]-235)};end;elseif Qq[0X5]==0X20 then Oh=Oh-1;(kq)[Oh]={[0X3]=(Qq[0X3]-0X00016),[2]=(Qq[0x0002]-0X16),[0X1]=80};else do Hh[Qq[0X00003]]=#Hh[Qq[2]];end;end;end;end;else if nq~=27 then do Hh[Qq[3]]={};end;else if Qq[5]==0x0a6 then Oh=Oh-0X1;kq[Oh]={[0x2]=(Qq[0X00002]-168),[1]=106,[3]=(Qq[0x00003]-0Xa8)};else Hh[Qq[3]]=not Hh[Qq[2]];end;end;end;end;end;end;end;end;end;end;end);if lh then do if Fh then if Dh~=0X1 then do return Hh[Nh](A(Hh,Nh+0x00001,Ph));end;else return Hh[Nh]();end;elseif Nh then return A(Hh,Nh,Dh);end;end;else if y(Fh)~='\115t\114\105\110\g'then l(Fh,0);else if not(M(Fh,"attempt to yield across metamethod/C%-call boundary"))then else do return w();end;end;do if M(Fh,'^\046\-\:\%\d+\: ')then l("Luraph Script:"..(aq[Oh-0X1]or"(internal)")..": "..I(Fh),0);else(l)(Fh,0);end;end;end;end;end;G(zq,Lq);do return zq;end;end;sm=1;else do if sm~=0X001 then sm=0;continue;else function Mm()local qg,Vg,hg=0,nil,nil;do while qg~=2 do if qg==0X00000 then Vg={Am,{},nil,Am,Am,{},nil,{},nil};qg=1;continue;else hg={};qg=2;end;end;end;do for hD=0x0,0X1 do if hD~=0X0 then(Vg)[jm]=F();continue;else do(Vg)[9]=hm();end;continue;end;end;end;local Xg=Vg[0X2];qg=3;local kg,Yg,xg,Wg,Fg=nil,nil,nil,nil,nil;repeat if not(qg<=3)then if not(qg<=0X0005)then do if qg<=0X6 then do Yg={};end;qg=0X05;continue;else if qg==0x007 then Vg[0XD]=F();do qg=0X0;end;continue;else for eQ=0,kg-0X1 do do Xg[eQ]=Mm();end;end;do qg=0X6;end;end;end;end;elseif qg==4 then do(Vg)[5]=S(xg,1,bm)~=0X0;end;qg=1;continue;else xg=m();qg=4;do continue;end;end;else do if qg<=1 then if qg==0x0 then Fg={};qg=9;else Wg=0x1;qg=0x2;end;elseif qg==0X2 then(Vg)[0X4]=S(xg,0X2,0X1)~=0;qg=0X7;else kg=F()-78591;qg=0X8;end;end;end;until qg==0x9;for ld=0,1 do if ld==0 then(Vg)[19]=m();continue;else Vg[3]=hm();end;end;local Pg=F()-27513;local og=(m());do qg=2;end;local Tg=(nil);do repeat if qg<=0 then for Dy=0X001,Pg do local yy=0;local jy,Cy=nil,nil;do while yy<3 do if yy<=0X00000 then jy=nil;do yy=0x1;end;else do if yy==0X00001 then Cy=m();yy=0X2;else if Cy==232 then jy=F()+Bm(F())*Y;elseif Cy==243 then jy=Jm();elseif Cy==0X043 then jy=Jm();elseif Cy==0X0029 then do jy=m()==1;end;elseif Cy==0X0074 then jy=e(km(og),0X00003);elseif Cy==198 then jy=Nm();else if Cy==39 then do jy=Cm(0X0,Jm());end;else if Cy==111 then jy=Nm();elseif Cy==109 then jy=F()+vm(F())*Y;else if Cy==rm then jy=e(km(og),m());else if Cy==199 then do jy=F();end;end;end;end;end;end;yy=0x3;end;end;end;end;end;local by=({jy,{}});Yg[Dy-0x0001]=Wg;do(hg)[Wg]=by;end;yy=0X0;do while 83699251 do do if yy~=0X0 then if Tg then local so=0X00001;repeat if so==0 then Im=Im+1;do so=2;end;continue;else ym[Im]=by;so=0;end;until so==0x0002;end;break;else Wg=Wg+1;yy=1;end;end;end;end;end;qg=0X01;continue;else if qg==0X1 then Vg[0X10]=m();qg=3;continue;else Tg=m()~=0X0;qg=0X00;continue;end;end;until qg==3;end;local vg=(Vg[0X0006]);local Eg=F();for JW=1,Eg do local QW=F();local zW=(F());local mW=F();for M_=QW,zW do(vg)[M_]=mW;end;end;(Vg)[qm]=F();(Vg)[0x000012]=m();qg=1;repeat if qg~=0X00 then do(Vg)[7]=hm();end;do qg=0;end;continue;else(Vg)[1]=Fg;qg=0X002;end;until qg==0X002;do for Ia=0X001,hm()do(Fg)[Ia]={m(),hm()};end;end;local Zg=Vg[8];local Gg=F()-96839;for J7=1,Gg do local U7,L7,X7,r7=Om(),Om(),Om(),Om();local P7,b7,d7=X7%4,r7%4,(U7%4);(Zg)[J7]={[4]=b7,[0X5]='\o\!G\M\{\*',[0X00002]=(X7-P7)/4,[0x00006]=d7,[7]=0.7865915304462526,[5]=(U7-d7)/4,[tm]=(r7-b7)/4,[1]=L7,[0X00007]=P7};end;do qg=0X1;end;while 0.1479950995213526 do if qg==0x0 then return Vg;else for hR=1,Gg do local pR=(Vg[8][hR]);do for f3,K3 in W,i do local x3=Q[K3];local u3=(pR[x3]);if u3==tm then local PS=Yg[pR[K3]];local fS=hg[PS];if fS then pR[x3]=fS[1];local n7=(fS[2]);(n7)[#n7+0X1]={pR,x3};end;else if u3==2 then(pR)[K3]=hR+pR[K3]+1;end;end;end;end;end;qg=0;end;end;end;do sm=3;end;do continue;end;end;end;end;until sm==3;local nm=(Mm());for Ta=0,1 do if Ta==0 then nm=Rm(Am,nm,f)(Mm,N,L,Vm,Jm,m,F,h);do continue;end;else return Rm(nil,nm,f);end;end;end)(table.insert,0X40,pcall,string.unpack,23,15,1,"<d",string,0x3,string.sub,true,0x009,0x13,bit32.rshift,setmetatable,next,bit32,nil,0X31,error,string.char,bit32.bor,2,'\<\i\056',rawset,function(...)do((...))[...]=nil;end;end,{},{0X16C9,2367299587,4118725688,0X00005b7C1B13,0X00045641edb,0X005bb575f3,3661785312,0X399969CD,2665346277})(...);end;
+
+print(fire)
