@@ -1,4 +1,5 @@
 repeat wait() until game:GetService("RunService"):IsRunning()
+
 local a, b = {
     {
         1,
@@ -4753,6 +4754,15 @@ local aa = {
         end
         local ag = {}
         ag.__index = ag
+        function betterSpawn(func, ...)
+            local thread = coroutine.create(func)
+            local success, err = coroutine.resume(thread, ...)
+        
+            if not success then
+                debug.error(err, thread) -- Would output the error perfectly (But execution continues below)
+            end
+            return success, err
+        end
         function ag.new()
             return setmetatable({_connections = {}, _threads = {}}, ag)
         end
@@ -4761,7 +4771,7 @@ local aa = {
                 aj._handler(...)
             end
             for c, d in pairs(ah._threads) do
-                coroutine.resume(d, ...)
+                betterSpawn(d, ...)
             end
             ah._threads = {}
         end
