@@ -1,5 +1,12 @@
-repeat wait() until game:GetService("RunService"):IsRunning()
+--[[
+    Fluent Interface Suite
+    This script is not intended to be modified.
+    To view the source code, see the 'src' folder on GitHub!
 
+    Author: dawid
+    License: MIT
+    GitHub: https://github.com/dawid-scripts/Fluent
+--]]
 local a, b = {
     {
         1,
@@ -3380,7 +3387,7 @@ local aa = {
                     {ai("UICorner", {CornerRadius = UDim.new(1, 0)})}
                 ),
                 ai(
-                    "TextLabel",
+                    "TextBox",
                     {
                         FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
                         Text = "Value",
@@ -3455,6 +3462,14 @@ local aa = {
                 g:SafeCallback(h.Callback, p.Value)
                 g:SafeCallback(h.Changed, p.Value)
             end
+            ah.AddSignal(
+                n:GetPropertyChangedSignal("Text"),
+                function()
+                    if  tonumber(n.Text) and n.Text:len() > 0 then 
+                        h:SetValue(tonumber(n.Text))
+                    end
+                end
+            )
             function h.Destroy(p)
                 j:Destroy()
                 g.Options[e] = nil
@@ -4761,20 +4776,10 @@ local aa = {
             for ai, aj in pairs(ah._connections) do
                 aj._handler(...)
             end
-            local still_active = {}
-            -- Resume các coroutine và xử lý lỗi
             for c, d in pairs(ah._threads) do
-                if coroutine.status(d) == 'suspended' then
-                    local success, message = coroutine.resume(d, ...)
-                    if not success then
-                        print("Lỗi coroutine: " .. message)  -- Xử lý lỗi tại đây
-                    elseif coroutine.status(d) ~= 'dead' then
-                        table.insert(still_active, d)
-                    end
-                end
+                coroutine.resume(d, ...)
             end
-            -- Cập nhật danh sách các threads vẫn đang hoạt động
-            ah._threads = still_active
+            ah._threads = {}
         end
         function ag.connect(ah, aj)
             local c = af.new(ah, aj)
