@@ -1,4 +1,4 @@
-if game.PlaceId == 1537690962 then
+if game.PlaceId == 1537690962 or game.PlaceId == 4079902982 then
     if getgenv().betabss then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/hlamx/huhu/master/bssrewrite-obfuscated.lua"))()
     else
