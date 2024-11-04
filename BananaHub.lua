@@ -15,7 +15,7 @@ elseif game.PlaceId == 4520749081 or  game.PlaceId == 6381829480 or game.PlaceId
 elseif game.PlaceId == 18901165922 or game.PlaceId == 19006211286 then 
     loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/PetsGo.lua"))()
 elseif game.PlaceId == 16732694052 then 
-    loadstring(game:HttpGet(" https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Fisch.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Fisch.lua"))()
 else
     loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/AV-BananaCat.lua"))()
 end
