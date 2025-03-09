@@ -5538,32 +5538,6 @@ do
             end
         end
         if M then
-            local Fluent = J(M)
-            getgenv().Window = Fluent:CreateWindow({
-                Title = "Banana Cat Hub-Blox Fruit",
-                SubTitle = "by Obii",
-                TabWidth = 125,
-                Size = UDim2.fromOffset(500, 350),
-                Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
-                Theme = "Dark",
-                MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
-            })
-
-
-            local Tabs = {
-                ShopMain = Window:AddTab({ Title = "Tab Shop", Icon = "" }),
-            }
-            getgenv().Options = Fluent.Options
-
-
-            Tabs.ShopMain:AddInput("Skill Z Melee", {
-                Title = "Skill Z Melee",
-                Default = "aaa",
-                Numeric = false, -- Only allows numbers
-                Finished = false, -- Only calls callback when you press enter
-                Callback = function(value)
-                end
-            })
             return J(M)
         end
     end
