@@ -25,6 +25,8 @@ elseif UniverseID  == 7074860883 then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/Arise.lua"))()
 elseif UniverseID  == 7018190066 then 
      loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Bananacat-Deadrails.lua"))()
+elseif UniverseID  == 7436755782 then 
+     loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/GrowAGraden.lua"))()
 else
     loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/AV-BananaCat.lua"))()
 end
