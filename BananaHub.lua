@@ -35,6 +35,8 @@ elseif UniverseID == 9186719164 then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/SailorPiece.lua"))()
 elseif UniverseID == 4658598196 then 
     loadstring(game:HttpGet("https://raw.githubusercontent.com/TannyIsDeveloper/LittleTemplate/main/Banana-AOTR.lua"))()
+elseif UniverseID == 10200395747 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/tmuseAI/bnnc/refs/heads/main/gag2main.lua"))()
 else
     loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/AV-BananaCat.lua"))()
 end
